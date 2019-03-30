@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">weTrade</string>
+    <string name="forget_password">Forget Password?</string>
+    <string name="don_t_have_an_account_sign_up">don\'t have an account? Sign Up</string>
+    <string name="sign_in">Sign In</string>
+    <string name="password">Password</string>
+    <string name="e_mail_address">E-mail Address</string>
+    <string name="register">Register</string>
+    <string name="already_have_an_account_sign_in">Already have an account? Sign In</string>
+</resources>
