@@ -16,6 +16,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.shiyunzhang.wetrade.MainActivity;
+import com.shiyunzhang.wetrade.ProfileActivity;
 import com.shiyunzhang.wetrade.R;
 
 public class LoginActivity extends AppCompatActivity {
@@ -37,7 +38,8 @@ public class LoginActivity extends AppCompatActivity {
         firebaseAuth = FirebaseAuth.getInstance();
 
         if(firebaseAuth.getCurrentUser() != null){
-            //start home activity here
+            finish();
+            startActivity(new Intent(LoginActivity.this, ProfileActivity.class));
         }
 
         emailInput = findViewById(R.id.email_input);
@@ -68,8 +70,8 @@ public class LoginActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         progressDialog.dismiss();
                         if (task.isSuccessful()) {
-                            // Sign in success, update UI with the signed-in user's information
-                            Toast.makeText(LoginActivity.this, "signInUserWithEmail:success.", Toast.LENGTH_SHORT).show();
+                            finish();
+                            startActivity(new Intent(LoginActivity.this, ProfileActivity.class));
                         } else {
                             // If sign in fails, display a message to the user.
                             Toast.makeText(LoginActivity.this, "Authentication failed.", Toast.LENGTH_SHORT).show();

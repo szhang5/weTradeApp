@@ -23,6 +23,7 @@
 
         <activity android:name=".Authentication.LoginActivity"
             tools:ignore="InnerclassSeparator" />
+        <activity android:name=".ProfileActivity" />
 
     </application>
 
