@@ -12,8 +12,7 @@ public class UserInfo {
     private String state;
     private long zipCode;
     private String gender;
-
-
+    private String id;
 
     public UserInfo(String firstName, String lastName, String email, String phone, String address1, String address2, String city, String state, long zipCode, String gender) {
         this.firstName = firstName;
@@ -28,6 +27,13 @@ public class UserInfo {
         this.gender = gender;
     }
 
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public String getEmail() {
         return email;

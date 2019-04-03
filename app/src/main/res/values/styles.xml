@@ -9,6 +9,18 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <!-- Customized Switch Style. -->
+    <style name="SwitchStyle" parent="Theme.AppCompat.Light">
+        <!-- active thumb & track color (30% transparency) -->
+        <item name="colorControlActivated">#FF5D7D</item>
+
+        <!-- inactive thumb color -->
+        <item name="colorSwitchThumbNormal">#36B88B</item>
+
+        <!-- inactive track color (30% transparency) -->
+        <item name="android:colorForeground">#36B88B</item>
+    </style>
+
     <!-- Default Button Style. -->
     <style name="ButtonDefaultStyle" parent="AppTheme">
         <item name="android:textSize">18sp</item>
