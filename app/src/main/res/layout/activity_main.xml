@@ -1,26 +1,186 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/user_email"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:padding="20dp"
-        android:textSize="18sp"/>
-
-    <Button
-        android:id="@+id/log_out_button"
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        style="@style/ButtonDefaultStyle"
-        android:text="Log Out"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"/>
+        android:layout_height="match_parent"
+        android:layout_margin="30dp"
+        tools:context=".MainActivity">
 
-</RelativeLayout>
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/profile_image"
+            android:layout_width="96dp"
+            android:layout_height="96dp"
+            android:layout_centerHorizontal="true"
+            android:src="@drawable/ic_launcher_background"
+            app:civ_border_color="#FF000000"
+            app:civ_border_width="2dp" />
+
+        <EditText
+            android:id="@+id/user_firstname_input"
+            style="@style/EditTextBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/profile_image"
+            android:layout_margin="10dp"
+            android:hint="@string/first_name" />
+
+        <EditText
+            android:id="@+id/user_lastname_input"
+            style="@style/EditTextBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/user_firstname_input"
+            android:layout_margin="10dp"
+            android:hint="@string/last_name" />
+
+        <EditText
+            android:id="@+id/user_email_input"
+            style="@style/EditTextBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/user_lastname_input"
+            android:layout_margin="10dp"
+            android:hint="@string/email" />
+
+        <EditText
+            android:id="@+id/user_phone_input"
+            style="@style/EditTextBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/user_email_input"
+            android:layout_margin="10dp"
+            android:hint="@string/phone_optional"
+            android:inputType="phone" />
+
+        <!--<EditText-->
+            <!--android:id="@+id/user_birthday_input"-->
+            <!--style="@style/EditTextBox"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_below="@+id/user_phone_input"-->
+            <!--android:layout_margin="10dp"-->
+            <!--android:hint="@string/birthday_mm_dd_yyyy"-->
+            <!--android:inputType="date" />-->
+
+        <EditText
+            android:id="@+id/user_address1_input"
+            style="@style/EditTextBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/user_phone_input"
+            android:layout_margin="10dp"
+            android:hint="Address 1" />
+
+        <EditText
+            android:id="@+id/user_address2_input"
+            style="@style/EditTextBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/user_address1_input"
+            android:layout_margin="10dp"
+            android:hint="Address 2 (optional)" />
+
+        <LinearLayout
+            android:id="@+id/city_state_zip"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/user_address2_input"
+            android:layout_margin="10dp"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/user_city_input"
+                style="@style/EditTextBox"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="5dp"
+                android:layout_weight="2"
+                android:hint="City" />
+
+            <EditText
+                android:id="@+id/user_state_input"
+                style="@style/EditTextBox"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="5dp"
+                android:layout_weight="1"
+                android:hint="State" />
+
+            <EditText
+                android:id="@+id/user_zipcode_input"
+                style="@style/EditTextBox"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:inputType="number"
+                android:hint="Zipcode" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/sex_selector"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/city_state_zip"
+            android:layout_centerHorizontal="true"
+            android:layout_margin="10dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:padding="5dp"
+                android:text="Male"
+                android:textSize="16sp"
+                android:textColor="#36B88B"/>
+
+            <Switch
+                android:id="@+id/sexSwitch"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp" />
+
+            <TextView
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:padding="5dp"
+                android:text="Female"
+                android:textSize="16sp" />
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/save_button"
+            style="@style/ButtonDefaultStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@+id/sex_selector"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:text="Save" />
+
+        <Button
+            android:id="@+id/log_out_button"
+            style="@style/ButtonDefaultStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@+id/save_button"
+            android:layout_marginBottom="50dp"
+            android:text="Log Out" />
+
+
+    </RelativeLayout>
+
+</ScrollView>

@@ -7,4 +7,9 @@
     <string name="e_mail_address">E-mail Address</string>
     <string name="register">Register</string>
     <string name="already_have_an_account_sign_in">Already have an account? Sign In</string>
+    <string name="first_name">First Name </string>
+    <string name="last_name">Last Name</string>
+    <string name="email">Email</string>
+    <string name="phone_optional">Phone (optional)</string>
+    <string name="birthday_mm_dd_yyyy">Birthday (MM/DD/YYYY)</string>
 </resources>
