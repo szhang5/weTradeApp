@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.shiyunzhang.wetrade.R;
@@ -28,6 +29,7 @@ public class RegisterActivity extends AppCompatActivity {
         setContentView(R.layout.activity_sign_up);
 
         progressDialog = new ProgressDialog(this);
+        FirebaseApp.initializeApp(this);
         firebaseAuth = FirebaseAuth.getInstance();
 
         emailInput = findViewById(R.id.email_input_register);
