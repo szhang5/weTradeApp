@@ -66,35 +66,22 @@ public class MainActivity extends AppCompatActivity {
         progressDialog.show();
 
         firebaseAuth.createUserWithEmailAndPassword(email, password)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        progressDialog.dismiss();
-                        if (task.isSuccessful()) {
-                            finish();
-                            startActivity(new Intent(MainActivity.this, ProfileActivity.class));
-                        } else {
-                            // If sign in fails, display a message to the user.
-                            Toast.makeText(MainActivity.this, "Authentication failed.", Toast.LENGTH_SHORT).show();
-                        }
+                .addOnCompleteListener(this, task -> {
+                    progressDialog.dismiss();
+                    if (task.isSuccessful()) {
+                        finish();
+                        startActivity(new Intent(MainActivity.this, ProfileActivity.class));
+                    } else {
+                        // If sign in fails, display a message to the user.
+                        Toast.makeText(MainActivity.this, "Authentication failed.", Toast.LENGTH_SHORT).show();
                     }
                 });
     }
 
 
     public void addButtonListener() {
-        findViewById(R.id.sign_up_button).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                registerUser();
-            }
-        });
+        findViewById(R.id.sign_up_button).setOnClickListener(v -> registerUser());
 
-        findViewById(R.id.sign_in).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this, LoginActivity.class));
-            }
-        });
+        findViewById(R.id.sign_in).setOnClickListener(v -> startActivity(new Intent(MainActivity.this, LoginActivity.class)));
     }
 }

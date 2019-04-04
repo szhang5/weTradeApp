@@ -23,7 +23,6 @@ public class ProfileActivity extends AppCompatActivity {
 
     private FirebaseAuth firebaseAuth;
 
-    private DatabaseReference databaseReference;
     private EditText editFirstName, editLastName, editEmail, editPhone, editAddress1, editAddress2, editCity, editState, editZipcode;
     private Switch editGender;
     private TextView male, female;
@@ -40,11 +39,31 @@ public class ProfileActivity extends AppCompatActivity {
             startActivity(new Intent(ProfileActivity.this, LoginActivity.class));
         }
 
-        databaseReference = FirebaseDatabase.getInstance().getReference("User");
         init();
+
         FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
         editEmail.setText(firebaseUser.getEmail());
 
+        setUpButtonListener();
+
+    }
+
+    public void init(){
+        male = findViewById(R.id.male_selector);
+        female = findViewById(R.id.female_selector);
+        editFirstName = findViewById(R.id.user_firstname_input);
+        editLastName = findViewById(R.id.user_lastname_input);
+        editEmail = findViewById(R.id.user_email_input);
+        editPhone = findViewById(R.id.user_phone_input);
+        editAddress1 = findViewById(R.id.user_address1_input);
+        editAddress2 = findViewById(R.id.user_address2_input);
+        editCity = findViewById(R.id.user_city_input);
+        editState = findViewById(R.id.user_state_input);
+        editZipcode = findViewById(R.id.user_zipcode_input);
+        editGender = findViewById(R.id.sexSwitch);
+    }
+
+    public void setUpButtonListener(){
         editGender.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -73,21 +92,6 @@ public class ProfileActivity extends AppCompatActivity {
         });
     }
 
-    public void init(){
-        male = findViewById(R.id.male_selector);
-        female = findViewById(R.id.female_selector);
-        editFirstName = findViewById(R.id.user_firstname_input);
-        editLastName = findViewById(R.id.user_lastname_input);
-        editEmail = findViewById(R.id.user_email_input);
-        editPhone = findViewById(R.id.user_phone_input);
-        editAddress1 = findViewById(R.id.user_address1_input);
-        editAddress2 = findViewById(R.id.user_address2_input);
-        editCity = findViewById(R.id.user_city_input);
-        editState = findViewById(R.id.user_state_input);
-        editZipcode = findViewById(R.id.user_zipcode_input);
-        editGender = findViewById(R.id.sexSwitch);
-    }
-
     public void  saveUserInformation(){
         String firstName = editFirstName.getText().toString().trim();
         String lastName = editLastName.getText().toString().trim();
@@ -101,8 +105,6 @@ public class ProfileActivity extends AppCompatActivity {
         String gender = editGender.isChecked()? "Female" : "Male";
 
         UserInfo userInfo = new UserInfo(firstName, lastName, email, phone, address1, address2, city, state, zipCode,gender);
-        FirebaseUser user = firebaseAuth.getCurrentUser();
-        databaseReference.child(user.getUid()).setValue(userInfo);
 
         Toast.makeText(ProfileActivity.this, "Profile Information Saved", Toast.LENGTH_LONG).show();
     }
