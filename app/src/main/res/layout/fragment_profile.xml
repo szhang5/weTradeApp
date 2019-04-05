@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="30dp">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/profile_image"
+        android:layout_width="96dp"
+        android:layout_height="96dp"
+        android:src="@drawable/camera" />
+
+    <TextView
+        android:id="@+id/user_name_display"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@+id/profile_image"
+        android:fontFamily="@font/lato_black"
+        android:padding="10dp"
+        android:textSize="20sp"
+        android:textColor="@android:color/black" />
+
+    <TextView
+        android:id="@+id/user_city_display"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@+id/profile_image"
+        android:layout_below="@+id/user_name_display"
+        android:textColor="@android:color/black"
+        android:layout_marginStart="10dp" />
+
+
+    <Button
+        android:id="@+id/edit_profile"
+        style="@style/ButtonTransparentStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/profile_image"
+        android:text="Edit Profile" />
+    
+    <Button
+        android:id="@+id/log_out_button"
+        style="@style/ButtonGreenTransparentStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/edit_profile"
+        android:text="Log Out" />
+
+</RelativeLayout>

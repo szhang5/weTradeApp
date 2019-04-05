@@ -9,6 +9,20 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+
+    <!-- Customized Switch Style. -->
+    <style name="SwitchStyle" parent="Theme.AppCompat.Light">
+        <!-- active thumb & track color (30% transparency) -->
+        <item name="colorControlActivated">#FF5D7D</item>
+
+        <!-- inactive thumb color -->
+        <item name="colorSwitchThumbNormal">#36B88B</item>
+
+        <!-- inactive track color (30% transparency) -->
+        <item name="android:colorForeground">#36B88B</item>
+    </style>
+
+    <!-- Default Button Style. -->
     <style name="ButtonDefaultStyle" parent="AppTheme">
         <item name="android:textSize">18sp</item>
         <item name="android:background">#36B88B</item>
@@ -17,12 +31,31 @@
         <item name="android:fontFamily">@font/josefinsans_bold</item>
     </style>
 
+    <!-- Transparent Button Style. -->
     <style name="ButtonTransparentStyle" parent="AppTheme">
         <item name="android:textSize">16sp</item>
-        <item name="android:background">#FFFFFF</item>
+        <item name="android:background">#00000000</item>
         <item name="android:textColor">#36B88B</item>
         <item name="android:textAllCaps">false</item>
         <item name="android:fontFamily">@font/josefinsans_bold</item>
+    </style>
+
+    <!-- Transparent Green Button Style. -->
+    <style name="ButtonGreenTransparentStyle" parent="AppTheme">
+        <item name="android:textSize">16sp</item>
+        <item name="android:background">@drawable/transparent_with_border_green</item>
+        <item name="android:textColor">#36B88B</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:fontFamily">@font/josefinsans_bold</item>
+    </style>
+
+    <!-- EditText For input box. -->
+    <style name="EditTextBox" parent="@android:style/Widget.EditText">
+        <item name="android:minHeight">35dp</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:padding">5dp</item>
+        <item name="android:background">@drawable/transparent_black_frame</item>
+        <item name="android:gravity">left|center_vertical</item>
     </style>
 
 </resources>
