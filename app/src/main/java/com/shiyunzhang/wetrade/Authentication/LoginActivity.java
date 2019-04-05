@@ -15,8 +15,9 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.shiyunzhang.wetrade.EditProfileActivity;
+import com.shiyunzhang.wetrade.HomeActivity;
 import com.shiyunzhang.wetrade.MainActivity;
-import com.shiyunzhang.wetrade.ProfileActivity;
 import com.shiyunzhang.wetrade.R;
 
 public class LoginActivity extends AppCompatActivity {
@@ -39,7 +40,7 @@ public class LoginActivity extends AppCompatActivity {
 
         if(firebaseAuth.getCurrentUser() != null){
             finish();
-            startActivity(new Intent(LoginActivity.this, ProfileActivity.class));
+            startActivity(new Intent(LoginActivity.this, HomeActivity.class));
         }
 
         emailInput = findViewById(R.id.email_input);
@@ -65,17 +66,14 @@ public class LoginActivity extends AppCompatActivity {
         progressDialog.show();
 
         firebaseAuth.signInWithEmailAndPassword(email, password)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        progressDialog.dismiss();
-                        if (task.isSuccessful()) {
-                            finish();
-                            startActivity(new Intent(LoginActivity.this, ProfileActivity.class));
-                        } else {
-                            // If sign in fails, display a message to the user.
-                            Toast.makeText(LoginActivity.this, "Authentication failed.", Toast.LENGTH_SHORT).show();
-                        }
+                .addOnCompleteListener(this, task -> {
+                    progressDialog.dismiss();
+                    if (task.isSuccessful()) {
+                        finish();
+                        startActivity(new Intent(LoginActivity.this, HomeActivity.class));
+                    } else {
+                        // If sign in fails, display a message to the user.
+                        Toast.makeText(LoginActivity.this, "Authentication failed.", Toast.LENGTH_SHORT).show();
                     }
                 });
 
@@ -83,20 +81,12 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void addButtonListener(){
-        findViewById(R.id.sign_up).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                startActivity(intent);
-            }
+        findViewById(R.id.sign_up).setOnClickListener(v -> {
+            finish();
+            Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
+            startActivity(intent);
         });
 
-        findViewById(R.id.sign_in_button).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                userLogIn();
-            }
-        });
+        findViewById(R.id.sign_in_button).setOnClickListener(v -> userLogIn());
     }
 }

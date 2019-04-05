@@ -6,25 +6,28 @@ public class UserInfo {
     private String lastName;
     private String email;
     private String phone;
-    private String address1;
-    private String address2;
+    private String address;
     private String city;
     private String state;
     private long zipCode;
     private String gender;
     private String id;
 
-    public UserInfo(String firstName, String lastName, String email, String phone, String address1, String address2, String city, String state, long zipCode, String gender) {
+    public UserInfo() {
+        //public no-arg constructor needed
+    }
+
+    public UserInfo(String firstName, String lastName, String email, String phone, String address, String city, String state, long zipCode, String gender, String id) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.phone = phone;
-        this.address1 = address1;
-        this.address2 = address2;
+        this.address = address;
         this.city = city;
         this.state = state;
         this.zipCode = zipCode;
         this.gender = gender;
+        this.id = id;
     }
 
     public String getId() {
@@ -51,20 +54,12 @@ public class UserInfo {
         this.phone = phone;
     }
 
-    public String getAddress1() {
-        return address1;
+    public String getAddress() {
+        return address;
     }
 
-    public void setAddress1(String address1) {
-        this.address1 = address1;
-    }
-
-    public String getAddress2() {
-        return address2;
-    }
-
-    public void setAddress2(String address2) {
-        this.address2 = address2;
+    public void setAddress(String address) {
+        this.address = address;
     }
 
     public String getFirstName() {
