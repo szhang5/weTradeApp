@@ -26,7 +26,7 @@ public class EditProfileActivity extends AppCompatActivity {
     private FirebaseAuth firebaseAuth;
     private String uid;
 
-    private EditText editFirstName, editLastName, editEmail, editPhone, editAddress, editCity, editState, editZipcode;
+    private EditText editFirstName, editLastName, editEmail, editCollege, editGraduationDate, editAddress, editCity, editState, editZipcode;
     private Switch editGender;
     private TextView male, female;
 
@@ -74,7 +74,8 @@ public class EditProfileActivity extends AppCompatActivity {
         editFirstName = findViewById(R.id.user_firstname_input);
         editLastName = findViewById(R.id.user_lastname_input);
         editEmail = findViewById(R.id.user_email_input);
-        editPhone = findViewById(R.id.user_phone_input);
+        editCollege = findViewById(R.id.user_college_input);
+        editGraduationDate = findViewById(R.id.user_expected_graduation_date_input);
         editAddress = findViewById(R.id.user_address1_input);
         editCity = findViewById(R.id.user_city_input);
         editState = findViewById(R.id.user_state_input);
@@ -92,7 +93,6 @@ public class EditProfileActivity extends AppCompatActivity {
                 male.setTextColor(Color.parseColor("#36B88B"));
             }
         });
-        findViewById(R.id.log_out_button).setOnClickListener(v -> logOut());
         findViewById(R.id.save_button).setOnClickListener(v -> saveUserInformation());
 
     }
@@ -101,7 +101,8 @@ public class EditProfileActivity extends AppCompatActivity {
         String firstName = editFirstName.getText().toString().trim();
         String lastName = editLastName.getText().toString().trim();
         String email = editEmail.getText().toString().trim();
-        String phone = editPhone.getText().toString().trim();
+        String college = editCollege.getText().toString().trim();
+        String graduationDate = editGraduationDate.getText().toString().trim();
         String address = editAddress.getText().toString().trim();
         String city = editCity.getText().toString().trim();
         String state = editState.getText().toString().trim();
@@ -109,7 +110,7 @@ public class EditProfileActivity extends AppCompatActivity {
         String gender = editGender.isChecked() ? "Female" : "Male";
 
 
-        UserInfo userInfo = new UserInfo(firstName, lastName, email, phone, address, city, state, zipCode, gender, uid);
+        UserInfo userInfo = new UserInfo(firstName, lastName, email, college, graduationDate, address, city, state, zipCode, gender, uid);
 
         userRef.add(userInfo)
                 .addOnSuccessListener(aVoid -> Toast.makeText(EditProfileActivity.this, "Profile Information Saved", Toast.LENGTH_LONG).show())
@@ -123,7 +124,8 @@ public class EditProfileActivity extends AppCompatActivity {
         editFirstName.setText(userInfo.getFirstName());
         editLastName.setText(userInfo.getLastName());
         editEmail.setText(userInfo.getEmail());
-        editPhone.setText(userInfo.getPhone());
+        editCollege.setText(userInfo.getCollege());
+        editGraduationDate.setText(userInfo.getExpectedGraduactionDate());
         editAddress.setText(userInfo.getAddress());
         editCity.setText(userInfo.getCity());
         editState.setText(userInfo.getState());
@@ -133,12 +135,6 @@ public class EditProfileActivity extends AppCompatActivity {
         } else {
             editGender.setChecked(true);
         }
-    }
-
-    public void logOut() {
-        firebaseAuth.signOut();
-        finish();
-        startActivity(new Intent(this, LoginActivity.class));
     }
 
 }

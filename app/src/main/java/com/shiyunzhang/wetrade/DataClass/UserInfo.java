@@ -5,7 +5,8 @@ public class UserInfo {
     private String firstName;
     private String lastName;
     private String email;
-    private String phone;
+    private String college;
+    private String expectedGraduactionDate;
     private String address;
     private String city;
     private String state;
@@ -17,11 +18,12 @@ public class UserInfo {
         //public no-arg constructor needed
     }
 
-    public UserInfo(String firstName, String lastName, String email, String phone, String address, String city, String state, long zipCode, String gender, String id) {
+    public UserInfo(String firstName, String lastName, String email, String college, String expectedGraduactionDate, String address, String city, String state, long zipCode, String gender, String id) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
-        this.phone = phone;
+        this.college = college;
+        this.expectedGraduactionDate = expectedGraduactionDate;
         this.address = address;
         this.city = city;
         this.state = state;
@@ -46,12 +48,21 @@ public class UserInfo {
         this.email = email;
     }
 
-    public String getPhone() {
-        return phone;
+
+    public String getCollege() {
+        return college;
     }
 
-    public void setPhone(String phone) {
-        this.phone = phone;
+    public void setCollege(String college) {
+        this.college = college;
+    }
+
+    public String getExpectedGraduactionDate() {
+        return expectedGraduactionDate;
+    }
+
+    public void setExpectedGraduactionDate(String expectedGraduactionDate) {
+        this.expectedGraduactionDate = expectedGraduactionDate;
     }
 
     public String getAddress() {
