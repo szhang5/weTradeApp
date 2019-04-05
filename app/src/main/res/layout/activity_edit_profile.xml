@@ -36,6 +36,8 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/profile_image"
             android:layout_margin="10dp"
+            android:maxLines="1"
+            android:inputType="text"
             android:hint="@string/first_name" />
 
         <EditText
@@ -45,6 +47,8 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/user_firstname_input"
             android:layout_margin="10dp"
+            android:maxLines="1"
+            android:inputType="text"
             android:hint="@string/last_name" />
 
         <EditText
@@ -54,26 +58,40 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/user_lastname_input"
             android:layout_margin="10dp"
+            android:maxLines="1"
+            android:inputType="text"
             android:hint="@string/email" />
 
         <EditText
-            android:id="@+id/user_phone_input"
+            android:id="@+id/user_college_input"
             style="@style/EditTextBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/user_email_input"
             android:layout_margin="10dp"
-            android:hint="@string/phone_optional"
-            android:inputType="phone" />
+            android:maxLines="1"
+            android:inputType="text"
+            android:hint="College" />
 
+        <EditText
+            android:id="@+id/user_expected_graduation_date_input"
+            style="@style/EditTextBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/user_college_input"
+            android:layout_margin="10dp"
+            android:inputType="date"
+            android:hint="Expected Graduaction Date (MM/YYYY)" />
 
         <EditText
             android:id="@+id/user_address1_input"
             style="@style/EditTextBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/user_phone_input"
+            android:layout_below="@+id/user_expected_graduation_date_input"
             android:layout_margin="10dp"
+            android:maxLines="1"
+            android:inputType="text"
             android:hint="Address" />
 
         <LinearLayout
@@ -82,6 +100,8 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/user_address1_input"
             android:layout_margin="10dp"
+            android:maxLines="1"
+            android:inputType="text"
             android:orientation="horizontal">
 
             <EditText
@@ -91,6 +111,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="5dp"
                 android:layout_weight="2"
+                android:maxLines="1"
+                android:inputType="text"
                 android:hint="City" />
 
             <EditText
@@ -100,6 +122,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="5dp"
                 android:layout_weight="1"
+                android:maxLines="1"
+                android:inputType="text"
                 android:hint="State" />
 
             <EditText
@@ -162,15 +186,6 @@
             android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
             android:text="Save" />
-
-        <Button
-            android:id="@+id/log_out_button"
-            style="@style/ButtonGreenTransparentStyle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_below="@+id/save_button"
-            android:text="Log Out" />
 
     </RelativeLayout>
 
