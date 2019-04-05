@@ -1,6 +1,7 @@
 package com.shiyunzhang.wetrade.fragment;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -51,6 +52,12 @@ public class ProfileFragment extends Fragment {
         FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
         uid = firebaseUser.getUid();
         getUserData();
+//        SharedPreferences preference = getActivity().getSharedPreferences("PREFERENCE",
+//               getActivity().MODE_PRIVATE);
+//        String name = preference.getString("FIRSTNAME", "") + " " + preference.getString("LASTNAME", "");
+//        String city = "Location: " + preference.getString("CITY", "");
+//        userName.setText(name);
+//        location.setText(city);
 
         view.findViewById(R.id.edit_profile).setOnClickListener(v -> {
             startActivity(new Intent(getContext(), EditProfileActivity.class));

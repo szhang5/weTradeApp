@@ -2,24 +2,32 @@ package com.shiyunzhang.wetrade;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.FirebaseAuth;
-import com.shiyunzhang.wetrade.Authentication.LoginActivity;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.shiyunzhang.wetrade.Authentication.RegisterActivity;
+import com.shiyunzhang.wetrade.DataClass.UserInfo;
 
 public class MainActivity extends AppCompatActivity {
-
+    private final String TAG = "MainActivity";
     private EditText emailInput;
     private EditText passwordInput;
     private ProgressDialog progressDialog;
     private FirebaseAuth firebaseAuth;
+    private SharedPreferences preference;
+    private String uid;
+    private FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private CollectionReference userRef = db.collection("User");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +42,7 @@ public class MainActivity extends AppCompatActivity {
 
         if(firebaseAuth.getCurrentUser() != null){
             finish();
+            getUserData();
             startActivity(new Intent(this, HomeActivity.class));
         }
 
@@ -63,6 +72,7 @@ public class MainActivity extends AppCompatActivity {
                 .addOnCompleteListener(this, task -> {
                     progressDialog.dismiss();
                     if (task.isSuccessful()) {
+                        getUserData();
                         finish();
                         startActivity(new Intent(this, HomeActivity.class));
                     } else {
@@ -82,5 +92,23 @@ public class MainActivity extends AppCompatActivity {
         });
 
         findViewById(R.id.sign_in_button).setOnClickListener(v -> userLogIn());
+    }
+
+    public void getUserData() {
+        userRef.whereEqualTo("id", uid)
+                .get()
+                .addOnSuccessListener(queryDocumentSnapshots -> {
+                    for (QueryDocumentSnapshot queryDocumentSnapshot : queryDocumentSnapshots) {
+                        UserInfo userInfo = queryDocumentSnapshot.toObject(UserInfo.class);
+                        SharedPreferences preference = getSharedPreferences("PREFERENCE",
+                                MODE_PRIVATE);
+                        preference.edit().putString("UID", uid)
+                                .putString("FIRSTNAME", userInfo.getFirstName())
+                                .putString("LASTNAME", userInfo.getLastName())
+                                .putString("CITY", userInfo.getCity())
+                                .apply();
+                    }
+                })
+                .addOnFailureListener(e -> Log.d(TAG, e.toString()));
     }
 }

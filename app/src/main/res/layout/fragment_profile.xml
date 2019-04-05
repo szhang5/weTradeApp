@@ -39,8 +39,7 @@
         android:layout_centerHorizontal="true"
         android:layout_below="@+id/profile_image"
         android:text="Edit Profile" />
-
-
+    
     <Button
         android:id="@+id/log_out_button"
         style="@style/ButtonGreenTransparentStyle"
