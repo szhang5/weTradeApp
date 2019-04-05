@@ -1,7 +1,6 @@
 package com.shiyunzhang.wetrade.fragment;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -18,6 +17,7 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.shiyunzhang.wetrade.Authentication.LoginActivity;
 import com.shiyunzhang.wetrade.DataClass.UserInfo;
 import com.shiyunzhang.wetrade.EditProfileActivity;
+import com.shiyunzhang.wetrade.MainActivity;
 import com.shiyunzhang.wetrade.R;
 
 public class ProfileFragment extends Fragment {
@@ -82,6 +82,6 @@ public class ProfileFragment extends Fragment {
 
     public void logOut() {
         firebaseAuth.signOut();
-        startActivity(new Intent(getContext(), LoginActivity.class));
+        startActivity(new Intent(getContext(), MainActivity .class));
     }
 }

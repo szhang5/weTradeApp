@@ -57,22 +57,29 @@
             android:hint="@string/email" />
 
         <EditText
-            android:id="@+id/user_phone_input"
+            android:id="@+id/user_college_input"
             style="@style/EditTextBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/user_email_input"
             android:layout_margin="10dp"
-            android:hint="@string/phone_optional"
-            android:inputType="phone" />
+            android:hint="College" />
 
+        <EditText
+            android:id="@+id/user_expected_graduation_date_input"
+            style="@style/EditTextBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/user_college_input"
+            android:layout_margin="10dp"
+            android:hint="Expected Graduaction Date" />
 
         <EditText
             android:id="@+id/user_address1_input"
             style="@style/EditTextBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/user_phone_input"
+            android:layout_below="@+id/user_expected_graduation_date_input"
             android:layout_margin="10dp"
             android:hint="Address" />
 
