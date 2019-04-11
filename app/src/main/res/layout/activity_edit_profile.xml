@@ -19,7 +19,7 @@
             android:src="@drawable/camera" />
 
         <android.support.design.widget.FloatingActionButton
-            android:id="@+id/fab"
+            android:id="@+id/choose_image"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="180dp"
@@ -29,12 +29,21 @@
             android:backgroundTint="#36B88B"
             android:layout_alignBottom="@+id/profile_image" />
 
+        <Button
+            android:id="@+id/upload_profile"
+            style="@style/ButtonTransparentStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@+id/profile_image"
+            android:text="Save Profile Image" />
+
         <EditText
             android:id="@+id/user_firstname_input"
             style="@style/EditTextBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/profile_image"
+            android:layout_below="@+id/upload_profile"
             android:layout_margin="10dp"
             android:maxLines="1"
             android:inputType="text"
