@@ -10,6 +10,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatTextView;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.shiyunzhang.wetrade.fragment.FavoriteFragment;
 import com.shiyunzhang.wetrade.fragment.HomeFragment;
@@ -50,27 +51,31 @@ public class HomeActivity extends AppCompatActivity {
             Fragment fragment;
             switch (item.getItemId()) {
                 case R.id.navigation_home:
+                    actionBar.show();
                     actionBarTitle.setText(getString(R.string.app_name));
                     fragment = new HomeFragment();
                     loadFragment(fragment);
                     return true;
                 case R.id.navigation_search:
+                    actionBar.show();
                     actionBarTitle.setText("Search");
                     fragment = new SearchFragment();
                     loadFragment(fragment);
                     return true;
                 case R.id.navigation_favorite:
+                    actionBar.show();
                     actionBarTitle.setText("Favorite");
                     fragment = new FavoriteFragment();
                     loadFragment(fragment);
                     return true;
                 case R.id.navigation_inventory:
+                    actionBar.show();
                     actionBarTitle.setText("Inventory");
                     fragment = new InventoryFragment();
                     loadFragment(fragment);
                     return true;
                 case R.id.navigation_profile:
-                    actionBarTitle.setText("Profile");
+                    actionBar.hide();
                     fragment = new ProfileFragment();
                     loadFragment(fragment);
                     return true;

@@ -24,8 +24,6 @@ public class MainActivity extends AppCompatActivity {
     private EditText passwordInput;
     private ProgressDialog progressDialog;
     private FirebaseAuth firebaseAuth;
-    private SharedPreferences preference;
-    private String uid;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private CollectionReference userRef = db.collection("User");
 
@@ -42,7 +40,6 @@ public class MainActivity extends AppCompatActivity {
 
         if(firebaseAuth.getCurrentUser() != null){
             finish();
-            getUserData();
             startActivity(new Intent(this, HomeActivity.class));
         }
 
@@ -72,7 +69,6 @@ public class MainActivity extends AppCompatActivity {
                 .addOnCompleteListener(this, task -> {
                     progressDialog.dismiss();
                     if (task.isSuccessful()) {
-                        getUserData();
                         finish();
                         startActivity(new Intent(this, HomeActivity.class));
                     } else {
@@ -94,21 +90,4 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.sign_in_button).setOnClickListener(v -> userLogIn());
     }
 
-    public void getUserData() {
-        userRef.whereEqualTo("id", uid)
-                .get()
-                .addOnSuccessListener(queryDocumentSnapshots -> {
-                    for (QueryDocumentSnapshot queryDocumentSnapshot : queryDocumentSnapshots) {
-                        UserInfo userInfo = queryDocumentSnapshot.toObject(UserInfo.class);
-                        SharedPreferences preference = getSharedPreferences("PREFERENCE",
-                                MODE_PRIVATE);
-                        preference.edit().putString("UID", uid)
-                                .putString("FIRSTNAME", userInfo.getFirstName())
-                                .putString("LASTNAME", userInfo.getLastName())
-                                .putString("CITY", userInfo.getCity())
-                                .apply();
-                    }
-                })
-                .addOnFailureListener(e -> Log.d(TAG, e.toString()));
-    }
 }

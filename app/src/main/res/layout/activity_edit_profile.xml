@@ -19,7 +19,7 @@
             android:src="@drawable/camera" />
 
         <android.support.design.widget.FloatingActionButton
-            android:id="@+id/fab"
+            android:id="@+id/choose_image"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="180dp"
@@ -29,13 +29,26 @@
             android:backgroundTint="#36B88B"
             android:layout_alignBottom="@+id/profile_image" />
 
+        <ProgressBar
+            android:id="@+id/profile_progressbar"
+            android:layout_width="200dp"
+            android:layout_centerHorizontal="true"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/choose_image"
+            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+            android:visibility="gone"/>
+
+
         <EditText
             android:id="@+id/user_firstname_input"
             style="@style/EditTextBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/profile_image"
-            android:layout_margin="10dp"
+            android:layout_below="@+id/choose_image"
+            android:layout_marginTop="30dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
             android:maxLines="1"
             android:inputType="text"
             android:hint="@string/first_name" />
@@ -184,7 +197,7 @@
             android:layout_centerHorizontal="true"
             android:layout_below="@+id/sex_selector"
             android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
+            android:layout_marginBottom="40dp"
             android:text="Save" />
 
     </RelativeLayout>

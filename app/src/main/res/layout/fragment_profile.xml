@@ -1,52 +1,159 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_margin="30dp">
+    android:layout_height="match_parent">
 
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/profile_image"
-        android:layout_width="96dp"
-        android:layout_height="96dp"
-        android:src="@drawable/camera" />
+    <FrameLayout
+        android:id="@+id/image_frame"
+        android:layout_width="match_parent"
+        android:layout_height="230dp"
+        android:background="#36B88B">
 
-    <TextView
-        android:id="@+id/user_name_display"
+
+        <Button
+            android:id="@+id/edit_profile"
+            style="@style/ButtonTransparentWithWhiteTextColorStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="20dp"
+            android:text="Edit Profile" />
+
+        <Button
+            android:id="@+id/log_out_button"
+            style="@style/ButtonTransparentWithWhiteTextColorStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:padding="20dp"
+            android:text="Log Out" />
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_marginBottom="30dp">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/profile_image"
+                android:layout_width="96dp"
+                android:layout_height="96dp"
+                android:layout_centerHorizontal="true"
+                android:src="@drawable/camera" />
+
+            <TextView
+                android:id="@+id/user_name_display"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/profile_image"
+                android:layout_centerHorizontal="true"
+                android:layout_marginStart="8dp"
+                android:fontFamily="@font/lato_semibold"
+                android:textColor="@android:color/white"
+                android:textSize="18sp" />
+
+        </RelativeLayout>
+    </FrameLayout>
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_toEndOf="@+id/profile_image"
-        android:fontFamily="@font/lato_black"
-        android:padding="10dp"
-        android:textSize="20sp"
-        android:textColor="@android:color/black" />
+        android:layout_below="@+id/image_frame"
+        android:layout_margin="50dp"
+        android:orientation="vertical"
+        android:outlineSpotShadowColor="@android:color/darker_gray">
 
-    <TextView
-        android:id="@+id/user_city_display"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_toEndOf="@+id/profile_image"
-        android:layout_below="@+id/user_name_display"
-        android:textColor="@android:color/black"
-        android:layout_marginStart="10dp" />
+        <TextView
+            android:id="@+id/user_college_display"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@android:color/black"
+            android:textSize="18sp" />
 
+        <TextView
+            android:id="@+id/college"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/edit_profile"
+            android:text="College"
+            android:textColor="@android:color/darker_gray"
+            android:textSize="16sp" />
 
-    <Button
-        android:id="@+id/edit_profile"
-        style="@style/ButtonTransparentStyle"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@+id/profile_image"
-        android:text="Edit Profile" />
-    
-    <Button
-        android:id="@+id/log_out_button"
-        style="@style/ButtonGreenTransparentStyle"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@+id/edit_profile"
-        android:text="Log Out" />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:background="#d2d2d2" />
+
+        <TextView
+            android:id="@+id/user_graduation_date"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@android:color/black"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/expected_graduation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/edit_profile"
+            android:text="Expected Graduation"
+            android:textColor="@android:color/darker_gray"
+            android:textSize="16sp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:background="#d2d2d2" />
+
+        <TextView
+            android:id="@+id/user_email_display"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@android:color/black"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/email"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/edit_profile"
+            android:text="Email"
+            android:textColor="@android:color/darker_gray"
+            android:textSize="16sp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:background="#d2d2d2" />
+
+        <TextView
+            android:id="@+id/user_address_display"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@android:color/black"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/address"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Address"
+            android:textColor="@android:color/darker_gray"
+            android:textSize="16sp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:background="#d2d2d2" />
+
+    </LinearLayout>
 
 </RelativeLayout>

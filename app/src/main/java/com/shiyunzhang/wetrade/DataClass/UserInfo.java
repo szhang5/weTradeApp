@@ -6,30 +6,40 @@ public class UserInfo {
     private String lastName;
     private String email;
     private String college;
-    private String expectedGraduactionDate;
+    private String expectedGraduationDate;
     private String address;
     private String city;
     private String state;
     private long zipCode;
     private String gender;
+    private String imageUrl;
     private String id;
 
     public UserInfo() {
         //public no-arg constructor needed
     }
 
-    public UserInfo(String firstName, String lastName, String email, String college, String expectedGraduactionDate, String address, String city, String state, long zipCode, String gender, String id) {
+    public UserInfo(String firstName, String lastName, String email, String college, String expectedGraduationDate, String address, String city, String state, long zipCode, String gender, String id, String imageUrl) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.college = college;
-        this.expectedGraduactionDate = expectedGraduactionDate;
+        this.expectedGraduationDate = expectedGraduationDate;
         this.address = address;
         this.city = city;
         this.state = state;
         this.zipCode = zipCode;
         this.gender = gender;
         this.id = id;
+        this.imageUrl = imageUrl;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 
     public String getId() {
@@ -57,12 +67,12 @@ public class UserInfo {
         this.college = college;
     }
 
-    public String getExpectedGraduactionDate() {
-        return expectedGraduactionDate;
+    public String getExpectedGraduationDate() {
+        return expectedGraduationDate;
     }
 
-    public void setExpectedGraduactionDate(String expectedGraduactionDate) {
-        this.expectedGraduactionDate = expectedGraduactionDate;
+    public void setExpectedGraduationDate(String expectedGraduationDate) {
+        this.expectedGraduationDate = expectedGraduationDate;
     }
 
     public String getAddress() {
