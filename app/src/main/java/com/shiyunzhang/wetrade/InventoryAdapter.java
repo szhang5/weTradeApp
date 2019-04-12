@@ -1,5 +1,6 @@
 package com.shiyunzhang.wetrade;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,35 +13,39 @@ import java.util.ArrayList;
 
 public class InventoryAdapter extends RecyclerView.Adapter<InventoryAdapter.ViewHolder>{
     private ArrayList<Inventory> inventoryList;
+    private Context context;
 
-    public InventoryAdapter(ArrayList<Inventory> inventoryList) {
+    public InventoryAdapter(Context context, ArrayList<Inventory> inventoryList) {
         this.inventoryList = inventoryList;
+        this.context = context;
     }
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
-        View listItem= layoutInflater.inflate(R.layout.inventory_list, parent, false);
-        ViewHolder viewHolder = new ViewHolder(listItem);
-        return viewHolder;
+        View view = View.inflate(context, R.layout.inventory_recycleview_list_item, null);
+        return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        final MyListData myListData = listdata[position];
-        holder.inventoryName.setText(listdata[position].getName());
-        holder.inventoryPic.setImageResource(listdata[position].getPicId());
-        holder.inventoryPrice.setText(listdata[position].getPrice());
-        holder.inventoryCategory.setText(listdata[position].getCategory());
-        holder.inventoryCondition.setText(listdata[position].getCondition());
-        holder.inventoryQuantity.setText(listdata[position].getQuantity());
+        final Inventory inventory = getItem(position);
+        holder.inventoryName.setText(inventory.getName());
+        holder.inventoryPic.setImageResource(inventory.getPicId());
+        holder.inventoryPrice.setText(Integer.toString(inventory.getPrice()));
+        holder.inventoryCategory.setText(inventory.getCategory());
+        holder.inventoryCondition.setText(inventory.getCondition());
+        holder.inventoryQuantity.setText(Integer.toString(inventory.getQuantity()));
+    }
+
+    public Inventory getItem(int position){
+        return inventoryList.get(position);
     }
 
     @Override
     public int getItemCount() {
-        return listdata.length;
+        return inventoryList.size();
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder {
         public ImageView inventoryPic;
         public TextView inventoryName;
         public TextView inventoryPrice;
@@ -51,13 +56,13 @@ public class InventoryAdapter extends RecyclerView.Adapter<InventoryAdapter.View
 
         public ViewHolder(View itemView) {
             super(itemView);
-            this.inventoryPic = (ImageView) itemView.findViewById(R.id.inventory_image);
-            this.inventoryName = (TextView) itemView.findViewById(R.id.inventory_name);
-            this.inventoryPrice = (TextView) itemView.findViewById(R.id.inventory_price);
-            this.inventoryCategory = (TextView) itemView.findViewById(R.id.inventory_category);
-            this.inventoryCondition = (TextView) itemView.findViewById(R.id.inventory_condition);
-            this.inventoryQuantity = (TextView) itemView.findViewById(R.id.inventory_quantity);
-            relativeLayout = (RelativeLayout)itemView.findViewById(R.id.relativeLayout);
+            this.inventoryPic = itemView.findViewById(R.id.inventory_image);
+            this.inventoryName = itemView.findViewById(R.id.inventory_name);
+            this.inventoryPrice = itemView.findViewById(R.id.inventory_price);
+            this.inventoryCategory = itemView.findViewById(R.id.inventory_category);
+            this.inventoryCondition = itemView.findViewById(R.id.inventory_condition);
+            this.inventoryQuantity = itemView.findViewById(R.id.inventory_quantity);
+            relativeLayout = itemView.findViewById(R.id.relativeLayout);
         }
     }
 }

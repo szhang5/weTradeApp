@@ -10,7 +10,7 @@ public class Inventory {
 
     public Inventory(String description, int picId, int price, String category,
                       String condition, int quantity) {
-        this.name = name;
+        this.name = description;
         this.picId = picId;
         this.price = price;
         this.category = category;
