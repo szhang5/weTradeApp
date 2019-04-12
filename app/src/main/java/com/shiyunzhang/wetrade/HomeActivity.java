@@ -70,7 +70,7 @@ public class HomeActivity extends AppCompatActivity {
                     return true;
                 case R.id.navigation_inventory:
                     actionBar.show();
-                    actionBarTitle.setText("Inventory");
+                    actionBarTitle.setText("com.shiyunzhang.wetrade.Inventory");
                     fragment = new InventoryFragment();
                     loadFragment(fragment);
                     return true;
