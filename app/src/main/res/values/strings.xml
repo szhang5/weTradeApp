@@ -17,4 +17,13 @@
     <string name="favorite">History</string>
     <string name="inventory">Inventory</string>
     <string name="profile">Profile</string>
+
+
+    <string-array name="itemCondition">
+        <item>New</item>
+        <item>Used - Like New</item>
+        <item>Used - Very Good</item>
+        <item>Used - Good</item>
+        <item>Used - Acceptable</item>
+    </string-array>
 </resources>

@@ -47,9 +47,7 @@ public class ProfileFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        editProfileButton.setOnClickListener(v -> {
-            startActivity(new Intent(getContext(), EditProfileActivity.class));
-        });
+        editProfileButton.setOnClickListener(v -> startActivity(new Intent(getContext(), EditProfileActivity.class)));
         logout.setOnClickListener(v -> logOut());
     }
 

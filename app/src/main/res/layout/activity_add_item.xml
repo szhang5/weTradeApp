@@ -1,7 +1,111 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-</RelativeLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="30dp"
+        tools:context=".MainActivity">
+
+        <TextView
+            android:id="@+id/enter_item_info"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Enter item information:"
+            android:textColor="@color/black"
+            android:fontFamily="@font/lato_bold"
+            android:layout_marginBottom="20dp"
+            android:textSize="25sp"/>
+
+        <EditText
+            android:id="@+id/item_category"
+            style="@style/EditTextBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:maxLines="1"
+            android:inputType="text"
+            android:layout_below="@+id/enter_item_info"
+            android:hint="Category" />
+
+        <EditText
+            android:id="@+id/item_name"
+            style="@style/EditTextBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/item_category"
+            android:layout_margin="10dp"
+            android:maxLines="1"
+            android:inputType="text"
+            android:hint="Item Name" />
+
+        <EditText
+            android:id="@+id/item_description"
+            style="@style/EditTextBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/item_name"
+            android:layout_margin="10dp"
+            android:inputType="textMultiLine"
+            android:hint="Description" />
+
+        <EditText
+            android:id="@+id/item_price"
+            style="@style/EditTextBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/item_description"
+            android:layout_margin="10dp"
+            android:maxLines="1"
+            android:inputType="number"
+            android:hint="Price" />
+
+        <EditText
+            android:id="@+id/item_quantity"
+            style="@style/EditTextBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/item_price"
+            android:layout_margin="10dp"
+            android:inputType="number"
+            android:hint="Number of items" />
+
+        <TextView
+            android:id="@+id/item_condition_label"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/item_quantity"
+            android:textSize="18sp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginStart="10dp"
+            android:text="Item Condition:"/>
+
+        <android.support.v7.widget.AppCompatSpinner
+            android:id="@+id/item_condition"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="10dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginBottom="20dp"
+            android:layout_below="@+id/item_condition_label"
+            android:background="@drawable/dropdown_style" />
+
+        <Button
+            android:id="@+id/save_button"
+            style="@style/ButtonDefaultBlueStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@+id/item_condition"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="40dp"
+            android:text="Save" />
+
+    </RelativeLayout>
+
+</ScrollView>
