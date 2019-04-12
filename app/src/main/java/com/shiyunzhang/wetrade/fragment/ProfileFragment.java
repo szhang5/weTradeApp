@@ -29,7 +29,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class ProfileFragment extends Fragment {
     private String TAG = "ProfileFragment";
     private FirebaseAuth firebaseAuth;
-    TextView userName, college, graduationDate;
+    TextView userName, college, graduationDate, email, address;
     CircleImageView profileImg;
     Button editProfileButton, logout;
     private String uid;
@@ -62,8 +62,10 @@ public class ProfileFragment extends Fragment {
         uid = firebaseUser.getUid();
         profileImg = view.findViewById(R.id.profile_image);
         userName = view.findViewById(R.id.user_name_display);
-        college = view.findViewById(R.id.user_college_diplay);
+        college = view.findViewById(R.id.user_college_display);
         graduationDate = view.findViewById(R.id.user_graduation_date);
+        email = view.findViewById(R.id.user_email_display);
+        address = view.findViewById(R.id.user_address_display);
         editProfileButton = view.findViewById(R.id.edit_profile);
         logout = view.findViewById(R.id.log_out_button);
     }
@@ -78,7 +80,10 @@ public class ProfileFragment extends Fragment {
                             userName.setText(userInfo.getFirstName() + " " + userInfo.getLastName());
                         if (userInfo.getCollege() != null) college.setText(userInfo.getCollege());
                         if (userInfo.getExpectedGraduationDate() != null)
-                            graduationDate.setText("expected graduation: " + userInfo.getExpectedGraduationDate());
+                            graduationDate.setText(userInfo.getExpectedGraduationDate());
+                        if(userInfo.getEmail() != null) email.setText(userInfo.getEmail());
+                        if(userInfo.getAddress() != null)
+                            address.setText(userInfo.getCity() + ", " + userInfo.getState());
                         if (userInfo.getImageUrl() != null)
                             Glide.with(this).load(userInfo.getImageUrl()).into(profileImg);
 
