@@ -24,13 +24,11 @@ public class HomeActivity extends AppCompatActivity {
 
     ActionBar actionBar;
     BottomNavigationView navigation;
-    ColorStateList colorStateList;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        setUpColorStateList();
 
         actionBar = getSupportActionBar();
         actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
@@ -81,19 +79,5 @@ public class HomeActivity extends AppCompatActivity {
         transaction.replace(R.id.frame_container, fragment);
         transaction.addToBackStack(null);
         transaction.commit();
-    }
-
-    private void setUpColorStateList(){
-        int[][] states = new int[][]{
-                new int[] { android.R.attr.state_checked},
-                new int[] { -android.R.attr.state_checked}
-        };
-
-        int[] colors = new int[] {
-                R.color.blue,
-                R.color.darkGray,
-        };
-
-        colorStateList = new ColorStateList(states, colors);
     }
 }

@@ -20,8 +20,8 @@
         android:layout_height="70dp"
         android:layout_alignParentBottom="true"
         android:background="@android:color/white"
-        app:itemIconTint="@color/darkGray"
-        app:itemTextColor="@color/darkGray"
+        app:itemIconTint="@color/button_navigation_style"
+        app:itemTextColor="@color/button_navigation_style"
         app:itemIconSize="30dp"
         app:labelVisibilityMode="labeled"
         app:menu="@menu/navigation" />
