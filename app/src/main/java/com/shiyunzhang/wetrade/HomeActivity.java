@@ -1,5 +1,7 @@
 package com.shiyunzhang.wetrade;
 
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -21,8 +23,7 @@ import com.shiyunzhang.wetrade.fragment.SearchFragment;
 public class HomeActivity extends AppCompatActivity {
 
     ActionBar actionBar;
-    AppCompatTextView actionBarTitle;
-
+    BottomNavigationView navigation;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -33,57 +34,43 @@ public class HomeActivity extends AppCompatActivity {
         actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         actionBar.setCustomView(R.layout.action_bar_style);
         actionBar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.white)));
+        actionBar.hide();
 
-        BottomNavigationView navigation = findViewById(R.id.navigation);
+        navigation = findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
-        actionBarTitle = findViewById(R.id.actionbar_title);
-        actionBarTitle.setText(getString(R.string.app_name));
+        navigation.setSelectedItemId(R.id.navigation_home);
         loadFragment(new HomeFragment());
 
     }
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
-            = new BottomNavigationView.OnNavigationItemSelectedListener() {
-
-        @Override
-        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-            Fragment fragment;
-            switch (item.getItemId()) {
-                case R.id.navigation_home:
-                    actionBar.show();
-                    actionBarTitle.setText(getString(R.string.app_name));
-                    fragment = new HomeFragment();
-                    loadFragment(fragment);
-                    return true;
-                case R.id.navigation_search:
-                    actionBar.show();
-                    actionBarTitle.setText("Search");
-                    fragment = new SearchFragment();
-                    loadFragment(fragment);
-                    return true;
-                case R.id.navigation_favorite:
-                    actionBar.show();
-                    actionBarTitle.setText("Favorite");
-                    fragment = new FavoriteFragment();
-                    loadFragment(fragment);
-                    return true;
-                case R.id.navigation_inventory:
-                    actionBar.show();
-                    actionBarTitle.setText("Inventory");
-                    fragment = new InventoryFragment();
-                    loadFragment(fragment);
-                    return true;
-                case R.id.navigation_profile:
-                    actionBar.hide();
-                    fragment = new ProfileFragment();
-                    loadFragment(fragment);
-                    return true;
-            }
-
-            return false;
-        }
-    };
+            = item -> {
+                Fragment fragment;
+                switch (item.getItemId()) {
+                    case R.id.navigation_home:
+                        fragment = new HomeFragment();
+                        loadFragment(fragment);
+                        return true;
+                    case R.id.navigation_search:
+                        fragment = new SearchFragment();
+                        loadFragment(fragment);
+                        return true;
+                    case R.id.navigation_favorite:
+                        fragment = new FavoriteFragment();
+                        loadFragment(fragment);
+                        return true;
+                    case R.id.navigation_inventory:
+                        fragment = new InventoryFragment();
+                        loadFragment(fragment);
+                        return true;
+                    case R.id.navigation_profile:
+                        fragment = new ProfileFragment();
+                        loadFragment(fragment);
+                        return true;
+                }
+                return false;
+            };
 
     private void loadFragment(Fragment fragment) {
         // load fragment

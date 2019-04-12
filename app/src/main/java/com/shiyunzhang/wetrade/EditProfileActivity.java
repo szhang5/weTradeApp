@@ -4,6 +4,7 @@ import android.content.ContentResolver;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -11,10 +12,12 @@ import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.webkit.MimeTypeMap;
 import android.widget.EditText;
 import android.widget.ProgressBar;
@@ -79,6 +82,7 @@ public class EditProfileActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_profile);
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
         FirebaseApp.initializeApp(this);
         firebaseAuth = FirebaseAuth.getInstance();
 
@@ -92,8 +96,16 @@ public class EditProfileActivity extends AppCompatActivity {
         editEmail.setText(firebaseUser.getEmail());
         uid = firebaseUser.getUid();
         setTitle("Edit Profile");
+        setUpActionBar();
         setUpButtonListener();
+    }
 
+
+    private void setUpActionBar(){
+        ActionBar actionBar;
+        actionBar = getSupportActionBar();
+        actionBar.setCustomView(R.layout.action_bar_style);
+        actionBar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.green)));
     }
 
     @Override
