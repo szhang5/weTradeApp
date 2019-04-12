@@ -49,12 +49,13 @@ public class EditProfileActivity extends AppCompatActivity {
     private static final int PICK_IMAGE_REQUEST = 1;
 
     private FirebaseAuth firebaseAuth;
-    private String uid;
     private Uri imageUri;
     private String profileImageUrl;
     private ProgressBar mProgressBar;
 
     private EditText editFirstName, editLastName, editEmail, editCollege, editGraduationDate, editAddress, editCity, editState, editZipcode;
+    private String firstName, lastName, email, college, graduationDate, address, city, state, gender, uid;
+    private long zipCode;
     private Switch editGender;
     private TextView male, female;
     private CircleImageView profileImage;
@@ -64,7 +65,6 @@ public class EditProfileActivity extends AppCompatActivity {
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private CollectionReference userRef = db.collection("User");
 
-    //    private DocumentReference userRef = db.collection("User").document();
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -106,6 +106,17 @@ public class EditProfileActivity extends AppCompatActivity {
                     }
                     for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
                         UserInfo userInfo = documentSnapshot.toObject(UserInfo.class);
+                        if(userInfo.getFirstName()!= null) firstName = userInfo.getFirstName();
+                        if(userInfo.getLastName()!= null) lastName = userInfo.getLastName();
+                        if(userInfo.getEmail()!= null) email = userInfo.getEmail();
+                        if(userInfo.getCollege()!= null) college = userInfo.getCollege();
+                        if(userInfo.getExpectedGraduationDate()!= null) graduationDate = userInfo.getExpectedGraduationDate();
+                        if(userInfo.getAddress()!= null) address = userInfo.getAddress();
+                        if(userInfo.getCity()!= null) city = userInfo.getCity();
+                        if(userInfo.getState()!= null) state = userInfo.getState();
+                        if(userInfo.getZipCode()!= 0) zipCode = userInfo.getZipCode();
+                        if(userInfo.getGender() != null) gender = userInfo.getGender();
+                        if(userInfo.getImageUrl() != null) profileImageUrl = userInfo.getImageUrl();
                         handleUserData(userInfo);
                     }
                 });
@@ -178,32 +189,28 @@ public class EditProfileActivity extends AppCompatActivity {
                 male.setTextColor(Color.parseColor("#36B88B"));
             }
         });
-        findViewById(R.id.save_button).setOnClickListener(v -> {
-            saveUserInformation();
-            Toast.makeText(EditProfileActivity.this, "Profile Information Saved", Toast.LENGTH_LONG).show();
-        });
+        findViewById(R.id.save_button).setOnClickListener(v -> saveUserInformation());
         floatingActionButton = findViewById(R.id.choose_image);
         floatingActionButton.setOnClickListener(v -> openFileChooser());
     }
 
     public void saveUserInformation() {
         if (isValidInput()) {
-            String firstName = editFirstName.getText().toString().trim();
-            String lastName = editLastName.getText().toString().trim();
-            String email = editEmail.getText().toString().trim();
-            String college = editCollege.getText().toString().trim();
-            String graduationDate = editGraduationDate.getText().toString().trim();
-            String address = editAddress.getText().toString().trim();
-            String city = editCity.getText().toString().trim();
-            String state = editState.getText().toString().trim();
-            long zipCode = Long.parseLong(editZipcode.getText().toString().trim());
-            String gender = editGender.isChecked() ? "Female" : "Male";
+            firstName = editFirstName.getText().toString().trim();
+            lastName = editLastName.getText().toString().trim();
+            email = editEmail.getText().toString().trim();
+            college = editCollege.getText().toString().trim();
+            graduationDate = editGraduationDate.getText().toString().trim();
+            address = editAddress.getText().toString().trim();
+            city = editCity.getText().toString().trim();
+            state = editState.getText().toString().trim();
+            zipCode = Long.parseLong(editZipcode.getText().toString().trim());
+            gender = editGender.isChecked() ? "Female" : "Male";
 
             UserInfo userInfo = new UserInfo(firstName, lastName, email, college, graduationDate, address, city, state, zipCode, gender, uid, profileImageUrl);
 
             userRef.document(uid).set(userInfo, SetOptions.merge())
-                    .addOnSuccessListener(aVoid -> {
-                    })
+                    .addOnSuccessListener(aVoid -> Toast.makeText(EditProfileActivity.this, "Profile Information Saved", Toast.LENGTH_LONG).show())
                     .addOnFailureListener(e -> {
                         Toast.makeText(EditProfileActivity.this, "Error!", Toast.LENGTH_LONG).show();
                         Log.d(TAG, e.toString());
@@ -212,24 +219,31 @@ public class EditProfileActivity extends AppCompatActivity {
     }
 
 
+    public void saveUserProfile(){
+        UserInfo userInfo = new UserInfo(firstName, lastName, email, college, graduationDate, address, city, state, zipCode, gender, uid, profileImageUrl);
+
+        userRef.document(uid).set(userInfo, SetOptions.merge())
+                .addOnSuccessListener(aVoid -> Toast.makeText(EditProfileActivity.this, "Profile Image Saved", Toast.LENGTH_LONG).show())
+                .addOnFailureListener(e -> {
+                    Toast.makeText(EditProfileActivity.this, "Error!", Toast.LENGTH_LONG).show();
+                    Log.d(TAG, e.toString());
+                });
+    }
+
+
     public void handleUserData(UserInfo userInfo) {
-        editFirstName.setText(userInfo.getFirstName());
-        editLastName.setText(userInfo.getLastName());
-        editEmail.setText(userInfo.getEmail());
-        editCollege.setText(userInfo.getCollege());
-        editGraduationDate.setText(userInfo.getExpectedGraduationDate());
-        editAddress.setText(userInfo.getAddress());
-        editCity.setText(userInfo.getCity());
-        editState.setText(userInfo.getState());
-        editZipcode.setText(Long.toString(userInfo.getZipCode()));
-        if (userInfo.getGender().equals("Male")) {
-            editGender.setChecked(false);
-        } else {
-            editGender.setChecked(true);
-        }
-        if (userInfo.getImageUrl() != null) {
-            Glide.with(this).load(userInfo.getImageUrl()).into(profileImage);
-        }
+        if(firstName!= null) editFirstName.setText(firstName);
+        if(lastName!= null) editLastName.setText(lastName);
+        if(email!= null) editEmail.setText(email);
+        if(college!= null) editCollege.setText(college);
+        if(graduationDate!= null) editGraduationDate.setText(graduationDate);
+        if(address!= null) editAddress.setText(address);
+        if(city!= null) editCity.setText(city);
+        if(state!= null) editState.setText(state);
+        if(zipCode!= 0) editZipcode.setText(Long.toString(zipCode));
+        if(gender != null && gender.equals("Male")) editGender.setChecked(false);
+        else editGender.setChecked(true);
+        if (profileImage != null) Glide.with(this).load(userInfo.getImageUrl()).into(profileImage);
     }
 
     @Override
@@ -274,7 +288,7 @@ public class EditProfileActivity extends AppCompatActivity {
                             profileImageUrl = uri.toString();
                             Handler handler = new Handler();
                             handler.postDelayed(() -> mProgressBar.setProgress(0), 5000);
-                            saveUserInformation();
+                            saveUserProfile();
                             mProgressBar.setVisibility(View.GONE);
                         });
                     })

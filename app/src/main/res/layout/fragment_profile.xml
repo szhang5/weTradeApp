@@ -19,16 +19,25 @@
         android:fontFamily="@font/lato_black"
         android:padding="10dp"
         android:textSize="20sp"
+        android:layout_marginStart="8dp"
         android:textColor="@android:color/black" />
 
     <TextView
-        android:id="@+id/user_city_display"
+        android:id="@+id/user_college_diplay"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_toEndOf="@+id/profile_image"
         android:layout_below="@+id/user_name_display"
         android:textColor="@android:color/black"
-        android:layout_marginStart="10dp" />
+        android:layout_marginStart="20dp" />
+
+    <TextView
+        android:id="@+id/user_graduation_date"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_toEndOf="@+id/profile_image"
+        android:layout_below="@+id/user_college_diplay"/>
 
 
     <Button
@@ -37,7 +46,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_below="@+id/profile_image"
+        android:layout_marginTop="10dp"
+        android:layout_below="@+id/user_graduation_date"
         android:text="Edit Profile" />
     
     <Button
@@ -46,7 +56,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_below="@+id/edit_profile"
+        android:layout_alignParentBottom="true"
         android:text="Log Out" />
 
 </RelativeLayout>
