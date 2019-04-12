@@ -14,7 +14,7 @@
     <string name="birthday_mm_dd_yyyy">Birthday (MM/DD/YYYY)</string>
     <string name="home">Home</string>
     <string name="search">Search</string>
-    <string name="favorite">Favorite</string>
+    <string name="favorite">History</string>
     <string name="inventory">Inventory</string>
     <string name="profile">Profile</string>
 </resources>
