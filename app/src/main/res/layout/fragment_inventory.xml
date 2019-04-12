@@ -18,7 +18,7 @@
             android:textSize="18sp"
             android:layout_marginStart="10dp"
             android:layout_marginEnd="10dp"
-            style="@style/ButtonDefaultStyle"
+            style="@style/ButtonDefaultBlueStyle"
             android:text="Add an item"/>
 
         <LinearLayout
