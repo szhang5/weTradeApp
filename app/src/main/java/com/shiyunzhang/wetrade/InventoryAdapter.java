@@ -2,12 +2,13 @@ package com.shiyunzhang.wetrade;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import com.shiyunzhang.wetrade.DataClass.Inventory;
 
 import java.util.ArrayList;
 
@@ -30,7 +31,7 @@ public class InventoryAdapter extends RecyclerView.Adapter<InventoryAdapter.View
         final Inventory inventory = getItem(position);
         holder.inventoryName.setText(inventory.getName());
         holder.inventoryPic.setImageResource(inventory.getPicId());
-        holder.inventoryPrice.setText(Integer.toString(inventory.getPrice()));
+        holder.inventoryPrice.setText(Double.toString(inventory.getPrice()));
         holder.inventoryCategory.setText(inventory.getCategory());
         holder.inventoryCondition.setText(inventory.getCondition());
         holder.inventoryQuantity.setText(Integer.toString(inventory.getQuantity()));

@@ -13,7 +13,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.shiyunzhang.wetrade.AddItemActivity;
-import com.shiyunzhang.wetrade.Inventory;
+import com.shiyunzhang.wetrade.DataClass.Inventory;
 import com.shiyunzhang.wetrade.InventoryAdapter;
 import com.shiyunzhang.wetrade.R;
 
@@ -46,9 +46,7 @@ public class InventoryFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        addItemButton.setOnClickListener( v-> {
-            startActivity(new Intent(getContext(), AddItemActivity.class));
-        });
+        addItemButton.setOnClickListener( v-> startActivity(new Intent(getContext(), AddItemActivity.class)));
     }
 
     private void init(View view) {
@@ -62,9 +60,9 @@ public class InventoryFragment extends Fragment {
 
     private void getInventory(){
         inventoryArrayList = new ArrayList<>();
-        inventoryArrayList.add(new Inventory("Concert tickets",android.R.drawable.ic_dialog_email, 60, "Tickets", "new", 2  ));
-        inventoryArrayList.add(new Inventory("Calculus Textbook",android.R.drawable.ic_dialog_email, 100, "Books", "used", 1 ));
-        inventoryArrayList.add(new Inventory("Organic Chemistry Notes",android.R.drawable.ic_dialog_email, 25, "Class Notes", "used", 1 ));
+        inventoryArrayList.add(new Inventory(android.R.drawable.ic_dialog_email,"Tickets", "Concert tickets", "Nice concert ever!", 10,2, "New", System.currentTimeMillis()));
+        inventoryArrayList.add(new Inventory(android.R.drawable.ic_dialog_email, "Books","Calculus Textbook","Nice Book ever!", 20, 1, "New", System.currentTimeMillis()));
+        inventoryArrayList.add(new Inventory(android.R.drawable.ic_dialog_email,"ClassNotes","Organic Chemistry Notes", "Nice Note ever!", 20, 2,"Used", System.currentTimeMillis() ));
     }
 
 }

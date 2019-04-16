@@ -61,7 +61,7 @@
             android:layout_below="@+id/item_description"
             android:layout_margin="10dp"
             android:maxLines="1"
-            android:inputType="number"
+            android:inputType="numberDecimal"
             android:hint="Price" />
 
         <EditText
