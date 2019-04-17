@@ -1,10 +1,12 @@
 package com.shiyunzhang.wetrade;
 
+import android.content.ContentResolver;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -14,11 +16,13 @@ import android.support.v7.widget.AppCompatSpinner;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.webkit.MimeTypeMap;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
@@ -28,6 +32,8 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.SetOptions;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.shiyunzhang.wetrade.Authentication.LoginActivity;
 import com.shiyunzhang.wetrade.DataClass.Inventory;
 
@@ -42,14 +48,16 @@ public class AddItemActivity extends AppCompatActivity {
     private EditText itemCategory, itemName, itemDescription, itemPrice, itemQuantity;
     private Button saveButton, chooseImgButton;
     private ImageView itemImg;
-    private String category, name, description, condition;
+    private String category, name, description, condition, imageUrl;
     private Uri imageUri;
     private double price;
     private int quantity;
     private long currentTime;
     private FirebaseAuth firebaseAuth;
     private String uid;
+    private ProgressBar mProgressBar;
 
+    private StorageReference mStorageRef = FirebaseStorage.getInstance().getReference("InventoryImage");
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private CollectionReference inventoryRef = db.collection("Inventory");
 
@@ -85,6 +93,7 @@ public class AddItemActivity extends AppCompatActivity {
         saveButton = findViewById(R.id.save_button);
         chooseImgButton = findViewById(R.id.upload_img_button);
         itemImg = findViewById(R.id.item_image);
+        mProgressBar = findViewById(R.id.inventory_progressbar);
     }
 
     private boolean isValidInput() {
@@ -113,7 +122,7 @@ public class AddItemActivity extends AppCompatActivity {
 
     private void setUpButtonListener(){
         saveButton.setOnClickListener(v->{
-            saveInventoryInfo();
+            uploadFile();
         });
         chooseImgButton.setOnClickListener(v->{
             openFileChooser();
@@ -127,6 +136,7 @@ public class AddItemActivity extends AppCompatActivity {
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK
                 && data != null && data.getData() != null) {
             imageUri = data.getData();
+            mProgressBar.setVisibility(View.VISIBLE);
             try {
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), imageUri);
                 itemImg.setImageBitmap(bitmap);
@@ -189,7 +199,7 @@ public class AddItemActivity extends AppCompatActivity {
         }
 
         currentTime = System.currentTimeMillis();
-        Inventory inventoryInfo = new Inventory("", category, name, description, price, quantity, condition, currentTime);
+        Inventory inventoryInfo = new Inventory(imageUrl, category, name, description, price, quantity, condition, currentTime);
 
         inventoryRef.document(uid).collection("Items").document().set(inventoryInfo)
         .addOnSuccessListener(aVoid -> Toast.makeText(AddItemActivity.this, "Item Information Saved", Toast.LENGTH_SHORT).show())
@@ -198,5 +208,35 @@ public class AddItemActivity extends AppCompatActivity {
             Log.d(TAG, e.toString());
         });
 
+    }
+
+    private String getFileExtension(Uri uri) {
+        ContentResolver cR = getContentResolver();
+        MimeTypeMap mime = MimeTypeMap.getSingleton();
+        return mime.getExtensionFromMimeType(cR.getType(uri));
+    }
+
+    private void uploadFile() {
+        if (imageUri != null) {
+            StorageReference fileReference = mStorageRef.child(System.currentTimeMillis() + "." + getFileExtension(imageUri));
+
+            fileReference.putFile(imageUri)
+                    .addOnSuccessListener(taskSnapshot -> {
+                        fileReference.getDownloadUrl().addOnSuccessListener(uri -> {
+                            imageUrl = uri.toString();
+                            Handler handler = new Handler();
+                            handler.postDelayed(() -> mProgressBar.setProgress(0), 5000);
+                            saveInventoryInfo();
+                            mProgressBar.setVisibility(View.GONE);
+                        });
+                    })
+                    .addOnFailureListener(e -> Toast.makeText(AddItemActivity.this, e.getMessage(), Toast.LENGTH_LONG).show())
+                    .addOnProgressListener(taskSnapshot -> {
+                        double progress = (100.0 * taskSnapshot.getBytesTransferred() / taskSnapshot.getTotalByteCount());
+                        mProgressBar.setProgress((int) progress);
+                    });
+        } else {
+            Toast.makeText(this, "No file selected", Toast.LENGTH_LONG).show();
+        }
     }
 }

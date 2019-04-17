@@ -42,6 +42,11 @@ public class InventoryAdapter extends RecyclerView.Adapter<InventoryAdapter.View
         return inventoryList.get(position);
     }
 
+    public void setInventoryList(ArrayList<Inventory> inventoryList){
+        this.inventoryList = inventoryList;
+        notifyDataSetChanged();
+    }
+
     @Override
     public int getItemCount() {
         return inventoryList.size();
