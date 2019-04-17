@@ -2,7 +2,7 @@ package com.shiyunzhang.wetrade.DataClass;
 
 public class Inventory {
     private String name;
-    private int picId;
+    private String imageUrl;
     private double price;
     private String category;
     private String condition;
@@ -10,8 +10,8 @@ public class Inventory {
     private int quantity;
     private long timestamp;
 
-    public Inventory(int picId, String category, String name, String description, double price, int quantity, String condition, long timestamp) {
-        this.picId = picId;
+    public Inventory(String imageUrl, String category, String name, String description, double price, int quantity, String condition, long timestamp) {
+        this.imageUrl = imageUrl;
         this.category = category;
         this.name = name;
         this.description = description;
@@ -21,29 +21,6 @@ public class Inventory {
         this.timestamp = timestamp;
     }
 
-    public long getTimestamp() {
-        return timestamp;
-    }
-
-    public void setTimestamp(long timestamp) {
-        this.timestamp = timestamp;
-    }
-
-    public void setPicId(int picId) {
-        this.picId = picId;
-    }
-
-    public int getPicId() {
-        return picId;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
     public String getName() {
         return name;
     }
@@ -52,8 +29,12 @@ public class Inventory {
         this.name = name;
     }
 
-    public void setImgId(int picId) {
-        this.picId = picId;
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 
     public double getPrice() {
@@ -80,11 +61,27 @@ public class Inventory {
         this.condition = condition;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
     public int getQuantity() {
         return quantity;
     }
 
     public void setQuantity(int quantity) {
         this.quantity = quantity;
+    }
+
+    public long getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(long timestamp) {
+        this.timestamp = timestamp;
     }
 }

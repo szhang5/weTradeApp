@@ -150,7 +150,7 @@ public class AddItemActivity extends AppCompatActivity {
         }
 
         currentTime = System.currentTimeMillis();
-        Inventory inventoryInfo = new Inventory(0, category, name, description, price, quantity, condition, currentTime);
+        Inventory inventoryInfo = new Inventory("", category, name, description, price, quantity, condition, currentTime);
 
         inventoryRef.document(uid).collection("Items").document().set(inventoryInfo)
         .addOnSuccessListener(aVoid -> Toast.makeText(AddItemActivity.this, "Item Information Saved", Toast.LENGTH_SHORT).show())

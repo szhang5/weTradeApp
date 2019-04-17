@@ -1,6 +1,7 @@
 package com.shiyunzhang.wetrade;
 
 import android.content.Context;
+import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,7 +31,7 @@ public class InventoryAdapter extends RecyclerView.Adapter<InventoryAdapter.View
     public void onBindViewHolder(ViewHolder holder, int position) {
         final Inventory inventory = getItem(position);
         holder.inventoryName.setText(inventory.getName());
-        holder.inventoryPic.setImageResource(inventory.getPicId());
+        holder.inventoryPic.setImageURI(Uri.parse(inventory.getImageUrl()));
         holder.inventoryPrice.setText(Double.toString(inventory.getPrice()));
         holder.inventoryCategory.setText(inventory.getCategory());
         holder.inventoryCondition.setText(inventory.getCondition());

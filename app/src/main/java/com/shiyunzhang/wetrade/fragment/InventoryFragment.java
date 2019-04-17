@@ -60,9 +60,9 @@ public class InventoryFragment extends Fragment {
 
     private void getInventory(){
         inventoryArrayList = new ArrayList<>();
-        inventoryArrayList.add(new Inventory(android.R.drawable.ic_dialog_email,"Tickets", "Concert tickets", "Nice concert ever!", 10,2, "New", System.currentTimeMillis()));
-        inventoryArrayList.add(new Inventory(android.R.drawable.ic_dialog_email, "Books","Calculus Textbook","Nice Book ever!", 20, 1, "New", System.currentTimeMillis()));
-        inventoryArrayList.add(new Inventory(android.R.drawable.ic_dialog_email,"ClassNotes","Organic Chemistry Notes", "Nice Note ever!", 20, 2,"Used", System.currentTimeMillis() ));
+        inventoryArrayList.add(new Inventory("","Tickets", "Concert tickets", "Nice concert ever!", 10,2, "New", System.currentTimeMillis()));
+        inventoryArrayList.add(new Inventory("", "Books","Calculus Textbook","Nice Book ever!", 20, 1, "New", System.currentTimeMillis()));
+        inventoryArrayList.add(new Inventory("","ClassNotes","Organic Chemistry Notes", "Nice Note ever!", 20, 2,"Used", System.currentTimeMillis() ));
     }
 
 }
