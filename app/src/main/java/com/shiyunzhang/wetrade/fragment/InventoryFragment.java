@@ -58,8 +58,6 @@ public class InventoryFragment extends Fragment {
         FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
         uid = firebaseUser.getUid();
         inventoryRef = db.collection("Inventory").document(uid).collection("Items");
-        Log.d("jdkajfladjfalkf", uid);
-        Log.d("jdkajfladjfalkf", inventoryRef.toString());
         init(view);
         getInventory();
         return view;
@@ -83,19 +81,13 @@ public class InventoryFragment extends Fragment {
     }
 
     private void getInventory(){
-        Log.d("jdkajfladjfalkf", "in get inventory");
-//        inventoryArrayList.add(new Inventory("","Tickets", "Concert tickets", "Nice concert ever!", 10,2, "New", System.currentTimeMillis()));
-//        inventoryArrayList.add(new Inventory("", "Books","Calculus Textbook","Nice Book ever!", 20, 1, "New", System.currentTimeMillis()));
-//        inventoryArrayList.add(new Inventory("","ClassNotes","Organic Chemistry Notes", "Nice Note ever!", 20, 2,"Used", System.currentTimeMillis() ));
         inventoryRef.get()
             .addOnSuccessListener(queryDocumentSnapshots -> {
                 for(QueryDocumentSnapshot queryDocumentSnapshot : queryDocumentSnapshots){
                     Inventory inventory = queryDocumentSnapshot.toObject(Inventory.class);
-                    Log.d("jdkajfladjfalkf", inventory.toString());
                     inventoryArrayList.add(inventory);
                     adapter.notifyDataSetChanged();
                 }
             })
-            .addOnFailureListener(e-> Log.d("jdkajfladjfalkf", e.toString()));
     }
 }
