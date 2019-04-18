@@ -15,7 +15,7 @@
             android:id="@+id/enter_item_info"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Enter item information:"
+            android:text="Enter item info:"
             android:textColor="@color/black"
             android:fontFamily="@font/lato_bold"
             android:layout_marginBottom="20dp"
@@ -61,7 +61,7 @@
             android:layout_below="@+id/item_description"
             android:layout_margin="10dp"
             android:maxLines="1"
-            android:inputType="number"
+            android:inputType="numberDecimal"
             android:hint="Price" />
 
         <EditText
@@ -96,15 +96,38 @@
             android:background="@drawable/dropdown_style" />
 
         <Button
+            android:id="@+id/upload_img_button"
+            style="@style/ButtonBlueTransparentStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/item_condition"
+            android:text="Choose Item Image"/>
+
+        <ImageView
+            android:id="@+id/item_image"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_below="@id/upload_img_button"/>
+
+        <ProgressBar
+            android:id="@+id/inventory_progressbar"
+            android:layout_width="match_parent"
+            android:layout_centerHorizontal="true"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/item_image"
+            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+            android:visibility="gone"/>
+
+        <Button
             android:id="@+id/save_button"
             style="@style/ButtonDefaultBlueStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:layout_below="@+id/item_condition"
+            android:layout_below="@+id/inventory_progressbar"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="40dp"
-            android:text="Save" />
+            android:text="Submit" />
 
     </RelativeLayout>
 
