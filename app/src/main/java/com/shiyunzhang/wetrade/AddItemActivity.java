@@ -130,6 +130,16 @@ public class AddItemActivity extends AppCompatActivity {
     }
 
 
+    public void clearAllInfo(){
+        itemCategory.setText("");
+        itemName.setText("");
+        itemDescription.setText("");
+        itemPrice.setText("");
+        itemQuantity.setText("");
+        itemCondition.setSelection(0);
+        itemImg.setImageURI(null);
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -202,7 +212,10 @@ public class AddItemActivity extends AppCompatActivity {
         Inventory inventoryInfo = new Inventory(imageUrl, category, name, description, price, quantity, condition, currentTime);
 
         inventoryRef.document(uid).collection("Items").document().set(inventoryInfo)
-        .addOnSuccessListener(aVoid -> Toast.makeText(AddItemActivity.this, "Item Information Saved", Toast.LENGTH_SHORT).show())
+        .addOnSuccessListener(aVoid -> {
+            Toast.makeText(AddItemActivity.this, "Item Information Saved", Toast.LENGTH_SHORT).show();
+            clearAllInfo();
+        })
         .addOnFailureListener(e -> {
             Toast.makeText(AddItemActivity.this, "Error!", Toast.LENGTH_LONG).show();
             Log.d(TAG, e.toString());

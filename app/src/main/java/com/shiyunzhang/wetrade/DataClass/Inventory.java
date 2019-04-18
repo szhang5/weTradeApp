@@ -10,6 +10,8 @@ public class Inventory {
     private int quantity;
     private long timestamp;
 
+    public Inventory(){}
+
     public Inventory(String imageUrl, String category, String name, String description, double price, int quantity, String condition, long timestamp) {
         this.imageUrl = imageUrl;
         this.category = category;
@@ -83,5 +85,12 @@ public class Inventory {
 
     public void setTimestamp(long timestamp) {
         this.timestamp = timestamp;
+    }
+
+    @Override
+    public String toString() {
+        return "categore: " + category + ", name: " + name + ", description: " + description
+                + ", price: " + price + ", quantity: " + quantity + ", condition: " + condition
+                + ", imageurl: " + imageUrl;
     }
 }

@@ -7,13 +7,21 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.shiyunzhang.wetrade.AddItemActivity;
+import com.shiyunzhang.wetrade.Authentication.LoginActivity;
 import com.shiyunzhang.wetrade.DataClass.Inventory;
+import com.shiyunzhang.wetrade.EditProfileActivity;
 import com.shiyunzhang.wetrade.InventoryAdapter;
 import com.shiyunzhang.wetrade.R;
 
@@ -21,9 +29,15 @@ import java.util.ArrayList;
 
 
 public class InventoryFragment extends Fragment {
-    Button addItemButton;
-    ArrayList<Inventory> inventoryArrayList;
-    RecyclerView recyclerView;
+    private String TAG = "InventoryFragment";
+    private Button addItemButton;
+    private ArrayList<Inventory> inventoryArrayList;
+    private RecyclerView recyclerView;
+    private FirebaseAuth firebaseAuth;
+    private String uid;
+    private  InventoryAdapter adapter;
+    private FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private CollectionReference inventoryRef;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -35,11 +49,19 @@ public class InventoryFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view =  inflater.inflate(R.layout.fragment_inventory, container, false);
+        firebaseAuth = FirebaseAuth.getInstance();
+
+        if (firebaseAuth.getCurrentUser() == null) {
+            startActivity(new Intent(getActivity(), LoginActivity.class));
+        }
+
+        FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
+        uid = firebaseUser.getUid();
+        inventoryRef = db.collection("Inventory").document(uid).collection("Items");
+        Log.d("jdkajfladjfalkf", uid);
+        Log.d("jdkajfladjfalkf", inventoryRef.toString());
         init(view);
         getInventory();
-        InventoryAdapter adapter = new InventoryAdapter(getContext(), inventoryArrayList);
-        recyclerView.setAdapter(adapter);
-        adapter.notifyDataSetChanged();
         return view;
     }
 
@@ -50,19 +72,30 @@ public class InventoryFragment extends Fragment {
     }
 
     private void init(View view) {
+        inventoryArrayList = new ArrayList<>();
         addItemButton = view.findViewById(R.id.add_item_button);
         recyclerView = view.findViewById(R.id.inventory_recycle_view);
-
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-
+        adapter = new InventoryAdapter(getContext(), inventoryArrayList);
+        recyclerView.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
     }
 
     private void getInventory(){
-        inventoryArrayList = new ArrayList<>();
-        inventoryArrayList.add(new Inventory("","Tickets", "Concert tickets", "Nice concert ever!", 10,2, "New", System.currentTimeMillis()));
-        inventoryArrayList.add(new Inventory("", "Books","Calculus Textbook","Nice Book ever!", 20, 1, "New", System.currentTimeMillis()));
-        inventoryArrayList.add(new Inventory("","ClassNotes","Organic Chemistry Notes", "Nice Note ever!", 20, 2,"Used", System.currentTimeMillis() ));
+        Log.d("jdkajfladjfalkf", "in get inventory");
+//        inventoryArrayList.add(new Inventory("","Tickets", "Concert tickets", "Nice concert ever!", 10,2, "New", System.currentTimeMillis()));
+//        inventoryArrayList.add(new Inventory("", "Books","Calculus Textbook","Nice Book ever!", 20, 1, "New", System.currentTimeMillis()));
+//        inventoryArrayList.add(new Inventory("","ClassNotes","Organic Chemistry Notes", "Nice Note ever!", 20, 2,"Used", System.currentTimeMillis() ));
+        inventoryRef.get()
+            .addOnSuccessListener(queryDocumentSnapshots -> {
+                for(QueryDocumentSnapshot queryDocumentSnapshot : queryDocumentSnapshots){
+                    Inventory inventory = queryDocumentSnapshot.toObject(Inventory.class);
+                    Log.d("jdkajfladjfalkf", inventory.toString());
+                    inventoryArrayList.add(inventory);
+                    adapter.notifyDataSetChanged();
+                }
+            })
+            .addOnFailureListener(e-> Log.d("jdkajfladjfalkf", e.toString()));
     }
-
 }

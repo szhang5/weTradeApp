@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.shiyunzhang.wetrade.DataClass.Inventory;
 
 import java.util.ArrayList;
@@ -31,11 +32,12 @@ public class InventoryAdapter extends RecyclerView.Adapter<InventoryAdapter.View
     public void onBindViewHolder(ViewHolder holder, int position) {
         final Inventory inventory = getItem(position);
         holder.inventoryName.setText(inventory.getName());
-        holder.inventoryPic.setImageURI(Uri.parse(inventory.getImageUrl()));
-        holder.inventoryPrice.setText(Double.toString(inventory.getPrice()));
-        holder.inventoryCategory.setText(inventory.getCategory());
+        Glide.with(holder.itemView).load(inventory.getImageUrl()).into(holder.inventoryPic);
+        holder.inventoryPrice.setText("$" + inventory.getPrice());
         holder.inventoryCondition.setText(inventory.getCondition());
-        holder.inventoryQuantity.setText(Integer.toString(inventory.getQuantity()));
+        holder.inventoryDesciption.setText(inventory.getDescription());
+        holder.inventoryCategory.setText("Category: " + inventory.getCategory());
+        holder.inventoryQuantity.setText("Quantities: " + inventory.getQuantity());
     }
 
     public Inventory getItem(int position){
@@ -47,6 +49,11 @@ public class InventoryAdapter extends RecyclerView.Adapter<InventoryAdapter.View
         notifyDataSetChanged();
     }
 
+    public void addInventory(Inventory inventory){
+        inventoryList.add(inventory);
+        notifyDataSetChanged();
+    }
+
     @Override
     public int getItemCount() {
         return inventoryList.size();
@@ -55,9 +62,10 @@ public class InventoryAdapter extends RecyclerView.Adapter<InventoryAdapter.View
     public class ViewHolder extends RecyclerView.ViewHolder {
         public ImageView inventoryPic;
         public TextView inventoryName;
+        public TextView inventoryDesciption;
         public TextView inventoryPrice;
-        public TextView inventoryCategory;
         public TextView inventoryCondition;
+        public TextView inventoryCategory;
         public TextView inventoryQuantity;
         public RelativeLayout relativeLayout;
 
@@ -65,9 +73,10 @@ public class InventoryAdapter extends RecyclerView.Adapter<InventoryAdapter.View
             super(itemView);
             this.inventoryPic = itemView.findViewById(R.id.inventory_image);
             this.inventoryName = itemView.findViewById(R.id.inventory_name);
+            this.inventoryDesciption = itemView.findViewById(R.id.inventory_description);
             this.inventoryPrice = itemView.findViewById(R.id.inventory_price);
-            this.inventoryCategory = itemView.findViewById(R.id.inventory_category);
             this.inventoryCondition = itemView.findViewById(R.id.inventory_condition);
+            this.inventoryCategory = itemView.findViewById(R.id.inventory_category);
             this.inventoryQuantity = itemView.findViewById(R.id.inventory_quantity);
             relativeLayout = itemView.findViewById(R.id.relativeLayout);
         }
