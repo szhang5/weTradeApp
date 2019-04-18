@@ -88,6 +88,6 @@ public class InventoryFragment extends Fragment {
                     inventoryArrayList.add(inventory);
                     adapter.notifyDataSetChanged();
                 }
-            })
+            });
     }
 }
