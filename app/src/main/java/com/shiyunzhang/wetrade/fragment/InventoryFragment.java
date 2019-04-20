@@ -61,7 +61,6 @@ public class InventoryFragment extends Fragment {
         uid = firebaseUser.getUid();
         inventoryRef = db.collection("Inventory").document(uid).collection("Items");
         init(view);
-        getInventory();
         return view;
     }
 
@@ -69,6 +68,14 @@ public class InventoryFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         addItemButton.setOnClickListener( v-> startActivity(new Intent(getContext(), AddItemActivity.class)));
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        inventoryArrayList.clear();
+        adapter.notifyDataSetChanged();
+        getInventory();
     }
 
     private void init(View view) {
@@ -85,7 +92,6 @@ public class InventoryFragment extends Fragment {
             startActivity(intent);
         });
         recyclerView.setAdapter(adapter);
-        adapter.notifyDataSetChanged();
     }
 
     private void getInventory(){

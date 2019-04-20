@@ -42,7 +42,6 @@ public class ProfileFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
         init(view);
-        getUserData();
         return view;
     }
 
@@ -51,6 +50,12 @@ public class ProfileFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
         editProfileButton.setOnClickListener(v -> startActivity(new Intent(getContext(), EditProfileActivity.class)));
         logout.setOnClickListener(v -> logOut());
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        getUserData();
     }
 
     private void init(View view) {
