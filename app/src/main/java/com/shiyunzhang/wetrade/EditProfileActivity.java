@@ -102,10 +102,8 @@ public class EditProfileActivity extends AppCompatActivity {
 
 
     private void setUpActionBar(){
-        ActionBar actionBar;
-        actionBar = getSupportActionBar();
-        actionBar.setCustomView(R.layout.action_bar_style);
-        actionBar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.green)));
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.black)));
     }
 
     @Override
@@ -255,7 +253,7 @@ public class EditProfileActivity extends AppCompatActivity {
         if(zipCode!= 0) editZipcode.setText(Long.toString(zipCode));
         if(gender != null && gender.equals("Male")) editGender.setChecked(false);
         else editGender.setChecked(true);
-        if (profileImage != null) Glide.with(this).load(userInfo.getImageUrl()).into(profileImage);
+        if (profileImageUrl != null) Glide.with(this).load(userInfo.getImageUrl()).into(profileImage);
     }
 
     @Override

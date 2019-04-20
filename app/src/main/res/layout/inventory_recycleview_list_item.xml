@@ -3,11 +3,22 @@
     android:id="@+id/relativeLayout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
+
     <ImageView
         android:id="@+id/inventory_image"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
         android:scaleType="fitXY"/>
+
+    <TextView
+        android:id="@+id/inventory_category"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/inventory_image"
+        android:background="#9903a9f4"
+        android:textColor="@color/white"
+        android:gravity="center"
+        android:text="Home Decor"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -35,15 +46,6 @@
             android:textColor="@color/black"
             android:textSize="16sp" />
 
-        <TextView
-            android:id="@+id/inventory_condition"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Condition"
-            android:fontFamily="@font/lato_regular"
-            android:layout_marginBottom="5dp"
-            android:textSize="14sp" />
-
 
         <TextView
             android:id="@+id/inventory_price"
@@ -54,21 +56,33 @@
             android:fontFamily="@font/lato_bold"
             android:textSize="18sp"/>
 
-        <TextView
-            android:id="@+id/inventory_category"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Category"
-            android:fontFamily="@font/lato_regular"
-            android:textSize="14sp" />
+            android:orientation="horizontal"
+            android:layout_marginBottom="5dp">
 
-        <TextView
-            android:id="@+id/inventory_quantity"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Quantity"
-            android:fontFamily="@font/lato_regular"
-            android:textSize="14sp" />
+            <TextView
+                android:id="@+id/inventory_condition"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="Condition"
+                android:layout_weight="1"
+                android:fontFamily="@font/lato_regular"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/inventory_quantity"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="Quantity"
+                android:layout_weight="1"
+                android:fontFamily="@font/lato_regular"
+                android:textSize="14sp" />
+
+        </LinearLayout>
+
+
 
 
     </LinearLayout>

@@ -9,6 +9,7 @@ public class Inventory {
     private String description;
     private int quantity;
     private long timestamp;
+    private String itemID;
 
     public Inventory(){}
 
@@ -37,6 +38,14 @@ public class Inventory {
 
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
+    }
+
+    public String getItemID() {
+        return itemID;
+    }
+
+    public void setItemID(String itemID) {
+        this.itemID = itemID;
     }
 
     public double getPrice() {

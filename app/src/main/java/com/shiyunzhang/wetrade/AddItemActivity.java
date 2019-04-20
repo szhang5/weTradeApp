@@ -166,10 +166,8 @@ public class AddItemActivity extends AppCompatActivity {
     }
 
     private void setUpActionBar(){
-        ActionBar actionBar;
-        actionBar = getSupportActionBar();
-        actionBar.setCustomView(R.layout.action_bar_style);
-        actionBar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.blue)));
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.black)));
     }
 
     private void setUpConditionSpinner(){

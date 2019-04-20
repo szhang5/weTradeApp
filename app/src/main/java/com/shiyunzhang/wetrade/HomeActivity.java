@@ -1,18 +1,12 @@
 package com.shiyunzhang.wetrade;
 
-import android.content.res.ColorStateList;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
+
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.AppCompatTextView;
-import android.view.MenuItem;
-import android.view.View;
 
 import com.shiyunzhang.wetrade.fragment.FavoriteFragment;
 import com.shiyunzhang.wetrade.fragment.HomeFragment;
@@ -31,9 +25,9 @@ public class HomeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         actionBar = getSupportActionBar();
-        actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
-        actionBar.setCustomView(R.layout.action_bar_style);
-        actionBar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.white)));
+//        actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+//        actionBar.setCustomView(R.layout.action_bar_style);
+//        actionBar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.white)));
         actionBar.hide();
 
         navigation = findViewById(R.id.navigation);
