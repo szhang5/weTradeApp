@@ -86,12 +86,27 @@
             android:padding="10dp"
             android:visibility="gone">
 
-            <ImageView
-                android:id="@+id/item_detail_image_edit"
+            <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="250dp"
-                android:contentDescription="Item_img"
-                android:scaleType="centerCrop" />
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/item_detail_image_edit"
+                    android:layout_width="match_parent"
+                    android:layout_height="250dp"
+                    android:contentDescription="Item_img"
+                    android:scaleType="centerCrop" />
+
+                <Button
+                    android:id="@+id/change_image"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_margin="20dp"
+                    android:background="#99FFFFFF"
+                    android:text="Change Image" />
+
+            </FrameLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"

@@ -1,9 +1,13 @@
 package com.shiyunzhang.wetrade;
 
+import android.app.AlertDialog;
+import android.content.ContentResolver;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
+import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -11,6 +15,7 @@ import android.support.v7.widget.AppCompatSpinner;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.webkit.MimeTypeMap;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -21,12 +26,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.SetOptions;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.shiyunzhang.wetrade.DataClass.Inventory;
+
+import java.io.IOException;
 
 
 public class DetailInventory extends AppCompatActivity {
@@ -43,6 +50,9 @@ public class DetailInventory extends AppCompatActivity {
     private int quantity;
     private Button editButton;
     private ArrayAdapter<String> conditionAdapter;
+    private int PICK_IMAGE_REQUEST = 1;
+    private Uri imageUri;
+    private StorageReference mStorageRef = FirebaseStorage.getInstance().getReference("InventoryImage");
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -94,19 +104,10 @@ public class DetailInventory extends AppCompatActivity {
             editButton.setVisibility(View.GONE);
         });
 
-        findViewById(R.id.delete_item).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
+        findViewById(R.id.delete_item).setOnClickListener(v -> setUpAlertDialog());
 
         findViewById(R.id.save_button).setOnClickListener(v -> {
-            updateItem();
-            itemDisplay.setVisibility(View.VISIBLE);
-            itemEdit.setVisibility(View.GONE);
-            buttonGroup.setVisibility(View.GONE);
-            editButton.setVisibility(View.VISIBLE);
+            uploadFile();
         });
 
         findViewById(R.id.cancel_button).setOnClickListener(v -> {
@@ -115,6 +116,73 @@ public class DetailInventory extends AppCompatActivity {
             buttonGroup.setVisibility(View.GONE);
             editButton.setVisibility(View.VISIBLE);
         });
+
+        findViewById(R.id.change_image).setOnClickListener(v -> openFileChooser());
+    }
+
+    private void openFileChooser() {
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(intent, PICK_IMAGE_REQUEST);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK
+                && data != null && data.getData() != null) {
+            imageUri = data.getData();
+            try {
+                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), imageUri);
+                itemImageEdit.setImageBitmap(bitmap);
+            }
+            catch (IOException e)
+            {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private String getFileExtension(Uri uri) {
+        ContentResolver cR = getContentResolver();
+        MimeTypeMap mime = MimeTypeMap.getSingleton();
+        return mime.getExtensionFromMimeType(cR.getType(uri));
+    }
+
+    private void uploadFile() {
+        if (imageUri != null) {
+            StorageReference fileReference = mStorageRef.child(System.currentTimeMillis() + "." + getFileExtension(imageUri));
+
+            fileReference.putFile(imageUri)
+                    .addOnSuccessListener(taskSnapshot -> {
+                        fileReference.getDownloadUrl().addOnSuccessListener(uri -> {
+                            imageUrl = uri.toString();
+                            updateItem();
+                        });
+                    })
+                    .addOnFailureListener(e -> Toast.makeText(DetailInventory.this, e.getMessage(), Toast.LENGTH_LONG).show());
+
+        } else {
+            updateItem();
+        }
+    }
+
+    private void setUpAlertDialog(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(DetailInventory.this);
+        builder.setMessage("Delete item - " + name);
+        builder.setTitle("Please Confirm?");
+        builder.setPositiveButton("Confirm", (dialog, which) -> {
+            deleteItem();
+            dialog.dismiss();
+        });
+        builder.setNegativeButton("Cancel", (dialog, which) -> dialog.dismiss());
+        builder.create().show();
+    }
+
+    private void deleteItem(){
+        itemRef.delete()
+            .addOnSuccessListener(aVoid -> finish());
     }
 
     private void setUpConditionSpinner(){
@@ -179,27 +247,30 @@ public class DetailInventory extends AppCompatActivity {
     }
 
     public void updateItem(){
-        if(isValidInput()){
+        if(isValidInput()) {
             name = itemNameEdit.getText().toString();
             desc = itemDescEdit.getText().toString();
             price = Double.parseDouble(itemPriceEdit.getText().toString());
             category = itemCategoryEdit.getText().toString();
             quantity = Integer.parseInt(itemQuantityEdit.getText().toString());
+
+            long current = System.currentTimeMillis();
+            Inventory inventory = new Inventory(imageUrl, category, name, desc, price, quantity, condition, current);
+
+            itemRef.set(inventory, SetOptions.merge())
+                    .addOnSuccessListener(aVoid -> {
+                        Toast.makeText(DetailInventory.this, "Update Item Info Successfully!", Toast.LENGTH_SHORT).show();
+                        getItemInfo();
+                        itemDisplay.setVisibility(View.VISIBLE);
+                        itemEdit.setVisibility(View.GONE);
+                        buttonGroup.setVisibility(View.GONE);
+                        editButton.setVisibility(View.VISIBLE);
+                    })
+                    .addOnFailureListener(e -> {
+                        Toast.makeText(DetailInventory.this, "Error!", Toast.LENGTH_LONG).show();
+                        Log.d(TAG, e.toString());
+                    });
         }
-
-        long current = System.currentTimeMillis();
-        Inventory inventory = new Inventory(imageUrl, category, name, desc, price, quantity, condition, current);
-
-        itemRef.set(inventory, SetOptions.merge())
-            .addOnSuccessListener(aVoid -> {
-                Toast.makeText(DetailInventory.this, "Update Item Info Successfully!", Toast.LENGTH_SHORT).show();
-                getItemInfo();
-            })
-            .addOnFailureListener(e -> {
-                Toast.makeText(DetailInventory.this, "Error!", Toast.LENGTH_LONG).show();
-                Log.d(TAG, e.toString());
-            });
-
     }
 
     public boolean isValidInput(){
