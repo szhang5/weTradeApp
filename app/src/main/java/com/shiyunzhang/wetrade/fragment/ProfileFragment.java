@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -32,6 +33,7 @@ public class ProfileFragment extends Fragment {
     TextView userName, college, graduationDate, email, address;
     CircleImageView profileImg;
     Button editProfileButton, logout;
+    LinearLayout profileInfo, noProfileInfo;
     private String uid;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private CollectionReference userRef = db.collection("User");
@@ -40,7 +42,6 @@ public class ProfileFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
         init(view);
-        getUserData();
         return view;
     }
 
@@ -49,6 +50,12 @@ public class ProfileFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
         editProfileButton.setOnClickListener(v -> startActivity(new Intent(getContext(), EditProfileActivity.class)));
         logout.setOnClickListener(v -> logOut());
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        getUserData();
     }
 
     private void init(View view) {
@@ -66,6 +73,8 @@ public class ProfileFragment extends Fragment {
         address = view.findViewById(R.id.user_address_display);
         editProfileButton = view.findViewById(R.id.edit_profile);
         logout = view.findViewById(R.id.log_out_button);
+        profileInfo = view.findViewById(R.id.user_info_linear_layout);
+        noProfileInfo = view.findViewById(R.id.no_profile_linear_layout);
     }
 
     public void getUserData() {
@@ -74,6 +83,14 @@ public class ProfileFragment extends Fragment {
                 .addOnSuccessListener(queryDocumentSnapshots -> {
                     for (QueryDocumentSnapshot queryDocumentSnapshot : queryDocumentSnapshots) {
                         UserInfo userInfo = queryDocumentSnapshot.toObject(UserInfo.class);
+                        if(userInfo != null){
+                            profileInfo.setVisibility(View.VISIBLE);
+                            noProfileInfo.setVisibility(View.GONE);
+                        } else {
+                            noProfileInfo.setVisibility(View.VISIBLE);
+                            profileInfo.setVisibility(View.GONE);
+                            return;
+                        }
                         if (userInfo.getFirstName() != null && userInfo.getLastName() != null)
                             userName.setText(userInfo.getFirstName() + " " + userInfo.getLastName());
                         if (userInfo.getCollege() != null) college.setText(userInfo.getCollege());

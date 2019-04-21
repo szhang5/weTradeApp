@@ -56,12 +56,31 @@
     </FrameLayout>
 
     <LinearLayout
+        android:id="@+id/no_profile_linear_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/image_frame"
+        android:gravity="center">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="30sp"
+            android:text="Ooh! No profile yet! "
+            android:textColor="#d4d4d4"
+            android:fontFamily="@font/lato_regular"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/user_info_linear_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/image_frame"
         android:layout_margin="50dp"
         android:orientation="vertical"
-        android:outlineSpotShadowColor="@android:color/darker_gray">
+        android:outlineSpotShadowColor="@android:color/darker_gray"
+        android:visibility="gone">
 
         <TextView
             android:id="@+id/user_college_display"

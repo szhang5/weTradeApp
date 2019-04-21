@@ -1,7 +1,6 @@
 package com.shiyunzhang.wetrade;
 
 import android.content.Context;
-import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,10 +16,12 @@ import java.util.ArrayList;
 public class InventoryAdapter extends RecyclerView.Adapter<InventoryAdapter.ViewHolder>{
     private ArrayList<Inventory> inventoryList;
     private Context context;
+    private View.OnClickListener clickListener;
 
-    public InventoryAdapter(Context context, ArrayList<Inventory> inventoryList) {
+    public InventoryAdapter(Context context, ArrayList<Inventory> inventoryList, View.OnClickListener clickListener) {
         this.inventoryList = inventoryList;
         this.context = context;
+        this.clickListener = clickListener;
     }
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -34,25 +35,18 @@ public class InventoryAdapter extends RecyclerView.Adapter<InventoryAdapter.View
         holder.inventoryName.setText(inventory.getName());
         Glide.with(holder.itemView).load(inventory.getImageUrl()).into(holder.inventoryPic);
         holder.inventoryPrice.setText("$" + inventory.getPrice());
-        holder.inventoryCondition.setText(inventory.getCondition());
+        holder.inventoryCondition.setText("Condition: " + inventory.getCondition());
         holder.inventoryDesciption.setText(inventory.getDescription());
-        holder.inventoryCategory.setText("Category: " + inventory.getCategory());
+        holder.inventoryCategory.setText(inventory.getCategory());
         holder.inventoryQuantity.setText("Quantities: " + inventory.getQuantity());
+        holder.itemView.setOnClickListener(clickListener);
+        holder.itemView.setTag(position);
     }
 
     public Inventory getItem(int position){
         return inventoryList.get(position);
     }
 
-    public void setInventoryList(ArrayList<Inventory> inventoryList){
-        this.inventoryList = inventoryList;
-        notifyDataSetChanged();
-    }
-
-    public void addInventory(Inventory inventory){
-        inventoryList.add(inventory);
-        notifyDataSetChanged();
-    }
 
     @Override
     public int getItemCount() {

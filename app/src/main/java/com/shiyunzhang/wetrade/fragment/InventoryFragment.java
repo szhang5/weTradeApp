@@ -21,10 +21,12 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.shiyunzhang.wetrade.AddItemActivity;
 import com.shiyunzhang.wetrade.Authentication.LoginActivity;
 import com.shiyunzhang.wetrade.DataClass.Inventory;
+import com.shiyunzhang.wetrade.DetailInventory;
 import com.shiyunzhang.wetrade.EditProfileActivity;
 import com.shiyunzhang.wetrade.InventoryAdapter;
 import com.shiyunzhang.wetrade.R;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 
@@ -59,7 +61,6 @@ public class InventoryFragment extends Fragment {
         uid = firebaseUser.getUid();
         inventoryRef = db.collection("Inventory").document(uid).collection("Items");
         init(view);
-        getInventory();
         return view;
     }
 
@@ -69,15 +70,28 @@ public class InventoryFragment extends Fragment {
         addItemButton.setOnClickListener( v-> startActivity(new Intent(getContext(), AddItemActivity.class)));
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        inventoryArrayList.clear();
+        adapter.notifyDataSetChanged();
+        getInventory();
+    }
+
     private void init(View view) {
         inventoryArrayList = new ArrayList<>();
         addItemButton = view.findViewById(R.id.add_item_button);
         recyclerView = view.findViewById(R.id.inventory_recycle_view);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        adapter = new InventoryAdapter(getContext(), inventoryArrayList);
+        adapter = new InventoryAdapter(getContext(), inventoryArrayList, v -> {
+            int position = (int)v.getTag();
+            Intent intent = new Intent(getActivity(), DetailInventory.class);
+            intent.putExtra("UID", uid);
+            intent.putExtra("ID", inventoryArrayList.get(position).getItemID());
+            startActivity(intent);
+        });
         recyclerView.setAdapter(adapter);
-        adapter.notifyDataSetChanged();
     }
 
     private void getInventory(){
@@ -85,6 +99,7 @@ public class InventoryFragment extends Fragment {
             .addOnSuccessListener(queryDocumentSnapshots -> {
                 for(QueryDocumentSnapshot queryDocumentSnapshot : queryDocumentSnapshots){
                     Inventory inventory = queryDocumentSnapshot.toObject(Inventory.class);
+                    inventory.setItemID(queryDocumentSnapshot.getId());
                     inventoryArrayList.add(inventory);
                     adapter.notifyDataSetChanged();
                 }

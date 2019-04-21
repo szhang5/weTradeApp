@@ -16,6 +16,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.shiyunzhang.wetrade.HomeActivity;
 import com.shiyunzhang.wetrade.MainActivity;
 import com.shiyunzhang.wetrade.R;
 
@@ -36,6 +37,11 @@ public class RegisterActivity extends AppCompatActivity {
         progressDialog = new ProgressDialog(this);
         FirebaseApp.initializeApp(this);
         firebaseAuth = FirebaseAuth.getInstance();
+
+        if(firebaseAuth.getCurrentUser() != null){
+            finish();
+            startActivity(new Intent(RegisterActivity.this, HomeActivity.class));
+        }
 
         emailInput = findViewById(R.id.email_input_register);
         passwordInput = findViewById(R.id.password_input_register);
@@ -64,10 +70,12 @@ public class RegisterActivity extends AppCompatActivity {
                     progressDialog.dismiss();
                     if (task.isSuccessful()) {
                         // Sign in success, update UI with the signed-in user'SearchFragment information
-                        Toast.makeText(RegisterActivity.this, "createUserWithEmail:success.", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(RegisterActivity.this, "Register User With Email: success!!!.", Toast.LENGTH_SHORT).show();
+                        finish();
+                        startActivity(new Intent(this, HomeActivity.class));
                     } else {
                         // If sign in fails, display a message to the user.
-                        Toast.makeText(RegisterActivity.this, "Authentication failed.", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(RegisterActivity.this, "Register failed, please check your email again.", Toast.LENGTH_SHORT).show();
                     }
                 });
     }
