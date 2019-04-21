@@ -38,6 +38,8 @@ import com.shiyunzhang.wetrade.Authentication.LoginActivity;
 import com.shiyunzhang.wetrade.DataClass.Inventory;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 
 public class AddItemActivity extends AppCompatActivity {
@@ -207,6 +209,7 @@ public class AddItemActivity extends AppCompatActivity {
         }
 
         currentTime = System.currentTimeMillis();
+
         Inventory inventoryInfo = new Inventory(imageUrl, category, name, description, price, quantity, condition, currentTime);
 
         inventoryRef.document(uid).collection("Items").document().set(inventoryInfo)

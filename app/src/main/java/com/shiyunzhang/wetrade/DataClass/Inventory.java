@@ -1,5 +1,7 @@
 package com.shiyunzhang.wetrade.DataClass;
 
+import java.util.Map;
+
 public class Inventory {
     private String name;
     private String imageUrl;
@@ -10,6 +12,7 @@ public class Inventory {
     private int quantity;
     private long timestamp;
     private String itemID;
+    private UserInfo user;
 
     public Inventory(){}
 

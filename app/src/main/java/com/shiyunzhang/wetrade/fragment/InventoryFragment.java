@@ -37,7 +37,7 @@ public class InventoryFragment extends Fragment {
     private RecyclerView recyclerView;
     private FirebaseAuth firebaseAuth;
     private String uid;
-    private  InventoryAdapter adapter;
+    private InventoryAdapter adapter;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private CollectionReference inventoryRef;
     private TextView unsoldItem;
