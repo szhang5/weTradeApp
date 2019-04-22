@@ -2,6 +2,7 @@ package com.shiyunzhang.wetrade;
 
 import android.content.ContentResolver;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
@@ -30,12 +31,15 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.SetOptions;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.google.gson.Gson;
 import com.shiyunzhang.wetrade.Authentication.LoginActivity;
 import com.shiyunzhang.wetrade.DataClass.Inventory;
+import com.shiyunzhang.wetrade.DataClass.UserInfo;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -56,12 +60,13 @@ public class AddItemActivity extends AppCompatActivity {
     private int quantity;
     private long currentTime;
     private FirebaseAuth firebaseAuth;
-    private String uid;
+    private String uid, itemID;
     private ProgressBar mProgressBar;
-
+    private UserInfo userInfo;
     private StorageReference mStorageRef = FirebaseStorage.getInstance().getReference("InventoryImage");
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
-    private CollectionReference inventoryRef = db.collection("Inventory");
+//    private CollectionReference inventoryRef = db.collection("Inventory");
+    private DocumentReference inventoryRef = db.collection("Inventory").document();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -80,12 +85,21 @@ public class AddItemActivity extends AppCompatActivity {
         setTitle("Add an item");
         setUpActionBar();
         init();
+        getUserInfoFromPreference();
         setUpConditionSpinner();
         setUpButtonListener();
 
     }
 
+    private void getUserInfoFromPreference(){
+        SharedPreferences preferences = getSharedPreferences("PREFERENCE", MODE_PRIVATE);
+        String user = preferences.getString("USER", "");
+        Gson gson = new Gson();
+        userInfo = gson.fromJson(user, UserInfo.class);
+    }
+
     private void init() {
+        itemID = inventoryRef.getId();
         itemCategory = findViewById(R.id.item_category);
         itemName = findViewById(R.id.item_name);
         itemDescription = findViewById(R.id.item_description);
@@ -210,17 +224,17 @@ public class AddItemActivity extends AppCompatActivity {
 
         currentTime = System.currentTimeMillis();
 
-        Inventory inventoryInfo = new Inventory(imageUrl, category, name, description, price, quantity, condition, currentTime);
+        Inventory inventoryInfo = new Inventory(itemID, imageUrl, category, name, description, price, quantity, condition, currentTime, uid);
 
-        inventoryRef.document(uid).collection("Items").document().set(inventoryInfo)
-        .addOnSuccessListener(aVoid -> {
-            Toast.makeText(AddItemActivity.this, "Item Information Saved", Toast.LENGTH_SHORT).show();
-            clearAllInfo();
-        })
-        .addOnFailureListener(e -> {
-            Toast.makeText(AddItemActivity.this, "Error!", Toast.LENGTH_LONG).show();
-            Log.d(TAG, e.toString());
-        });
+        inventoryRef.set(inventoryInfo)
+            .addOnSuccessListener(aVoid -> {
+                Toast.makeText(AddItemActivity.this, "Item Information Saved", Toast.LENGTH_SHORT).show();
+                clearAllInfo();
+            })
+            .addOnFailureListener(e -> {
+                Toast.makeText(AddItemActivity.this, "Error!", Toast.LENGTH_LONG).show();
+                Log.d(TAG, e.toString());
+            });
 
     }
 
@@ -232,7 +246,7 @@ public class AddItemActivity extends AppCompatActivity {
 
     private void uploadFile() {
         if (imageUri != null) {
-            StorageReference fileReference = mStorageRef.child(System.currentTimeMillis() + "." + getFileExtension(imageUri));
+            StorageReference fileReference = mStorageRef.child(itemID + "." + getFileExtension(imageUri));
 
             fileReference.putFile(imageUri)
                     .addOnSuccessListener(taskSnapshot -> {

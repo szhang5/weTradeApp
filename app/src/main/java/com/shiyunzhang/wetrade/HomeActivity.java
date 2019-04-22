@@ -1,13 +1,25 @@
 package com.shiyunzhang.wetrade;
 
 
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.gson.Gson;
+import com.shiyunzhang.wetrade.Authentication.LoginActivity;
+import com.shiyunzhang.wetrade.DataClass.UserInfo;
 import com.shiyunzhang.wetrade.fragment.FavoriteFragment;
 import com.shiyunzhang.wetrade.fragment.HomeFragment;
 import com.shiyunzhang.wetrade.fragment.InventoryFragment;
@@ -15,27 +27,57 @@ import com.shiyunzhang.wetrade.fragment.ProfileFragment;
 import com.shiyunzhang.wetrade.fragment.SearchFragment;
 
 public class HomeActivity extends AppCompatActivity {
-
-    ActionBar actionBar;
-    BottomNavigationView navigation;
+    private String TAG = "HomeActivity";
+    private ActionBar actionBar;
+    private BottomNavigationView navigation;
+    private SharedPreferences sharedpreferences;
+    private FirebaseAuth firebaseAuth;
+    private String uid;
+    private FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private CollectionReference userRef = db.collection("User");
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        sharedpreferences = getSharedPreferences("PREFERENCE", Context.MODE_PRIVATE);
+        setUpActionBar();
+        setUpBottomNavigation();
 
+        firebaseAuth = FirebaseAuth.getInstance();
+        if (firebaseAuth.getCurrentUser() == null) {
+            startActivity(new Intent(this, LoginActivity.class));
+        }
+        FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
+        uid = firebaseUser.getUid();
+        getUserData();
+        loadFragment(new HomeFragment());
+    }
+
+    public void setUpActionBar(){
         actionBar = getSupportActionBar();
-//        actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
-//        actionBar.setCustomView(R.layout.action_bar_style);
-//        actionBar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.white)));
         actionBar.hide();
+    }
 
+    private void setUpBottomNavigation(){
         navigation = findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
-
         navigation.setSelectedItemId(R.id.navigation_home);
-        loadFragment(new HomeFragment());
+    }
 
+    public void getUserData() {
+        userRef.whereEqualTo("id", uid)
+                .get()
+                .addOnSuccessListener(queryDocumentSnapshots -> {
+                    for (QueryDocumentSnapshot queryDocumentSnapshot : queryDocumentSnapshots) {
+                        UserInfo userInfo = queryDocumentSnapshot.toObject(UserInfo.class);
+                        SharedPreferences.Editor editor = sharedpreferences.edit();
+                        Gson gson = new Gson();
+                        String user = gson.toJson(userInfo);
+                        editor.putString("USER", user).apply();
+                    }
+                })
+                .addOnFailureListener(e -> Log.d(TAG, e.toString()));
     }
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener

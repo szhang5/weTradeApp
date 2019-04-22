@@ -1,6 +1,7 @@
 package com.shiyunzhang.wetrade.fragment;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -19,6 +20,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.gson.Gson;
 import com.shiyunzhang.wetrade.Authentication.LoginActivity;
 import com.shiyunzhang.wetrade.DataClass.UserInfo;
 import com.shiyunzhang.wetrade.EditProfileActivity;
@@ -83,6 +85,11 @@ public class ProfileFragment extends Fragment {
                 .addOnSuccessListener(queryDocumentSnapshots -> {
                     for (QueryDocumentSnapshot queryDocumentSnapshot : queryDocumentSnapshots) {
                         UserInfo userInfo = queryDocumentSnapshot.toObject(UserInfo.class);
+                        SharedPreferences preference = getActivity().getSharedPreferences("PREFERENCE",
+                                getActivity().MODE_PRIVATE);
+                        Gson gson = new Gson();
+                        String user = gson.toJson(userInfo);
+                        preference.edit().putString("USER", user).apply();
                         if(userInfo != null){
                             profileInfo.setVisibility(View.VISIBLE);
                             noProfileInfo.setVisibility(View.GONE);

@@ -60,7 +60,8 @@ public class InventoryFragment extends Fragment {
 
         FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
         uid = firebaseUser.getUid();
-        inventoryRef = db.collection("Inventory").document(uid).collection("Items");
+//        inventoryRef = db.collection("Inventory").document(uid).collection("Items");
+        inventoryRef = db.collection("Inventory");
         init(view);
         return view;
     }
@@ -97,7 +98,7 @@ public class InventoryFragment extends Fragment {
     }
 
     private void getInventory(){
-        inventoryRef.get()
+        inventoryRef.whereEqualTo("userID", uid).get()
             .addOnSuccessListener(queryDocumentSnapshots -> {
                 for(QueryDocumentSnapshot queryDocumentSnapshot : queryDocumentSnapshots){
                     Inventory inventory = queryDocumentSnapshot.toObject(Inventory.class);
