@@ -2,7 +2,6 @@ package com.shiyunzhang.wetrade.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -11,18 +10,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
+
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
 import com.shiyunzhang.wetrade.Authentication.LoginActivity;
 import com.shiyunzhang.wetrade.DataClass.Inventory;
 import com.shiyunzhang.wetrade.R;
+import com.shiyunzhang.wetrade.RecentItemDetailActivity;
 import com.shiyunzhang.wetrade.RecentItemsAdapter;
 
 import java.util.ArrayList;
@@ -73,7 +71,12 @@ public class HomeFragment extends Fragment {
         recentItemsList = new ArrayList<>();
         recyclerView = view.findViewById(R.id.recent_items_recycle_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
-        adapter = new RecentItemsAdapter(getContext(), recentItemsList);
+        adapter = new RecentItemsAdapter(getContext(), recentItemsList, v -> {
+            int position = (int) v.getTag();
+            Intent intent = new Intent(getActivity(), RecentItemDetailActivity.class);
+            intent.putExtra("ID", recentItemsList.get(position).getItemID());
+            startActivity(intent);
+        });
         recyclerView.setAdapter(adapter);
         adapter.notifyDataSetChanged();
     }

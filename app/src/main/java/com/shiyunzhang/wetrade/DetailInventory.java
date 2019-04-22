@@ -80,7 +80,6 @@ public class DetailInventory extends AppCompatActivity {
         Intent intent = this.getIntent();
         String uid = intent.getStringExtra("UID");
         String documentId = intent.getStringExtra("ID");
-//        itemRef = db.collection("Inventory").document(uid).collection("Items").document(documentId);
         itemRef = db.collection("Inventory").document(documentId);
         itemImage = findViewById(R.id.item_detail_image);
         itemName = findViewById(R.id.item_detail_name);

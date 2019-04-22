@@ -17,11 +17,13 @@ public class RecentItemsAdapter extends RecyclerView.Adapter<RecentItemsAdapter.
 
     private ArrayList<Inventory> recentItemsList;
     private Context context;
+    private View.OnClickListener clickListener;
 
 
-    public RecentItemsAdapter(Context context, ArrayList<Inventory> recentItemsList){
+    public RecentItemsAdapter(Context context, ArrayList<Inventory> recentItemsList, View.OnClickListener clickListener){
         this.context = context;
         this.recentItemsList = recentItemsList;
+        this.clickListener = clickListener;
     }
 
     @NonNull
@@ -37,6 +39,8 @@ public class RecentItemsAdapter extends RecyclerView.Adapter<RecentItemsAdapter.
         Glide.with(viewHolder.itemView).load(inventory.getImageUrl()).into(viewHolder.recentItemImage);
         viewHolder.recentItemName.setText(inventory.getName());
         viewHolder.recentItemPrice.setText("$" + inventory.getPrice());
+        viewHolder.itemView.setOnClickListener(clickListener);
+        viewHolder.itemView.setTag(position);
     }
 
     public Inventory getItem(int position){
