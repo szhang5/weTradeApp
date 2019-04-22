@@ -17,6 +17,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.shiyunzhang.wetrade.Authentication.LoginActivity;
@@ -54,7 +55,7 @@ public class HomeFragment extends Fragment {
 
         FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
 
-        recentItemsRef = db.collection("Inventory").document(firebaseUser.getUid()).collection("Items");
+        recentItemsRef = db.collection("Inventory");
         init(view);
         return view;
     }
@@ -78,7 +79,9 @@ public class HomeFragment extends Fragment {
     }
 
     private void getRecentItems(){
-        recentItemsRef.get()
+        recentItemsRef.orderBy("timestamp", Query.Direction.DESCENDING)
+                .limit(10)
+                .get()
             .addOnSuccessListener(queryDocumentSnapshots -> {
                 for(QueryDocumentSnapshot queryDocumentSnapshot : queryDocumentSnapshots){
                     Inventory item = queryDocumentSnapshot.toObject(Inventory.class);

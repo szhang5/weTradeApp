@@ -256,6 +256,7 @@ public class AddItemActivity extends AppCompatActivity {
                             handler.postDelayed(() -> mProgressBar.setProgress(0), 5000);
                             saveInventoryInfo();
                             mProgressBar.setVisibility(View.GONE);
+                            finish();
                         });
                     })
                     .addOnFailureListener(e -> Toast.makeText(AddItemActivity.this, e.getMessage(), Toast.LENGTH_LONG).show())
