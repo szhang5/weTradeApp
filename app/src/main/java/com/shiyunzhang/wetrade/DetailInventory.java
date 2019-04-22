@@ -3,6 +3,7 @@ package com.shiyunzhang.wetrade;
 import android.app.AlertDialog;
 import android.content.ContentResolver;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
@@ -31,7 +32,9 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.SetOptions;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.google.gson.Gson;
 import com.shiyunzhang.wetrade.DataClass.Inventory;
+import com.shiyunzhang.wetrade.DataClass.UserInfo;
 
 import java.io.IOException;
 
@@ -45,13 +48,14 @@ public class DetailInventory extends AppCompatActivity {
     private EditText itemNameEdit, itemDescEdit, itemPriceEdit, itemCategoryEdit, itemQuantityEdit;
     private AppCompatSpinner itemConditionEdit;
     private LinearLayout itemDisplay, itemEdit, buttonGroup;
-    private String name, desc, condition, category, imageUrl;
+    private String name, desc, condition, category, imageUrl, itemID;
     private double price;
     private int quantity;
     private Button editButton;
     private ArrayAdapter<String> conditionAdapter;
     private int PICK_IMAGE_REQUEST = 1;
     private Uri imageUri;
+    private UserInfo userInfo;
     private StorageReference mStorageRef = FirebaseStorage.getInstance().getReference("InventoryImage");
 
     @Override
@@ -59,6 +63,7 @@ public class DetailInventory extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail_inventory);
         init();
+        getUserInfoFromPreference();
         setUpButtonListener();
         setUpConditionSpinner();
         setUpActionBar();
@@ -75,7 +80,7 @@ public class DetailInventory extends AppCompatActivity {
         Intent intent = this.getIntent();
         String uid = intent.getStringExtra("UID");
         String documentId = intent.getStringExtra("ID");
-        itemRef = db.collection("Inventory").document(uid).collection("Items").document(documentId);
+        itemRef = db.collection("Inventory").document(documentId);
         itemImage = findViewById(R.id.item_detail_image);
         itemName = findViewById(R.id.item_detail_name);
         itemDesc = findViewById(R.id.item_detail_description);
@@ -94,6 +99,13 @@ public class DetailInventory extends AppCompatActivity {
         itemQuantityEdit = findViewById(R.id.item_detail_quantity_edit);
         buttonGroup = findViewById(R.id.save_and_cancel_button);
         editButton = findViewById(R.id.edit_item);
+    }
+
+    private void getUserInfoFromPreference(){
+        SharedPreferences preferences = getSharedPreferences("PREFERENCE", MODE_PRIVATE);
+        String user = preferences.getString("USER", "");
+        Gson gson = new Gson();
+        userInfo = gson.fromJson(user, UserInfo.class);
     }
 
     public void setUpButtonListener(){
@@ -152,7 +164,7 @@ public class DetailInventory extends AppCompatActivity {
 
     private void uploadFile() {
         if (imageUri != null) {
-            StorageReference fileReference = mStorageRef.child(System.currentTimeMillis() + "." + getFileExtension(imageUri));
+            StorageReference fileReference = mStorageRef.child(itemID + "." + getFileExtension(imageUri));
 
             fileReference.putFile(imageUri)
                     .addOnSuccessListener(taskSnapshot -> {
@@ -242,6 +254,9 @@ public class DetailInventory extends AppCompatActivity {
                     itemQuantity.setText("Quantities: " + quantity);
                     itemQuantityEdit.setText("" + quantity);
                 }
+                if(item.getItemID() != null) {
+                    itemID = item.getItemID();
+                }
             })
             .addOnFailureListener(e -> Toast.makeText(DetailInventory.this, e.toString(), Toast.LENGTH_SHORT).show());
     }
@@ -255,7 +270,7 @@ public class DetailInventory extends AppCompatActivity {
             quantity = Integer.parseInt(itemQuantityEdit.getText().toString());
 
             long current = System.currentTimeMillis();
-            Inventory inventory = new Inventory(imageUrl, category, name, desc, price, quantity, condition, current);
+            Inventory inventory = new Inventory(itemID, imageUrl, category, name, desc, price, quantity, condition, current, userInfo.getId());
 
             itemRef.set(inventory, SetOptions.merge())
                     .addOnSuccessListener(aVoid -> {

@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -22,12 +23,11 @@ import com.shiyunzhang.wetrade.AddItemActivity;
 import com.shiyunzhang.wetrade.Authentication.LoginActivity;
 import com.shiyunzhang.wetrade.DataClass.Inventory;
 import com.shiyunzhang.wetrade.DetailInventory;
-import com.shiyunzhang.wetrade.EditProfileActivity;
 import com.shiyunzhang.wetrade.InventoryAdapter;
 import com.shiyunzhang.wetrade.R;
 
-import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.concurrent.atomic.AtomicInteger;
 
 
 public class InventoryFragment extends Fragment {
@@ -37,9 +37,10 @@ public class InventoryFragment extends Fragment {
     private RecyclerView recyclerView;
     private FirebaseAuth firebaseAuth;
     private String uid;
-    private  InventoryAdapter adapter;
+    private InventoryAdapter adapter;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private CollectionReference inventoryRef;
+    private TextView unsoldItem;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -59,7 +60,8 @@ public class InventoryFragment extends Fragment {
 
         FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
         uid = firebaseUser.getUid();
-        inventoryRef = db.collection("Inventory").document(uid).collection("Items");
+//        inventoryRef = db.collection("Inventory").document(uid).collection("Items");
+        inventoryRef = db.collection("Inventory");
         init(view);
         return view;
     }
@@ -80,6 +82,7 @@ public class InventoryFragment extends Fragment {
 
     private void init(View view) {
         inventoryArrayList = new ArrayList<>();
+        unsoldItem = view.findViewById(R.id.unsold_item);
         addItemButton = view.findViewById(R.id.add_item_button);
         recyclerView = view.findViewById(R.id.inventory_recycle_view);
         recyclerView.setHasFixedSize(true);
@@ -95,7 +98,7 @@ public class InventoryFragment extends Fragment {
     }
 
     private void getInventory(){
-        inventoryRef.get()
+        inventoryRef.whereEqualTo("userID", uid).get()
             .addOnSuccessListener(queryDocumentSnapshots -> {
                 for(QueryDocumentSnapshot queryDocumentSnapshot : queryDocumentSnapshots){
                     Inventory inventory = queryDocumentSnapshot.toObject(Inventory.class);
