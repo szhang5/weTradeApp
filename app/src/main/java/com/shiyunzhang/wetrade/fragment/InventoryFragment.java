@@ -34,13 +34,10 @@ public class InventoryFragment extends Fragment {
     private String TAG = "InventoryFragment";
     private Button addItemButton;
     private ArrayList<Inventory> inventoryArrayList;
-    private RecyclerView recyclerView;
-    private FirebaseAuth firebaseAuth;
     private String uid;
     private InventoryAdapter adapter;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private CollectionReference inventoryRef;
-    private TextView unsoldItem;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -52,7 +49,7 @@ public class InventoryFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view =  inflater.inflate(R.layout.fragment_inventory, container, false);
-        firebaseAuth = FirebaseAuth.getInstance();
+        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
 
         if (firebaseAuth.getCurrentUser() == null) {
             startActivity(new Intent(getActivity(), LoginActivity.class));
@@ -82,9 +79,8 @@ public class InventoryFragment extends Fragment {
 
     private void init(View view) {
         inventoryArrayList = new ArrayList<>();
-        unsoldItem = view.findViewById(R.id.unsold_item);
         addItemButton = view.findViewById(R.id.add_item_button);
-        recyclerView = view.findViewById(R.id.inventory_recycle_view);
+        RecyclerView recyclerView = view.findViewById(R.id.inventory_recycle_view);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         adapter = new InventoryAdapter(getContext(), inventoryArrayList, v -> {

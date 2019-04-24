@@ -29,9 +29,11 @@ import java.util.ArrayList;
 public class HomeFragment extends Fragment {
     private String TAG = "HomeFragment";
     private ArrayList<Inventory> recentItemsList;
-    private RecyclerView recyclerView;
+    private ArrayList<Inventory> homeDecorList;
+    private ArrayList<Inventory> kitchenList;
     private RecentItemsAdapter adapter;
-    private FirebaseAuth firebaseAuth;
+    private RecentItemsAdapter homeDecorAdapter;
+    private RecentItemsAdapter kitchenAdapter;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private CollectionReference recentItemsRef;
 
@@ -45,13 +47,11 @@ public class HomeFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
-        firebaseAuth = FirebaseAuth.getInstance();
+        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
 
         if (firebaseAuth.getCurrentUser() == null) {
             startActivity(new Intent(getActivity(), LoginActivity.class));
         }
-
-        FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
 
         recentItemsRef = db.collection("Inventory");
         init(view);
@@ -62,14 +62,19 @@ public class HomeFragment extends Fragment {
     public void onResume() {
         super.onResume();
         recentItemsList.clear();
+        homeDecorList.clear();
+        kitchenList.clear();
         adapter.notifyDataSetChanged();
+        homeDecorAdapter.notifyDataSetChanged();
+        kitchenAdapter.notifyDataSetChanged();
         getRecentItems();
-
+        getHomeDecorItems();
+        getKitchenItems();
     }
 
     private void init(View view){
         recentItemsList = new ArrayList<>();
-        recyclerView = view.findViewById(R.id.recent_items_recycle_view);
+        RecyclerView recyclerView = view.findViewById(R.id.recent_items_recycle_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
         adapter = new RecentItemsAdapter(getContext(), recentItemsList, v -> {
             int position = (int) v.getTag();
@@ -79,6 +84,30 @@ public class HomeFragment extends Fragment {
         });
         recyclerView.setAdapter(adapter);
         adapter.notifyDataSetChanged();
+
+        homeDecorList = new ArrayList<>();
+        RecyclerView homeDecorView = view.findViewById(R.id.category_home_decor_recycle_view);
+        homeDecorView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+        homeDecorAdapter = new RecentItemsAdapter(getContext(), homeDecorList, v->{
+            int position = (int) v.getTag();
+            Intent intent = new Intent(getActivity(), RecentItemDetailActivity.class);
+            intent.putExtra("ID", homeDecorList.get(position).getItemID());
+            startActivity(intent);
+        });
+        homeDecorView.setAdapter(homeDecorAdapter);
+        homeDecorAdapter.notifyDataSetChanged();
+
+        kitchenList = new ArrayList<>();
+        RecyclerView kitchenView = view.findViewById(R.id.category_kitchen_recycle_view);
+        kitchenView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+        kitchenAdapter = new RecentItemsAdapter(getContext(), kitchenList, v-> {
+            int position = (int) v.getTag();
+            Intent intent = new Intent(getActivity(), RecentItemDetailActivity.class);
+            intent.putExtra("ID", kitchenList.get(position).getItemID());
+            startActivity(intent);
+        });
+        kitchenView.setAdapter(kitchenAdapter);
+        kitchenAdapter.notifyDataSetChanged();
     }
 
     private void getRecentItems(){
@@ -93,5 +122,33 @@ public class HomeFragment extends Fragment {
                 }
             })
             .addOnFailureListener(e -> Log.d(TAG, e.toString()));
+    }
+
+    private void getHomeDecorItems(){
+        recentItemsRef.whereEqualTo("category", "Home Decor")
+                .limit(10)
+                .get()
+                .addOnSuccessListener(queryDocumentSnapshots -> {
+                    for(QueryDocumentSnapshot queryDocumentSnapshot : queryDocumentSnapshots){
+                        Inventory item = queryDocumentSnapshot.toObject(Inventory.class);
+                        homeDecorList.add(item);
+                        homeDecorAdapter.notifyDataSetChanged();
+                    }
+                })
+                .addOnFailureListener(e -> Log.d(TAG, e.toString()));
+    }
+
+    private void getKitchenItems(){
+        recentItemsRef.whereEqualTo("category", "Kitchen")
+                .limit(10)
+                .get()
+                .addOnSuccessListener(queryDocumentSnapshots -> {
+                    for(QueryDocumentSnapshot queryDocumentSnapshot : queryDocumentSnapshots){
+                        Inventory item = queryDocumentSnapshot.toObject(Inventory.class);
+                        kitchenList.add(item);
+                        kitchenAdapter.notifyDataSetChanged();
+                    }
+                })
+                .addOnFailureListener(e -> Log.d(TAG, e.toString()));
     }
 }
