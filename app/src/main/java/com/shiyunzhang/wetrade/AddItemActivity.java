@@ -26,6 +26,8 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.algolia.search.saas.Client;
+import com.algolia.search.saas.Index;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -37,12 +39,18 @@ import com.google.firebase.firestore.SetOptions;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import com.shiyunzhang.wetrade.Authentication.LoginActivity;
 import com.shiyunzhang.wetrade.DataClass.Inventory;
 import com.shiyunzhang.wetrade.DataClass.UserInfo;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 
@@ -228,8 +236,17 @@ public class AddItemActivity extends AppCompatActivity {
 
         inventoryRef.set(inventoryInfo)
             .addOnSuccessListener(aVoid -> {
+                Client client = new Client("KBCNT58640", "7bf45a6696368d5ebc1ff04e57e4e1e0");
+                Index index = client.getIndex("Inventory");
+                Gson gson = new Gson();
+                String json = gson.toJson(inventoryInfo);
+                try {
+                    index.addObjectAsync(new JSONObject(json), null);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
                 Toast.makeText(AddItemActivity.this, "Item Information Saved", Toast.LENGTH_SHORT).show();
-                clearAllInfo();
             })
             .addOnFailureListener(e -> {
                 Toast.makeText(AddItemActivity.this, "Error!", Toast.LENGTH_LONG).show();

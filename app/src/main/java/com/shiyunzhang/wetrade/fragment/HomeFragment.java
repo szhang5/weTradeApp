@@ -125,7 +125,7 @@ public class HomeFragment extends Fragment {
     }
 
     private void getHomeDecorItems(){
-        recentItemsRef.whereEqualTo("category", "Home Decor")
+        recentItemsRef.whereEqualTo("category", "Home and Kitchen Supplies")
                 .limit(10)
                 .get()
                 .addOnSuccessListener(queryDocumentSnapshots -> {
@@ -139,7 +139,7 @@ public class HomeFragment extends Fragment {
     }
 
     private void getKitchenItems(){
-        recentItemsRef.whereEqualTo("category", "Kitchen")
+        recentItemsRef.whereEqualTo("category", "Electronics")
                 .limit(10)
                 .get()
                 .addOnSuccessListener(queryDocumentSnapshots -> {
