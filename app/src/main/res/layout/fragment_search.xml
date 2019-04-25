@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="20dp"
-        android:background="@color/whiteGray"
-        android:orientation="vertical">
+        android:background="@color/whiteGray">
 
         <SearchView
             android:id="@+id/search_bar"
@@ -19,14 +19,20 @@
             android:queryBackground="@android:color/transparent"
             android:background="@color/white"/>
 
-        <ListView
-            android:id="@+id/search_result_list_view"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:visibility="gone"/>
-
     </LinearLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/search_result_list_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin ="10dp"/>
+
+    <!--<ListView-->
+        <!--android:id="@+id/search_result_list_view"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_marginTop="10dp"-->
+        <!--android:visibility="gone"/>-->
 
 
 </LinearLayout>
