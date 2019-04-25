@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -36,6 +37,7 @@ public class HomeFragment extends Fragment {
     private RecentItemsAdapter kitchenAdapter;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private CollectionReference recentItemsRef;
+    private ProgressBar recentProgressBar;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -73,6 +75,8 @@ public class HomeFragment extends Fragment {
     }
 
     private void init(View view){
+        recentProgressBar = view.findViewById(R.id.recent_progressbar);
+        recentProgressBar.setVisibility(View.VISIBLE);
         recentItemsList = new ArrayList<>();
         RecyclerView recyclerView = view.findViewById(R.id.recent_items_recycle_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
@@ -120,6 +124,7 @@ public class HomeFragment extends Fragment {
                     recentItemsList.add(item);
                     adapter.notifyDataSetChanged();
                 }
+                recentProgressBar.setVisibility(View.GONE);
             })
             .addOnFailureListener(e -> Log.d(TAG, e.toString()));
     }

@@ -9,7 +9,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.GridView;
 import android.widget.SearchView;
@@ -19,6 +18,7 @@ import com.algolia.search.saas.Client;
 import com.algolia.search.saas.Index;
 import com.algolia.search.saas.Query;
 import com.google.gson.Gson;
+import com.shiyunzhang.wetrade.CategoryItemsDisplayActivity;
 import com.shiyunzhang.wetrade.DataClass.Inventory;
 import com.shiyunzhang.wetrade.R;
 import com.shiyunzhang.wetrade.RecentItemDetailActivity;
@@ -77,11 +77,11 @@ public class SearchFragment extends Fragment {
             }
         };
         categoryGridView.setAdapter(categoryAdapter);
-        categoryGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(getActivity(), "position: " + position, Toast.LENGTH_SHORT).show();
-            }
+        categoryGridView.setOnItemClickListener((parent, view, position, id) -> {
+            String category = getResources().getStringArray(R.array.itemCategory)[position];
+            Intent intent = new Intent(getActivity(), CategoryItemsDisplayActivity.class);
+            intent.putExtra("CATEGORY", category);
+            startActivity(intent);
         });
     }
 
