@@ -41,4 +41,16 @@
         <item>Used - Good</item>
         <item>Used - Acceptable</item>
     </string-array>
+
+    <string-array name="itemCategory">
+        <item>Apps and Games</item>
+        <item>Beauty and Personal Care</item>
+        <item>Books</item>
+        <item>Home and Kitchen Supplies</item>
+        <item>Pet Supplies</item>
+        <item>Office Products</item>
+        <item>Clothing, Shoes and Jewelry</item>
+        <item>Electronics</item>
+    </string-array>
+
 </resources>
