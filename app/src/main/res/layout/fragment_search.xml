@@ -7,15 +7,24 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="20dp"
-        android:background="@color/whiteGray">
+        android:background="@color/whiteGray"
+        android:orientation="vertical">
 
         <SearchView
+            android:id="@+id/search_bar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:queryHint="Search"
             android:iconifiedByDefault="false"
             android:queryBackground="@android:color/transparent"
             android:background="@color/white"/>
+
+        <ListView
+            android:id="@+id/search_result_list_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:visibility="gone"/>
 
     </LinearLayout>
 
