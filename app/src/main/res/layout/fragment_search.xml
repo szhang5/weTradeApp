@@ -25,14 +25,16 @@
         android:id="@+id/search_result_list_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin ="10dp"/>
+        android:layout_margin ="10dp"
+        android:visibility="gone"/>
 
-    <!--<ListView-->
-        <!--android:id="@+id/search_result_list_view"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_marginTop="10dp"-->
-        <!--android:visibility="gone"/>-->
-
+    <GridView
+        android:id="@+id/category_grid_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="30dp"
+        android:verticalSpacing="20dp"
+        android:numColumns="2"/>
 
 </LinearLayout>
