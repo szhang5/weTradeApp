@@ -54,7 +54,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.shiyunzhang.wetrade.HomeActivity" />
         </activity>
-        <activity android:name=".RecentItemDetailActivity" >
+        <activity android:name=".RecentItemDetailActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.shiyunzhang.wetrade.HomeActivity" />
@@ -64,7 +64,11 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.shiyunzhang.wetrade.HomeActivity" />
         </activity>
-
+        <activity android:name=".CategoryItemsDisplayActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.shiyunzhang.wetrade.HomeActivity" />
+        </activity>
     </application>
 
 </manifest>
