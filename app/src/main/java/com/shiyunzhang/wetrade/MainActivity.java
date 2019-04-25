@@ -66,16 +66,16 @@ public class MainActivity extends AppCompatActivity {
         progressDialog.show();
 
         firebaseAuth.signInWithEmailAndPassword(email, password)
-                .addOnCompleteListener(this, task -> {
-                    progressDialog.dismiss();
-                    if (task.isSuccessful()) {
-                        finish();
-                        startActivity(new Intent(this, HomeActivity.class));
-                    } else {
-                        // If sign in fails, display a message to the user.
-                        Toast.makeText(this, "Authentication failed.", Toast.LENGTH_SHORT).show();
-                    }
-                });
+            .addOnCompleteListener(this, task -> {
+                progressDialog.dismiss();
+                if (task.isSuccessful()) {
+                    finish();
+                    startActivity(new Intent(this, HomeActivity.class));
+                } else {
+                    // If sign in fails, display a message to the user.
+                    Toast.makeText(this, "Authentication failed.", Toast.LENGTH_SHORT).show();
+                }
+            });
 
 
     }

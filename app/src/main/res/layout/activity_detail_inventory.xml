@@ -5,7 +5,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical">
 
 
@@ -20,7 +20,7 @@
                 android:id="@+id/item_detail_image"
                 android:layout_width="match_parent"
                 android:layout_height="250dp"
-                android:contentDescription="Item_img"
+                android:contentDescription="@string/item_img"
                 android:scaleType="centerCrop" />
 
             <TextView
@@ -94,7 +94,7 @@
                     android:id="@+id/item_detail_image_edit"
                     android:layout_width="match_parent"
                     android:layout_height="250dp"
-                    android:contentDescription="Item_img"
+                    android:contentDescription="@string/item_img"
                     android:scaleType="centerCrop" />
 
                 <Button
@@ -104,22 +104,22 @@
                     android:layout_gravity="center"
                     android:layout_margin="20dp"
                     android:background="#99FFFFFF"
-                    android:text="Change Image" />
+                    android:text="@string/change_image" />
 
             </FrameLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
                 android:layout_marginTop="10dp"
-                android:layout_marginBottom="5dp">
+                android:layout_marginBottom="5dp"
+                android:orientation="horizontal">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:text="Item Name: "
+                    android:text="@string/item_name"
                     android:textColor="@color/black"
                     android:textSize="18sp" />
 
@@ -139,7 +139,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Item Description: "
+                android:text="@string/item_description"
                 android:textColor="@color/black"
                 android:textSize="18sp" />
 
@@ -156,8 +156,8 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginBottom="5dp">
+                android:layout_marginBottom="5dp"
+                android:orientation="horizontal">
 
                 <LinearLayout
                     android:layout_width="0dp"
@@ -168,7 +168,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Item Condition: "
+                        android:text="@string/item_condition"
                         android:textColor="@color/black"
                         android:textSize="18sp" />
 
@@ -178,7 +178,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="10dp"
                         android:background="@drawable/dropdown_style"
-                        android:textSize="10sp" />
+                        android:textSize="12sp" />
                 </LinearLayout>
 
                 <RelativeLayout
@@ -190,7 +190,7 @@
                         android:id="@+id/item_price_label"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Item Price: "
+                        android:text="@string/item_price"
                         android:textColor="@color/black"
                         android:textSize="18sp" />
 
@@ -198,21 +198,21 @@
                         android:id="@+id/dollar_sign"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="$"
-                        android:textStyle="bold"
-                        android:layout_marginEnd="5dp"
-                        android:layout_marginTop="5dp"
                         android:layout_below="@+id/item_price_label"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginEnd="5dp"
+                        android:text="@string/dollar"
                         android:textColor="@color/black"
-                        android:textSize="18sp" />
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
 
                     <EditText
                         android:id="@+id/item_detail_price_edit"
                         style="@style/EditTextBox"
-                        android:layout_toEndOf="@+id/dollar_sign"
-                        android:layout_below="@+id/item_price_label"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_below="@+id/item_price_label"
+                        android:layout_toEndOf="@+id/dollar_sign"
                         android:inputType="numberDecimal"
                         android:textColor="@color/black"
                         android:textSize="16sp" />
@@ -223,48 +223,53 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginBottom="5dp">
+                android:layout_marginBottom="5dp"
+                android:orientation="horizontal">
 
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:text="@string/category"
                     android:textColor="@color/black"
-                    android:textSize="16sp"
-                    android:text="Category: "/>
+                    android:textSize="16sp" />
 
                 <EditText
                     android:id="@+id/item_detail_category_edit"
                     style="@style/EditTextBox"
                     android:layout_width="0dp"
-                    android:layout_weight="2"
                     android:layout_height="wrap_content"
-                    android:hint="Item category"
-                    android:inputType="text"
                     android:layout_marginEnd="10dp"
+                    android:layout_weight="2"
+                    android:hint="@string/item_category"
+                    android:inputType="text"
                     android:textSize="16sp" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:orientation="horizontal">
 
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:text="@string/quantity"
                     android:textColor="@color/black"
-                    android:textSize="16sp"
-                    android:text="Quantity: "/>
+                    android:textSize="16sp" />
 
                 <EditText
                     android:id="@+id/item_detail_quantity_edit"
                     style="@style/EditTextBox"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:hint="Item Quantity"
                     android:layout_weight="1"
+                    android:hint="@string/item_quantity"
                     android:inputType="text"
                     android:textSize="16sp" />
 
             </LinearLayout>
-
 
         </LinearLayout>
 
@@ -274,7 +279,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
-            android:text="EDIT" />
+            android:text="@string/edit" />
 
         <LinearLayout
             android:id="@+id/save_and_cancel_button"
@@ -291,7 +296,7 @@
                 android:layout_weight="1"
                 android:layout_marginEnd="10dp"
                 style="@style/ButtonDefaultBlueStyle"
-                android:text="SAVE"/>
+                android:text="@string/save"/>
 
             <Button
                 android:id="@+id/cancel_button"
@@ -299,7 +304,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 style="@style/ButtonBlueTransparentStyle"
-                android:text="CANCEL"/>
+                android:text="@string/cancel"/>
 
         </LinearLayout>
 
@@ -309,7 +314,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
-            android:text="DELETE" />
+            android:text="@string/delete" />
 
     </LinearLayout>
 </ScrollView>
