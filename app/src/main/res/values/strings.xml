@@ -17,6 +17,21 @@
     <string name="favorite">History</string>
     <string name="inventory">Inventory</string>
     <string name="profile">Profile</string>
+    <string name="change_image">Change Image</string>
+    <string name="item_name">Item Name:</string>
+    <string name="item_description">Item Description:</string>
+    <string name="item_condition">Item Condition:</string>
+    <string name="item_price">Item Price:</string>
+    <string name="dollar">$</string>
+    <string name="category">Category:</string>
+    <string name="item_category">Item category</string>
+    <string name="quantity">Quantity:</string>
+    <string name="item_quantity">Item Quantity</string>
+    <string name="edit">EDIT</string>
+    <string name="save">SAVE</string>
+    <string name="cancel">CANCEL</string>
+    <string name="delete">DELETE</string>
+    <string name="item_img">item_img</string>
 
 
     <string-array name="itemCondition">
