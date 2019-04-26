@@ -34,10 +34,10 @@ public class InventoryAdapter extends RecyclerView.Adapter<InventoryAdapter.View
         final Inventory inventory = getItem(position);
         holder.inventoryName.setText(inventory.getName());
         Glide.with(holder.itemView).load(inventory.getImageUrl()).into(holder.inventoryPic);
-        holder.inventoryPrice.setText("$" + inventory.getPrice());
+//        holder.inventoryPrice.setText("$" + inventory.getPrice());
         holder.inventoryCondition.setText("Condition: " + inventory.getCondition());
-        holder.inventoryDesciption.setText(inventory.getDescription());
-        holder.inventoryCategory.setText(inventory.getCategory());
+//        holder.inventoryDesciption.setText(inventory.getDescription());
+//        holder.inventoryCategory.setText(inventory.getCategory());
         holder.inventoryQuantity.setText("Quantities: " + inventory.getQuantity());
         holder.itemView.setOnClickListener(clickListener);
         holder.itemView.setTag(position);
@@ -56,10 +56,10 @@ public class InventoryAdapter extends RecyclerView.Adapter<InventoryAdapter.View
     public class ViewHolder extends RecyclerView.ViewHolder {
         public ImageView inventoryPic;
         public TextView inventoryName;
-        public TextView inventoryDesciption;
-        public TextView inventoryPrice;
+//        public TextView inventoryDesciption;
+//        public TextView inventoryPrice;
         public TextView inventoryCondition;
-        public TextView inventoryCategory;
+//        public TextView inventoryCategory;
         public TextView inventoryQuantity;
         public RelativeLayout relativeLayout;
 
@@ -67,10 +67,10 @@ public class InventoryAdapter extends RecyclerView.Adapter<InventoryAdapter.View
             super(itemView);
             this.inventoryPic = itemView.findViewById(R.id.inventory_image);
             this.inventoryName = itemView.findViewById(R.id.inventory_name);
-            this.inventoryDesciption = itemView.findViewById(R.id.inventory_description);
-            this.inventoryPrice = itemView.findViewById(R.id.inventory_price);
+//            this.inventoryDesciption = itemView.findViewById(R.id.inventory_description);
+//            this.inventoryPrice = itemView.findViewById(R.id.inventory_price);
             this.inventoryCondition = itemView.findViewById(R.id.inventory_condition);
-            this.inventoryCategory = itemView.findViewById(R.id.inventory_category);
+//            this.inventoryCategory = itemView.findViewById(R.id.inventory_category);
             this.inventoryQuantity = itemView.findViewById(R.id.inventory_quantity);
             relativeLayout = itemView.findViewById(R.id.relativeLayout);
         }
