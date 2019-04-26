@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -38,6 +39,7 @@ public class InventoryFragment extends Fragment {
     private InventoryAdapter adapter;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private CollectionReference inventoryRef;
+    private ProgressBar recentProgressBar;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -78,6 +80,8 @@ public class InventoryFragment extends Fragment {
     }
 
     private void init(View view) {
+        recentProgressBar = view.findViewById(R.id.inventory_progressbar);
+        recentProgressBar.setVisibility(View.VISIBLE);
         inventoryArrayList = new ArrayList<>();
         addItemButton = view.findViewById(R.id.add_item_button);
         RecyclerView recyclerView = view.findViewById(R.id.inventory_recycle_view);
@@ -102,6 +106,7 @@ public class InventoryFragment extends Fragment {
                     inventoryArrayList.add(inventory);
                     adapter.notifyDataSetChanged();
                 }
+                recentProgressBar.setVisibility(View.GONE);
             });
     }
 }

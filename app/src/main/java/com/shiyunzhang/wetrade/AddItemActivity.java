@@ -58,8 +58,8 @@ public class AddItemActivity extends AppCompatActivity {
     private static final String TAG = "AddItemActivity";
     private static final int PICK_IMAGE_REQUEST = 2;
 
-    private AppCompatSpinner itemCondition;
-    private EditText itemCategory, itemName, itemDescription, itemPrice, itemQuantity;
+    private AppCompatSpinner itemCondition, itemCategory;
+    private EditText itemName, itemDescription, itemPrice, itemQuantity;
     private Button saveButton, chooseImgButton;
     private ImageView itemImg;
     private String category, name, description, condition, imageUrl;
@@ -95,6 +95,7 @@ public class AddItemActivity extends AppCompatActivity {
         init();
         getUserInfoFromPreference();
         setUpConditionSpinner();
+        setUpCategorySpinner();
         setUpButtonListener();
 
     }
@@ -121,10 +122,6 @@ public class AddItemActivity extends AppCompatActivity {
     }
 
     private boolean isValidInput() {
-        if(itemCategory.getText().toString().trim().isEmpty()){
-            Toast.makeText(this, "Please enter item category", Toast.LENGTH_LONG).show();
-            return false;
-        }
         if(itemName.getText().toString().trim().isEmpty()){
             Toast.makeText(this, "Please enter item name", Toast.LENGTH_LONG).show();
             return false;
@@ -155,7 +152,7 @@ public class AddItemActivity extends AppCompatActivity {
 
 
     public void clearAllInfo(){
-        itemCategory.setText("");
+        itemCategory.setSelection(0);
         itemName.setText("");
         itemDescription.setText("");
         itemPrice.setText("");
@@ -211,6 +208,23 @@ public class AddItemActivity extends AppCompatActivity {
         });
     }
 
+    private void setUpCategorySpinner(){
+        String[] categories = getResources().getStringArray(R.array.itemCategory);
+        ArrayAdapter<String> categoryAdapter = new ArrayAdapter<>(this, R.layout.layout_spinner_item, categories);
+        itemCategory.setAdapter(categoryAdapter);
+        itemCategory.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                category = categories[position];
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                category = categories[0];
+            }
+        });
+    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -223,7 +237,6 @@ public class AddItemActivity extends AppCompatActivity {
 
     private void saveInventoryInfo(){
         if(isValidInput()){
-            category = itemCategory.getText().toString();
             name = itemName.getText().toString();
             description = itemDescription.getText().toString();
             price = Double.parseDouble(itemPrice.getText().toString());

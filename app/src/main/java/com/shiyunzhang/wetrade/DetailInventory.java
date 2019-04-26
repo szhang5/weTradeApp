@@ -45,14 +45,16 @@ public class DetailInventory extends AppCompatActivity {
     private DocumentReference itemRef;
     private ImageView itemImage, itemImageEdit;
     private TextView itemName, itemDesc, itemCondition, itemPrice, itemCategory, itemQuantity;
-    private EditText itemNameEdit, itemDescEdit, itemPriceEdit, itemCategoryEdit, itemQuantityEdit;
+    private EditText itemNameEdit, itemDescEdit, itemPriceEdit, itemQuantityEdit;
     private AppCompatSpinner itemConditionEdit;
+    private AppCompatSpinner itemCategoryEdit;
     private LinearLayout itemDisplay, itemEdit, buttonGroup;
     private String name, desc, condition, category, imageUrl, itemID;
     private double price;
     private int quantity;
     private Button editButton;
     private ArrayAdapter<String> conditionAdapter;
+    private ArrayAdapter<String> categoryAdapter;
     private int PICK_IMAGE_REQUEST = 1;
     private Uri imageUri;
     private UserInfo userInfo;
@@ -66,6 +68,7 @@ public class DetailInventory extends AppCompatActivity {
         getUserInfoFromPreference();
         setUpButtonListener();
         setUpConditionSpinner();
+        setUpCategorySpinner();
         setUpActionBar();
         getItemInfo();
 
@@ -214,6 +217,23 @@ public class DetailInventory extends AppCompatActivity {
         });
     }
 
+    private void setUpCategorySpinner(){
+        String[] categories = getResources().getStringArray(R.array.itemCategory);
+        categoryAdapter = new ArrayAdapter<>(this, R.layout.layout_spinner_item, categories);
+        itemCategoryEdit.setAdapter(categoryAdapter);
+        itemCategoryEdit.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                category = categories[position];
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                condition = categories[0];
+            }
+        });
+    }
+
     public void getItemInfo(){
         itemRef.get()
             .addOnSuccessListener(documentSnapshot -> {
@@ -242,7 +262,7 @@ public class DetailInventory extends AppCompatActivity {
                 if(item.getCategory() != null) {
                     category = item.getCategory();
                     itemCategory.setText("Category: " + category);
-                    itemCategoryEdit.setText(category);
+                    itemCategoryEdit.setSelection(categoryAdapter.getPosition(category));
                 }
                 if(item.getPrice() != 0) {
                     price = item.getPrice();
@@ -266,7 +286,6 @@ public class DetailInventory extends AppCompatActivity {
             name = itemNameEdit.getText().toString();
             desc = itemDescEdit.getText().toString();
             price = Double.parseDouble(itemPriceEdit.getText().toString());
-            category = itemCategoryEdit.getText().toString();
             quantity = Integer.parseInt(itemQuantityEdit.getText().toString());
 
             long current = System.currentTimeMillis();
@@ -289,10 +308,6 @@ public class DetailInventory extends AppCompatActivity {
     }
 
     public boolean isValidInput(){
-        if(itemCategoryEdit.getText().toString().trim().isEmpty()){
-            Toast.makeText(this, "Please enter item category", Toast.LENGTH_LONG).show();
-            return false;
-        }
         if(itemNameEdit.getText().toString().trim().isEmpty()){
             Toast.makeText(this, "Please enter item name", Toast.LENGTH_LONG).show();
             return false;
