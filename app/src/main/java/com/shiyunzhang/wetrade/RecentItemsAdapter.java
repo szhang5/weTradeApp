@@ -36,7 +36,7 @@ public class RecentItemsAdapter extends RecyclerView.Adapter<RecentItemsAdapter.
     @Override
     public void onBindViewHolder(@NonNull RecentItemsAdapter.ViewHolder viewHolder, int position) {
         final Inventory inventory = getItem(position);
-        Glide.with(viewHolder.itemView).load(inventory.getImageUrl()).into(viewHolder.recentItemImage);
+        Glide.with(viewHolder.itemView).load(inventory.getImageUrl()).dontAnimate().into(viewHolder.recentItemImage);
         viewHolder.recentItemName.setText(inventory.getName());
         viewHolder.recentItemPrice.setText("$" + inventory.getPrice());
         viewHolder.itemView.setOnClickListener(clickListener);

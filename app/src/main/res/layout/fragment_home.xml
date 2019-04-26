@@ -52,7 +52,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 style="@style/Widget.AppCompat.ProgressBar"
-                android:visibility="gone"/>
+                android:visibility="visible"/>
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/recent_items_recycle_view"
