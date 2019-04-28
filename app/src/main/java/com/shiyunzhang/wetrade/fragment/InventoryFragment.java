@@ -28,7 +28,6 @@ import com.shiyunzhang.wetrade.InventoryAdapter;
 import com.shiyunzhang.wetrade.R;
 
 import java.util.ArrayList;
-import java.util.concurrent.atomic.AtomicInteger;
 
 
 public class InventoryFragment extends Fragment {
@@ -40,6 +39,8 @@ public class InventoryFragment extends Fragment {
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private CollectionReference inventoryRef;
     private ProgressBar recentProgressBar;
+    private TextView unsoldItemCount;
+    private int totalQuantity;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -80,6 +81,7 @@ public class InventoryFragment extends Fragment {
     }
 
     private void init(View view) {
+        unsoldItemCount = view.findViewById(R.id.unsold_item);
         recentProgressBar = view.findViewById(R.id.inventory_progressbar);
         recentProgressBar.setVisibility(View.VISIBLE);
         inventoryArrayList = new ArrayList<>();
@@ -98,15 +100,18 @@ public class InventoryFragment extends Fragment {
     }
 
     private void getInventory(){
+        totalQuantity = 0;
         inventoryRef.whereEqualTo("userID", uid).get()
             .addOnSuccessListener(queryDocumentSnapshots -> {
                 for(QueryDocumentSnapshot queryDocumentSnapshot : queryDocumentSnapshots){
                     Inventory inventory = queryDocumentSnapshot.toObject(Inventory.class);
+                    totalQuantity += inventory.getQuantity();
                     inventory.setItemID(queryDocumentSnapshot.getId());
                     inventoryArrayList.add(inventory);
                     adapter.notifyDataSetChanged();
                 }
                 recentProgressBar.setVisibility(View.GONE);
+                unsoldItemCount.setText(""+totalQuantity);
             });
     }
 }
