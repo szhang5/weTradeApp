@@ -39,7 +39,7 @@ public class RecentItemsAdapter extends RecyclerView.Adapter<RecentItemsAdapter.
         final Inventory inventory = getItem(position);
         Glide.with(viewHolder.itemView).load(inventory.getImageUrl()).dontAnimate().into(viewHolder.recentItemImage);
         viewHolder.recentItemName.setText(inventory.getName());
-        viewHolder.recentItemPrice.setText("$" + inventory.getPrice());
+//        viewHolder.recentItemPrice.setText("$" + inventory.getPrice());
         viewHolder.itemView.setOnClickListener(clickListener);
         viewHolder.itemView.setTag(position);
     }
@@ -56,14 +56,14 @@ public class RecentItemsAdapter extends RecyclerView.Adapter<RecentItemsAdapter.
     public class ViewHolder extends RecyclerView.ViewHolder {
         public ImageView recentItemImage;
         public TextView recentItemName;
-        public TextView recentItemPrice;
+//        public TextView recentItemPrice;
 
 
         public ViewHolder(View itemView) {
             super(itemView);
             this.recentItemImage = itemView.findViewById(R.id.recent_item_img);
             this.recentItemName = itemView.findViewById(R.id.recent_item_name);
-            this.recentItemPrice = itemView.findViewById(R.id.recent_item_price);
+//            this.recentItemPrice = itemView.findViewById(R.id.recent_item_price);
         }
     }
 }

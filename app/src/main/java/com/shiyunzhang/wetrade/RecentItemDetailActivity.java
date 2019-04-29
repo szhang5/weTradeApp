@@ -106,9 +106,9 @@ public class RecentItemDetailActivity extends AppCompatActivity {
                     if(item.getCategory() != null) {
                         itemCategory.setText("Category: " + item.getCategory());
                     }
-                    if(item.getPrice() != 0) {
-                        itemPrice.setText("$" + item.getPrice());
-                    }
+//                    if(item.getPrice() != 0) {
+//                        itemPrice.setText("$" + item.getPrice());
+//                    }
                     if(item.getQuantity() != 0) {
                         itemQuantity.setText("Quantities: " + item.getQuantity());
                     }

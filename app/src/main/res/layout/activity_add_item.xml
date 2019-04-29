@@ -1,88 +1,75 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="30dp"
-        tools:context=".MainActivity">
-
-        <TextView
-            android:id="@+id/enter_item_info"
+        android:layout_margin="30dp">
+        <LinearLayout
+            android:id="@+id/product_info_linear_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Enter item info:"
-            android:textColor="@color/black"
-            android:fontFamily="@font/lato_bold"
-            android:layout_marginBottom="20dp"
-            android:textSize="25sp"/>
+            android:orientation="vertical"
+            android:visibility="visible">
 
+            <ImageView
+                android:id="@+id/product_detail_image"
+                android:layout_width="match_parent"
+                android:layout_height="250dp"
+                android:contentDescription="@string/product_image"
+                android:scaleType="centerCrop" />
+
+            <TextView
+                android:id="@+id/product_detail_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="25dp"
+                android:fontFamily="@font/lato_bold"
+                android:textAllCaps="true"
+                android:textColor="@color/black"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/product_detail_description"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:fontFamily="@font/lato_bold"
+                android:textColor="@color/black"
+                android:textSize="18sp" />
+
+
+            <TextView
+                android:id="@+id/product_detail_category"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="30dp"
+                android:fontFamily="@font/lato_regular"
+                android:textSize="16sp" />
+
+        </LinearLayout>
         <TextView
-            android:id="@+id/item_category_label"
+            android:id="@+id/item_quantity_label"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/enter_item_info"
+            android:layout_below="@+id/product_info_linear_layout"
             android:textSize="18sp"
             android:layout_marginTop="10dp"
             android:layout_marginEnd="10dp"
             android:layout_marginStart="10dp"
-            android:text="Item Category:"/>
-
-        <android.support.v7.widget.AppCompatSpinner
-            android:id="@+id/item_category"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="10dp"
-            android:layout_marginStart="10dp"
-            android:layout_marginBottom="10dp"
-            android:layout_below="@+id/item_category_label"
-            android:background="@drawable/dropdown_style" />
-
-        <EditText
-            android:id="@+id/item_name"
-            style="@style/EditTextBox"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/item_category"
-            android:layout_margin="10dp"
-            android:maxLines="1"
-            android:inputType="text"
-            android:hint="Item Name" />
-
-        <EditText
-            android:id="@+id/item_description"
-            style="@style/EditTextBox"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/item_name"
-            android:layout_margin="10dp"
-            android:inputType="textMultiLine"
-            android:hint="Description" />
-
-        <EditText
-            android:id="@+id/item_price"
-            style="@style/EditTextBox"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/item_description"
-            android:layout_margin="10dp"
-            android:maxLines="1"
-            android:inputType="numberDecimal"
-            android:hint="Price" />
+            android:text="@string/quantity"/>
 
         <EditText
             android:id="@+id/item_quantity"
             style="@style/EditTextBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/item_price"
+            android:layout_below="@+id/item_quantity_label"
             android:layout_margin="10dp"
-            android:inputType="number"
-            android:hint="Number of items" />
+            android:inputType="number" />
 
         <TextView
             android:id="@+id/item_condition_label"
@@ -93,7 +80,7 @@
             android:layout_marginTop="10dp"
             android:layout_marginEnd="10dp"
             android:layout_marginStart="10dp"
-            android:text="Item Condition:"/>
+            android:text="@string/condition"/>
 
         <android.support.v7.widget.AppCompatSpinner
             android:id="@+id/item_condition"
@@ -106,38 +93,15 @@
             android:background="@drawable/dropdown_style" />
 
         <Button
-            android:id="@+id/upload_img_button"
-            style="@style/ButtonBlueTransparentStyle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/item_condition"
-            android:text="Choose Item Image"/>
-
-        <ImageView
-            android:id="@+id/item_image"
-            android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:layout_below="@id/upload_img_button"/>
-
-        <ProgressBar
-            android:id="@+id/inventory_progressbar"
-            android:layout_width="match_parent"
-            android:layout_centerHorizontal="true"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/item_image"
-            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
-            android:visibility="gone"/>
-
-        <Button
             android:id="@+id/save_button"
             style="@style/ButtonDefaultBlueStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:layout_below="@+id/inventory_progressbar"
+            android:layout_below="@+id/item_condition"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="40dp"
-            android:text="Submit" />
+            android:text="@string/submit" />
 
     </RelativeLayout>
 

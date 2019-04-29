@@ -264,11 +264,11 @@ public class DetailInventory extends AppCompatActivity {
                     itemCategory.setText("Category: " + category);
                     itemCategoryEdit.setSelection(categoryAdapter.getPosition(category));
                 }
-                if(item.getPrice() != 0) {
-                    price = item.getPrice();
-                    itemPrice.setText("$" + price);
-                    itemPriceEdit.setText("" + price);
-                }
+//                if(item.getPrice() != 0) {
+//                    price = item.getPrice();
+//                    itemPrice.setText("$" + price);
+//                    itemPriceEdit.setText("" + price);
+//                }
                 if(item.getQuantity() != 0) {
                     quantity = item.getQuantity();
                     itemQuantity.setText("Quantities: " + quantity);
@@ -282,29 +282,29 @@ public class DetailInventory extends AppCompatActivity {
     }
 
     public void updateItem(){
-        if(isValidInput()) {
-            name = itemNameEdit.getText().toString();
-            desc = itemDescEdit.getText().toString();
-            price = Double.parseDouble(itemPriceEdit.getText().toString());
-            quantity = Integer.parseInt(itemQuantityEdit.getText().toString());
-
-            long current = System.currentTimeMillis();
-            Inventory inventory = new Inventory(itemID, imageUrl, category, name, desc, price, quantity, condition, current, userInfo.getId());
-
-            itemRef.set(inventory, SetOptions.merge())
-                    .addOnSuccessListener(aVoid -> {
-                        Toast.makeText(DetailInventory.this, "Update Item Info Successfully!", Toast.LENGTH_SHORT).show();
-                        getItemInfo();
-                        itemDisplay.setVisibility(View.VISIBLE);
-                        itemEdit.setVisibility(View.GONE);
-                        buttonGroup.setVisibility(View.GONE);
-                        editButton.setVisibility(View.VISIBLE);
-                    })
-                    .addOnFailureListener(e -> {
-                        Toast.makeText(DetailInventory.this, "Error!", Toast.LENGTH_LONG).show();
-                        Log.d(TAG, e.toString());
-                    });
-        }
+//        if(isValidInput()) {
+//            name = itemNameEdit.getText().toString();
+//            desc = itemDescEdit.getText().toString();
+//            price = Double.parseDouble(itemPriceEdit.getText().toString());
+//            quantity = Integer.parseInt(itemQuantityEdit.getText().toString());
+//
+//            long current = System.currentTimeMillis();
+//            Inventory inventory = new Inventory(itemID, imageUrl, category, name, desc, price, quantity, condition, current, userInfo.getId());
+//
+//            itemRef.set(inventory, SetOptions.merge())
+//                    .addOnSuccessListener(aVoid -> {
+//                        Toast.makeText(DetailInventory.this, "Update Item Info Successfully!", Toast.LENGTH_SHORT).show();
+//                        getItemInfo();
+//                        itemDisplay.setVisibility(View.VISIBLE);
+//                        itemEdit.setVisibility(View.GONE);
+//                        buttonGroup.setVisibility(View.GONE);
+//                        editButton.setVisibility(View.VISIBLE);
+//                    })
+//                    .addOnFailureListener(e -> {
+//                        Toast.makeText(DetailInventory.this, "Error!", Toast.LENGTH_LONG).show();
+//                        Log.d(TAG, e.toString());
+//                    });
+//        }
     }
 
     public boolean isValidInput(){

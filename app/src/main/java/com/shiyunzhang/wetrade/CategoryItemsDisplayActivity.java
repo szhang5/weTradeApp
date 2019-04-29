@@ -68,24 +68,24 @@ public class CategoryItemsDisplayActivity extends AppCompatActivity {
 
 
     private void getCategoryItems(){
-        categoryItemsRef.whereEqualTo("category", category)
-                .get()
-                .addOnSuccessListener(queryDocumentSnapshots -> {
-                    ArrayList<Inventory> productList  = new ArrayList<>();
-                    for(QueryDocumentSnapshot queryDocumentSnapshot : queryDocumentSnapshots){
-                        Inventory item = queryDocumentSnapshot.toObject(Inventory.class);
-                        productList.add(item);
-                    }
-                    adapter = new SearchAdapter(CategoryItemsDisplayActivity.this, productList, v-> {
-                        int position = (int) v.getTag();
-                        Intent intent = new Intent(this, RecentItemDetailActivity.class);
-                        intent.putExtra("ID", productList.get(position).getItemID());
-                        startActivity(intent);
-                    });
-                    categoryRecyclerView.setAdapter(adapter);
-                    adapter.notifyDataSetChanged();
-                    progressBar.setVisibility(View.GONE);
-                })
-                .addOnFailureListener(e -> Log.d(TAG, e.toString()));
+//        categoryItemsRef.whereEqualTo("category", category)
+//                .get()
+//                .addOnSuccessListener(queryDocumentSnapshots -> {
+//                    ArrayList<Inventory> productList  = new ArrayList<>();
+//                    for(QueryDocumentSnapshot queryDocumentSnapshot : queryDocumentSnapshots){
+//                        Inventory item = queryDocumentSnapshot.toObject(Inventory.class);
+//                        productList.add(item);
+//                    }
+//                    adapter = new SearchAdapter(CategoryItemsDisplayActivity.this, productList, v-> {
+//                        int position = (int) v.getTag();
+//                        Intent intent = new Intent(this, RecentItemDetailActivity.class);
+//                        intent.putExtra("ID", productList.get(position).getItemID());
+//                        startActivity(intent);
+//                    });
+//                    categoryRecyclerView.setAdapter(adapter);
+//                    adapter.notifyDataSetChanged();
+//                    progressBar.setVisibility(View.GONE);
+//                })
+//                .addOnFailureListener(e -> Log.d(TAG, e.toString()));
     }
 }

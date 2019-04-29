@@ -9,16 +9,16 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.shiyunzhang.wetrade.DataClass.Inventory;
+import com.shiyunzhang.wetrade.DataClass.Product;
 
 import java.util.List;
 
 public class SearchAdapter extends RecyclerView.Adapter {
     Context context;
-    List<Inventory> productList;
+    List<Product> productList;
     View.OnClickListener clickListener;
 
-    public SearchAdapter(Context context, List<Inventory> productList, View.OnClickListener clickListener){
+    public SearchAdapter(Context context, List<Product> productList, View.OnClickListener clickListener){
         this.context = context;
         this.productList = productList;
         this.clickListener = clickListener;
@@ -33,9 +33,9 @@ public class SearchAdapter extends RecyclerView.Adapter {
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
-        Inventory product = getItem(i);
+        Product product = getItem(i);
         SearchViewHolder holder = (SearchViewHolder) viewHolder;
-        Glide.with(holder.itemView).load(product.getImageUrl()).into(holder.imageView);
+        Glide.with(holder.itemView).load(product.getImage()).into(holder.imageView);
         holder.itemName.setText(product.getName());
         holder.itemCategory.setText("Category: " + product.getCategory());
         holder.itemView.setOnClickListener(clickListener);
@@ -48,7 +48,7 @@ public class SearchAdapter extends RecyclerView.Adapter {
         return productList.size();
     }
 
-    public Inventory getItem(int position){
+    public Product getItem(int position){
         return productList.get(position);
     }
 

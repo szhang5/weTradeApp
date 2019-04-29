@@ -26,6 +26,7 @@ import com.shiyunzhang.wetrade.DataClass.Inventory;
 import com.shiyunzhang.wetrade.DetailInventory;
 import com.shiyunzhang.wetrade.InventoryAdapter;
 import com.shiyunzhang.wetrade.R;
+import com.shiyunzhang.wetrade.SearchProductActivity;
 
 import java.util.ArrayList;
 
@@ -69,7 +70,7 @@ public class InventoryFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        addItemButton.setOnClickListener( v-> startActivity(new Intent(getContext(), AddItemActivity.class)));
+        addItemButton.setOnClickListener( v-> startActivity(new Intent(getContext(), SearchProductActivity.class)));
     }
 
     @Override

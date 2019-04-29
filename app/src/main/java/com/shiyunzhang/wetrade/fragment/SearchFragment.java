@@ -97,52 +97,52 @@ public class SearchFragment extends Fragment {
     }
 
     private void setSearchListener() {
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                if (query.length() < 2)
-                    return false;
-                return true;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                if (newText.length() < 2) {
-                    searchResult.setVisibility(View.GONE);
-                    return false;
-                }
-                else {
-                    Query query = new Query(newText)
-                            .setAttributesToRetrieve("name", "category", "imageUrl", "itemID")
-                            .setHitsPerPage(50);
-                    index.searchAsync(query, (jsonObject, e) -> {
-                        try {
-                            JSONArray hits = jsonObject.getJSONArray("hits");
-                            List<Inventory> list = new ArrayList<>();
-                            for (int i = 0; i < hits.length(); i++) {
-                                JSONObject productObject = hits.getJSONObject(i);
-                                Gson gson = new Gson();
-                                Inventory product = gson.fromJson(productObject.toString(), Inventory.class);
-                                list.add(product);
-                            }
-                            adapter = new SearchAdapter(getActivity(), list, v -> {
-                                int position = (int) v.getTag();
-                                Intent intent = new Intent(getActivity(), RecentItemDetailActivity.class);
-                                intent.putExtra("ID", list.get(position).getItemID());
-                                startActivity(intent);
-                            });
-                            searchResult.setAdapter(adapter);
-                            searchResult.setVisibility(View.VISIBLE);
-                            adapter.notifyDataSetChanged();
-                        } catch (JSONException e1) {
-                            e1.printStackTrace();
-                        }
-                    });
-                    return true;
-                }
-
-            }
-        });
+//        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+//            @Override
+//            public boolean onQueryTextSubmit(String query) {
+//                if (query.length() < 2)
+//                    return false;
+//                return true;
+//            }
+//
+//            @Override
+//            public boolean onQueryTextChange(String newText) {
+//                if (newText.length() < 2) {
+//                    searchResult.setVisibility(View.GONE);
+//                    return false;
+//                }
+//                else {
+//                    Query query = new Query(newText)
+//                            .setAttributesToRetrieve("name", "category", "imageUrl", "itemID")
+//                            .setHitsPerPage(50);
+//                    index.searchAsync(query, (jsonObject, e) -> {
+//                        try {
+//                            JSONArray hits = jsonObject.getJSONArray("hits");
+//                            List<Inventory> list = new ArrayList<>();
+//                            for (int i = 0; i < hits.length(); i++) {
+//                                JSONObject productObject = hits.getJSONObject(i);
+//                                Gson gson = new Gson();
+//                                Inventory product = gson.fromJson(productObject.toString(), Inventory.class);
+//                                list.add(product);
+//                            }
+//                            adapter = new SearchAdapter(getActivity(), list, v -> {
+//                                int position = (int) v.getTag();
+//                                Intent intent = new Intent(getActivity(), RecentItemDetailActivity.class);
+//                                intent.putExtra("ID", list.get(position).getItemID());
+//                                startActivity(intent);
+//                            });
+//                            searchResult.setAdapter(adapter);
+//                            searchResult.setVisibility(View.VISIBLE);
+//                            adapter.notifyDataSetChanged();
+//                        } catch (JSONException e1) {
+//                            e1.printStackTrace();
+//                        }
+//                    });
+//                    return true;
+//                }
+//
+//            }
+//        });
     }
 
 }

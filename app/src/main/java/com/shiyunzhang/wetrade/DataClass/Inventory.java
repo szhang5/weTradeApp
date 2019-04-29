@@ -3,28 +3,26 @@ package com.shiyunzhang.wetrade.DataClass;
 public class Inventory {
     private String name;
     private String imageUrl;
-    private double price;
     private String category;
     private String condition;
     private String description;
     private int quantity;
-    private long timestamp;
     private String itemID;
     private String userID;
+    private String productID;
 
     public Inventory(){}
 
-    public Inventory(String itemID, String imageUrl, String category, String name, String description, double price, int quantity, String condition, long timestamp, String userID) {
+    public Inventory(String itemID, String imageUrl, String category, String name, String description, int quantity, String condition, String userID, String productID) {
         this.itemID = itemID;
         this.imageUrl = imageUrl;
         this.category = category;
         this.name = name;
         this.description = description;
-        this.price = price;
         this.quantity = quantity;
         this.condition = condition;
-        this.timestamp = timestamp;
         this.userID = userID;
+        this.productID = productID;
     }
 
     public String getName() {
@@ -47,6 +45,14 @@ public class Inventory {
         return imageUrl;
     }
 
+    public String getProductID() {
+        return productID;
+    }
+
+    public void setProductID(String productID) {
+        this.productID = productID;
+    }
+
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
     }
@@ -57,14 +63,6 @@ public class Inventory {
 
     public void setItemID(String itemID) {
         this.itemID = itemID;
-    }
-
-    public double getPrice() {
-        return price;
-    }
-
-    public void setPrice(double price) {
-        this.price = price;
     }
 
     public String getCategory() {
@@ -99,18 +97,11 @@ public class Inventory {
         this.quantity = quantity;
     }
 
-    public long getTimestamp() {
-        return timestamp;
-    }
-
-    public void setTimestamp(long timestamp) {
-        this.timestamp = timestamp;
-    }
 
     @Override
     public String toString() {
         return "categore: " + category + ", name: " + name + ", description: " + description
-                + ", price: " + price + ", quantity: " + quantity + ", condition: " + condition
+                + ", productID: " + productID + ", quantity: " + quantity + ", condition: " + condition
                 + ", imageurl: " + imageUrl;
     }
 }
