@@ -13,6 +13,9 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatSpinner;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -257,14 +260,26 @@ public class DetailInventory extends AppCompatActivity {
                     itemDesc.setText(desc);
                     itemDescEdit.setText(desc);
                 }
-//                if(item.getConditionAndQuantities() != null) {
-//                    conditionAndQuantities = item.getConditionAndQuantities();
-//                    itemCondition.setText("Condition: " + condition);
+                if(item.getConditionAndQuantities() != null) {
+                    quantity = 0;
+                    conditionAndQuantities = item.getConditionAndQuantities();
+                    for(ConditionAndQuantity conditionAndQuantity : conditionAndQuantities){
+                        quantity += conditionAndQuantity.getQuantity();
+                    }
+                    itemQuantity.setText("Total quantities: " + quantity);
+                    RecyclerView conditionQuantityView = findViewById(R.id.condition_quantity_recycler_view);
+                    conditionQuantityView.setHasFixedSize(true);
+                    conditionQuantityView.setLayoutManager(new LinearLayoutManager(this));
+                    ConditionAndQuantityAdapter adapter = new ConditionAndQuantityAdapter(this, conditionAndQuantities);
+                    conditionQuantityView.setAdapter(adapter);
+                    adapter.notifyDataSetChanged();
+
+//                    itemCondition.setText("Condition: \n" + TextUtils.join("\n", conditions));
 //                    itemConditionEdit.setSelection(conditionAdapter.getPosition(condition));
-//                }
+                }
                 if(item.getCategory() != null) {
                     category = item.getCategory();
-                    itemCategory.setText("Category: " + category);    
+                    itemCategory.setText("Category: " + category);
                     itemCategoryEdit.setSelection(categoryAdapter.getPosition(category));
                 }
 //                if(item.getPrice() != 0) {

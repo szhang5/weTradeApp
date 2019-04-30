@@ -35,14 +35,14 @@
             android:textColor="@color/black"
             android:textSize="16sp" />
 
-        <!--<TextView-->
-        <!--android:id="@+id/inventory_description"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:text="inventory_description"-->
-        <!--android:fontFamily="@font/lato_bold"-->
-        <!--android:textColor="@color/black"-->
-        <!--android:textSize="16sp" />-->
+        <TextView
+            android:id="@+id/inventory_description"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/lato_bold"
+            android:text="inventory_description"
+            android:textColor="@color/black"
+            android:textSize="16sp" />
 
         <!--<TextView-->
         <!--android:id="@+id/inventory_price"-->
@@ -53,32 +53,23 @@
         <!--android:fontFamily="@font/lato_bold"-->
         <!--android:textSize="18sp"/>-->
 
-        <!--<LinearLayout-->
+        <!--<TextView-->
+        <!--android:id="@+id/inventory_condition"-->
         <!--android:layout_width="match_parent"-->
         <!--android:layout_height="wrap_content"-->
-        <!--android:orientation="horizontal"-->
-        <!--android:layout_marginBottom="5dp">-->
-
-        <TextView
-            android:id="@+id/inventory_condition"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:fontFamily="@font/lato_regular"
-            android:text="Condition"
-            android:textSize="14sp" />
+        <!--android:layout_marginTop="5dp"-->
+        <!--android:fontFamily="@font/lato_regular"-->
+        <!--android:text="Condition"-->
+        <!--android:textSize="14sp" />-->
 
         <TextView
             android:id="@+id/inventory_quantity"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/lato_regular"
             android:layout_marginTop="5dp"
+            android:fontFamily="@font/lato_regular"
             android:text="Quantity"
             android:textSize="14sp" />
-
-        <!--</LinearLayout>-->
-
 
     </LinearLayout>
 

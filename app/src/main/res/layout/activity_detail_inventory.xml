@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -44,22 +45,34 @@
 
             <TextView
                 android:id="@+id/item_detail_condition"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="5dp"
-                android:fontFamily="@font/lato_regular"
+                android:fontFamily="@font/lato_semibold"
+                android:text="Condition: "
+                android:textColor="@color/black"
                 android:textSize="16sp" />
 
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/item_detail_condition"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="5dp">
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/condition_quantity_recycler_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+            </RelativeLayout>
 
             <TextView
-                android:id="@+id/item_detail_price"
+                android:id="@+id/item_detail_quantity"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:fontFamily="@font/lato_bold"
-                android:textColor="@color/black"
-                android:textSize="20sp" />
+                android:fontFamily="@font/lato_regular"
+                android:textSize="16sp" />
 
             <TextView
                 android:id="@+id/item_detail_category"
@@ -70,12 +83,14 @@
                 android:textSize="16sp" />
 
             <TextView
-                android:id="@+id/item_detail_quantity"
+                android:id="@+id/item_detail_price"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:fontFamily="@font/lato_regular"
-                android:textSize="16sp" />
+                android:fontFamily="@font/lato_bold"
+                android:textColor="@color/black"
+                android:textSize="20sp" />
+
         </LinearLayout>
 
         <LinearLayout
@@ -119,9 +134,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
+                    android:layout_marginEnd="5dp"
                     android:text="@string/item_name"
                     android:textColor="@color/black"
-                    android:layout_marginEnd="5dp"
                     android:textSize="18sp" />
 
                 <EditText
@@ -158,8 +173,8 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_marginBottom="5dp">
+                android:layout_marginBottom="5dp"
+                android:orientation="vertical">
 
                 <TextView
                     android:layout_width="match_parent"
@@ -203,16 +218,16 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginTop="5dp">
+                android:layout_marginTop="5dp"
+                android:orientation="horizontal">
 
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="5dp"
                     android:layout_marginEnd="10dp"
-                    android:orientation="vertical"
-                    android:layout_weight="1">
+                    android:layout_marginBottom="5dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
 
                     <TextView
                         android:layout_width="match_parent"
@@ -234,40 +249,40 @@
                 </LinearLayout>
 
                 <RelativeLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1">
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1">
 
-                <TextView
-                android:id="@+id/item_price_label"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/item_price"
-                android:textColor="@color/black"
-                android:textSize="18sp" />
+                    <TextView
+                        android:id="@+id/item_price_label"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/item_price"
+                        android:textColor="@color/black"
+                        android:textSize="18sp" />
 
-                <TextView
-                android:id="@+id/dollar_sign"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/item_price_label"
-                android:layout_marginTop="5dp"
-                android:layout_marginEnd="5dp"
-                android:text="@string/dollar"
-                android:textColor="@color/black"
-                android:textSize="18sp"
-                android:textStyle="bold" />
+                    <TextView
+                        android:id="@+id/dollar_sign"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/item_price_label"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginEnd="5dp"
+                        android:text="@string/dollar"
+                        android:textColor="@color/black"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
 
-                <EditText
-                android:id="@+id/item_detail_price_edit"
-                style="@style/EditTextBox"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/item_price_label"
-                android:layout_toEndOf="@+id/dollar_sign"
-                android:inputType="numberDecimal"
-                android:textColor="@color/black"
-                android:textSize="16sp" />
+                    <EditText
+                        android:id="@+id/item_detail_price_edit"
+                        style="@style/EditTextBox"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/item_price_label"
+                        android:layout_toEndOf="@+id/dollar_sign"
+                        android:inputType="numberDecimal"
+                        android:textColor="@color/black"
+                        android:textSize="16sp" />
                 </RelativeLayout>
 
             </LinearLayout>
