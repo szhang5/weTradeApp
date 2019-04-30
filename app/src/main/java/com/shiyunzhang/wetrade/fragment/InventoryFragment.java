@@ -4,6 +4,7 @@ package com.shiyunzhang.wetrade.fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -14,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -43,6 +45,8 @@ public class InventoryFragment extends Fragment {
     private ProgressBar recentProgressBar;
     private TextView unsoldItemCount;
     private int totalQuantity;
+    private TabLayout tabLayout;
+    private RecyclerView recyclerView, saleItemRecyclerView;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -83,12 +87,39 @@ public class InventoryFragment extends Fragment {
     }
 
     private void init(View view) {
+        tabLayout = view.findViewById(R.id.tabs);
+        tabLayout.addTab(tabLayout.newTab().setText("Inventory"));
+        tabLayout.addTab(tabLayout.newTab().setText("Item For Sale"));
+        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                if (tab.getPosition() == 0) {
+                    saleItemRecyclerView.setVisibility(View.GONE);
+                    recyclerView.setVisibility(View.VISIBLE);
+                    Toast.makeText(getContext(), "Inventory shows", Toast.LENGTH_SHORT).show();
+                } else {
+                    recyclerView.setVisibility(View.GONE);
+                    saleItemRecyclerView.setVisibility(View.VISIBLE);
+                    Toast.makeText(getContext(), "Item for sales shows", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
         unsoldItemCount = view.findViewById(R.id.unsold_item);
         recentProgressBar = view.findViewById(R.id.inventory_progressbar);
         recentProgressBar.setVisibility(View.VISIBLE);
         inventoryArrayList = new ArrayList<>();
         addItemButton = view.findViewById(R.id.add_item_button);
-        RecyclerView recyclerView = view.findViewById(R.id.inventory_recycle_view);
+        recyclerView = view.findViewById(R.id.inventory_recycle_view);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         adapter = new InventoryAdapter(getContext(), inventoryArrayList, v -> {
@@ -99,6 +130,10 @@ public class InventoryFragment extends Fragment {
             startActivity(intent);
         });
         recyclerView.setAdapter(adapter);
+
+        saleItemRecyclerView = view.findViewById(R.id.item_sale_recycle_view);
+        saleItemRecyclerView.setHasFixedSize(true);
+        saleItemRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
     }
 
     private void getInventory(){
