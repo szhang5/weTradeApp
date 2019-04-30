@@ -45,6 +45,7 @@ import com.google.firebase.storage.StorageReference;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.shiyunzhang.wetrade.Authentication.LoginActivity;
+import com.shiyunzhang.wetrade.DataClass.ConditionAndQuantity;
 import com.shiyunzhang.wetrade.DataClass.Inventory;
 import com.shiyunzhang.wetrade.DataClass.Product;
 import com.shiyunzhang.wetrade.DataClass.UserInfo;
@@ -75,6 +76,7 @@ public class AddItemActivity extends AppCompatActivity {
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private CollectionReference inventoryCollect = db.collection(COLLECTION);
     private Inventory inventory;
+    private ArrayList<ConditionAndQuantity> conditionAndQuantities = new ArrayList<>();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -167,10 +169,7 @@ public class AddItemActivity extends AppCompatActivity {
     }
 
     private void saveInventoryHelper(DocumentReference inventoryRef){
-
-
-        Inventory inventoryInfo = new Inventory(itemID, imageUrl, category, name, description, quantity, condition, uid, productId);
-
+        Inventory inventoryInfo = new Inventory(itemID, imageUrl, category, name, description, conditionAndQuantities, uid, productId);
         inventoryRef.set(inventoryInfo)
             .addOnSuccessListener(aVoid -> {
                 Toast.makeText(AddItemActivity.this, "Item Information Saved", Toast.LENGTH_SHORT).show();
@@ -180,7 +179,6 @@ public class AddItemActivity extends AppCompatActivity {
                 Toast.makeText(AddItemActivity.this, "Error!", Toast.LENGTH_LONG).show();
                 Log.d(TAG, e.toString());
             });
-
     }
 
     private void saveInventoryInfo(){
@@ -197,12 +195,24 @@ public class AddItemActivity extends AppCompatActivity {
                 if(inventory != null) {
                     itemID = inventory.getItemID();
                     productId = inventory.getProductID();
-                    quantity = inventory.getQuantity() + quantity;
+                    ArrayList<ConditionAndQuantity> existConditionAndQuantities = inventory.getConditionAndQuantities();
+                    boolean exist = false;
+                    if(existConditionAndQuantities != null) {
+                        conditionAndQuantities = existConditionAndQuantities;
+                    }
+                    for(int i = 0; i < conditionAndQuantities.size(); i++) {
+                        if(condition.equals(conditionAndQuantities.get(i).getCondition())){
+                            exist = true;
+                            conditionAndQuantities.get(i).setQuantity(conditionAndQuantities.get(i).getQuantity() + quantity);
+                        }
+                    }
+                    if(!exist) conditionAndQuantities.add(new ConditionAndQuantity(condition, quantity));
                     DocumentReference inventoryRef = inventoryCollect.document(itemID);
                     saveInventoryHelper(inventoryRef);
                 } else {
                     DocumentReference inventoryRef = inventoryCollect.document();
                     itemID = inventoryRef.getId();
+                    conditionAndQuantities.add(new ConditionAndQuantity(condition, quantity));
                     saveInventoryHelper(inventoryRef);
                 }
             }).addOnFailureListener(e -> Log.d(TAG, "onFailure: " + e.toString()));

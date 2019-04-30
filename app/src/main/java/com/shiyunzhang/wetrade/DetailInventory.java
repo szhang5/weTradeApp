@@ -33,10 +33,12 @@ import com.google.firebase.firestore.SetOptions;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.gson.Gson;
+import com.shiyunzhang.wetrade.DataClass.ConditionAndQuantity;
 import com.shiyunzhang.wetrade.DataClass.Inventory;
 import com.shiyunzhang.wetrade.DataClass.UserInfo;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 
 public class DetailInventory extends AppCompatActivity {
@@ -59,6 +61,7 @@ public class DetailInventory extends AppCompatActivity {
     private Uri imageUri;
     private UserInfo userInfo;
     private StorageReference mStorageRef = FirebaseStorage.getInstance().getReference("InventoryImage");
+    private ArrayList<ConditionAndQuantity> conditionAndQuantities = new ArrayList<>();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -254,14 +257,14 @@ public class DetailInventory extends AppCompatActivity {
                     itemDesc.setText(desc);
                     itemDescEdit.setText(desc);
                 }
-                if(item.getCondition() != null) {
-                    condition = item.getCondition();
-                    itemCondition.setText("Condition: " + condition);
-                    itemConditionEdit.setSelection(conditionAdapter.getPosition(condition));
-            }
+//                if(item.getConditionAndQuantities() != null) {
+//                    conditionAndQuantities = item.getConditionAndQuantities();
+//                    itemCondition.setText("Condition: " + condition);
+//                    itemConditionEdit.setSelection(conditionAdapter.getPosition(condition));
+//                }
                 if(item.getCategory() != null) {
                     category = item.getCategory();
-                    itemCategory.setText("Category: " + category);
+                    itemCategory.setText("Category: " + category);    
                     itemCategoryEdit.setSelection(categoryAdapter.getPosition(category));
                 }
 //                if(item.getPrice() != 0) {
@@ -269,11 +272,11 @@ public class DetailInventory extends AppCompatActivity {
 //                    itemPrice.setText("$" + price);
 //                    itemPriceEdit.setText("" + price);
 //                }
-                if(item.getQuantity() != 0) {
-                    quantity = item.getQuantity();
-                    itemQuantity.setText("Quantities: " + quantity);
-                    itemQuantityEdit.setText("" + quantity);
-                }
+//                if(item.getQuantity() != 0) {
+//                    quantity = item.getQuantity();
+//                    itemQuantity.setText("Quantities: " + quantity);
+//                    itemQuantityEdit.setText("" + quantity);
+//                }
                 if(item.getItemID() != null) {
                     itemID = item.getItemID();
                 }

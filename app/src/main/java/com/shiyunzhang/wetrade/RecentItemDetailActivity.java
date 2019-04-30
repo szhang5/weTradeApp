@@ -100,18 +100,18 @@ public class RecentItemDetailActivity extends AppCompatActivity {
                     if(item.getDescription() != null){
                         itemDesc.setText(item.getDescription());
                     }
-                    if(item.getCondition() != null) {
-                        itemCondition.setText("Condition: " + item.getCondition());
-                    }
+//                    if(item.getCondition() != null) {
+//                        itemCondition.setText("Condition: " + item.getCondition());
+//                    }
                     if(item.getCategory() != null) {
                         itemCategory.setText("Category: " + item.getCategory());
                     }
 //                    if(item.getPrice() != 0) {
 //                        itemPrice.setText("$" + item.getPrice());
 //                    }
-                    if(item.getQuantity() != 0) {
-                        itemQuantity.setText("Quantities: " + item.getQuantity());
-                    }
+//                    if(item.getQuantity() != 0) {
+//                        itemQuantity.setText("Quantities: " + item.getQuantity());
+//                    }
                     if(item.getUserID() != null) {
                         uid = item.getUserID();
                         userRef = db.collection("User").document(uid);

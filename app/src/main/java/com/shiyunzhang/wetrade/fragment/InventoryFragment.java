@@ -22,6 +22,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.shiyunzhang.wetrade.AddItemActivity;
 import com.shiyunzhang.wetrade.Authentication.LoginActivity;
+import com.shiyunzhang.wetrade.DataClass.ConditionAndQuantity;
 import com.shiyunzhang.wetrade.DataClass.Inventory;
 import com.shiyunzhang.wetrade.DetailInventory;
 import com.shiyunzhang.wetrade.InventoryAdapter;
@@ -106,7 +107,12 @@ public class InventoryFragment extends Fragment {
             .addOnSuccessListener(queryDocumentSnapshots -> {
                 for(QueryDocumentSnapshot queryDocumentSnapshot : queryDocumentSnapshots){
                     Inventory inventory = queryDocumentSnapshot.toObject(Inventory.class);
-                    totalQuantity += inventory.getQuantity();
+                    ArrayList<ConditionAndQuantity> conditionAndQuantities = inventory.getConditionAndQuantities();
+                    if (conditionAndQuantities != null) {
+                        for(int i = 0; i < conditionAndQuantities.size(); i++){
+                            totalQuantity += conditionAndQuantities.get(i).getQuantity();
+                        }
+                    }
                     inventory.setItemID(queryDocumentSnapshot.getId());
                     inventoryArrayList.add(inventory);
                     adapter.notifyDataSetChanged();

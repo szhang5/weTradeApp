@@ -1,28 +1,36 @@
 package com.shiyunzhang.wetrade.DataClass;
 
+import java.util.ArrayList;
+
 public class Inventory {
     private String name;
     private String imageUrl;
     private String category;
-    private String condition;
     private String description;
-    private int quantity;
     private String itemID;
     private String userID;
     private String productID;
+    private ArrayList<ConditionAndQuantity> conditionAndQuantities;
 
     public Inventory(){}
 
-    public Inventory(String itemID, String imageUrl, String category, String name, String description, int quantity, String condition, String userID, String productID) {
+    public Inventory(String itemID, String imageUrl, String category, String name, String description, ArrayList<ConditionAndQuantity> conditionAndQuantity, String userID, String productID) {
         this.itemID = itemID;
         this.imageUrl = imageUrl;
         this.category = category;
         this.name = name;
         this.description = description;
-        this.quantity = quantity;
-        this.condition = condition;
         this.userID = userID;
         this.productID = productID;
+        this.conditionAndQuantities = conditionAndQuantity;
+    }
+
+    public ArrayList<ConditionAndQuantity> getConditionAndQuantities() {
+        return conditionAndQuantities;
+    }
+
+    public void setConditionAndQuantities(ArrayList<ConditionAndQuantity> conditionAndQuantities) {
+        this.conditionAndQuantities = conditionAndQuantities;
     }
 
     public String getName() {
@@ -73,14 +81,6 @@ public class Inventory {
         this.category = category;
     }
 
-    public String getCondition() {
-        return condition;
-    }
-
-    public void setCondition(String condition) {
-        this.condition = condition;
-    }
-
     public String getDescription() {
         return description;
     }
@@ -89,19 +89,10 @@ public class Inventory {
         this.description = description;
     }
 
-    public int getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
-    }
-
-
     @Override
     public String toString() {
         return "categore: " + category + ", name: " + name + ", description: " + description
-                + ", productID: " + productID + ", quantity: " + quantity + ", condition: " + condition
+                + ", productID: " + productID + ", " + conditionAndQuantities.toString()
                 + ", imageurl: " + imageUrl;
     }
 }
