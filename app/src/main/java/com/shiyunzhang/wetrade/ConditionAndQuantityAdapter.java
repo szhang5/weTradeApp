@@ -1,16 +1,23 @@
 package com.shiyunzhang.wetrade;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.shiyunzhang.wetrade.DataClass.ConditionAndQuantity;
+import com.shiyunzhang.wetrade.DataClass.Inventory;
 
 import java.util.ArrayList;
 
@@ -18,10 +25,15 @@ public class ConditionAndQuantityAdapter extends RecyclerView.Adapter {
 
     Context context;
     ArrayList<ConditionAndQuantity> conditionAndQuantities;
+    Inventory inventory;
 
     public ConditionAndQuantityAdapter(Context context, ArrayList<ConditionAndQuantity> conditionAndQuantities){
         this.context = context;
         this.conditionAndQuantities = conditionAndQuantities;
+    }
+
+    public void setInventory(Inventory inventory){
+        this.inventory = inventory;
     }
 
     @NonNull
@@ -41,7 +53,29 @@ public class ConditionAndQuantityAdapter extends RecyclerView.Adapter {
         holder.sellButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(context, "Clicked on sell button", Toast.LENGTH_SHORT).show();
+                Log.d("jdkfjalfjalkfj", inventory.toString());
+                AlertDialog.Builder mBuilder = new AlertDialog.Builder(context);
+                LayoutInflater inflater = LayoutInflater.from(context);
+                View mView = inflater.inflate(R.layout.sell_window_popup, null);
+                ImageView image = mView.findViewById(R.id.sell_item_image);
+                Glide.with(context).load(inventory.getImageUrl()).into(image);
+                TextView name = mView.findViewById(R.id.sell_item_name);
+                name.setText(inventory.getName());
+                TextView desc = mView.findViewById(R.id.sell_item_desc);
+                desc.setText(inventory.getDescription());
+                TextView condition = mView.findViewById(R.id.sell_item_condition);
+                condition.setText("Condition: " + item.getCondition());
+                EditText quantity = mView.findViewById(R.id.sell_item_quantity);
+                EditText price = mView.findViewById(R.id.sell_item_price);
+
+                mBuilder.setTitle("Please Enter Selling Item Info:");
+
+                mBuilder.setPositiveButton("Confirm", (dialog, which) -> dialog.dismiss());
+                mBuilder.setNegativeButton("Cancel", (dialog, which) -> dialog.dismiss());
+
+                mBuilder.setView(mView);
+                AlertDialog dialog = mBuilder.create();
+                dialog.show();
             }
         });
         holder.add.setOnClickListener(new View.OnClickListener() {
