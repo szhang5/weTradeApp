@@ -3,7 +3,6 @@ package com.shiyunzhang.wetrade;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -17,7 +16,7 @@ import android.widget.ProgressBar;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.shiyunzhang.wetrade.DataClass.Inventory;
+import com.shiyunzhang.wetrade.DataClass.Product;
 
 import java.util.ArrayList;
 
@@ -46,7 +45,7 @@ public class CategoryItemsDisplayActivity extends AppCompatActivity {
         setContentView(R.layout.activity_category_item_display);
         Intent intent = this.getIntent();
         category = intent.getStringExtra("CATEGORY");
-        categoryItemsRef = db.collection("Inventory");
+        categoryItemsRef = db.collection("Product");
         init();
         setUpActionBar();
     }
@@ -68,24 +67,24 @@ public class CategoryItemsDisplayActivity extends AppCompatActivity {
 
 
     private void getCategoryItems(){
-//        categoryItemsRef.whereEqualTo("category", category)
-//                .get()
-//                .addOnSuccessListener(queryDocumentSnapshots -> {
-//                    ArrayList<Inventory> productList  = new ArrayList<>();
-//                    for(QueryDocumentSnapshot queryDocumentSnapshot : queryDocumentSnapshots){
-//                        Inventory item = queryDocumentSnapshot.toObject(Inventory.class);
-//                        productList.add(item);
-//                    }
-//                    adapter = new SearchAdapter(CategoryItemsDisplayActivity.this, productList, v-> {
-//                        int position = (int) v.getTag();
+        categoryItemsRef.whereEqualTo("category", category)
+                .get()
+                .addOnSuccessListener(queryDocumentSnapshots -> {
+                    ArrayList<Product> productList  = new ArrayList<>();
+                    for(QueryDocumentSnapshot queryDocumentSnapshot : queryDocumentSnapshots){
+                        Product item = queryDocumentSnapshot.toObject(Product.class);
+                        productList.add(item);
+                    }
+                    adapter = new SearchAdapter(CategoryItemsDisplayActivity.this, productList, v-> {
+                        int position = (int) v.getTag();
 //                        Intent intent = new Intent(this, RecentItemDetailActivity.class);
-//                        intent.putExtra("ID", productList.get(position).getItemID());
+//                        intent.putExtra("ID", productList.get(position).getProductId());
 //                        startActivity(intent);
-//                    });
-//                    categoryRecyclerView.setAdapter(adapter);
-//                    adapter.notifyDataSetChanged();
-//                    progressBar.setVisibility(View.GONE);
-//                })
-//                .addOnFailureListener(e -> Log.d(TAG, e.toString()));
+                    });
+                    categoryRecyclerView.setAdapter(adapter);
+                    adapter.notifyDataSetChanged();
+                    progressBar.setVisibility(View.GONE);
+                })
+                .addOnFailureListener(e -> Log.d(TAG, e.toString()));
     }
 }

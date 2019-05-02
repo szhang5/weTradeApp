@@ -12,14 +12,13 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.GridView;
 import android.widget.SearchView;
-import android.widget.Toast;
 
 import com.algolia.search.saas.Client;
 import com.algolia.search.saas.Index;
 import com.algolia.search.saas.Query;
 import com.google.gson.Gson;
 import com.shiyunzhang.wetrade.CategoryItemsDisplayActivity;
-import com.shiyunzhang.wetrade.DataClass.Inventory;
+import com.shiyunzhang.wetrade.DataClass.Product;
 import com.shiyunzhang.wetrade.R;
 import com.shiyunzhang.wetrade.RecentItemDetailActivity;
 import com.shiyunzhang.wetrade.SearchAdapter;
@@ -92,57 +91,57 @@ public class SearchFragment extends Fragment {
         searchResult.setHasFixedSize(true);
         searchResult.setLayoutManager(new LinearLayoutManager(getContext()));
         Client client = new Client("KBCNT58640", "7bf45a6696368d5ebc1ff04e57e4e1e0");
-        index = client.getIndex("Inventory");
+        index = client.getIndex("Product");
         setSearchListener();
     }
 
     private void setSearchListener() {
-//        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-//            @Override
-//            public boolean onQueryTextSubmit(String query) {
-//                if (query.length() < 2)
-//                    return false;
-//                return true;
-//            }
-//
-//            @Override
-//            public boolean onQueryTextChange(String newText) {
-//                if (newText.length() < 2) {
-//                    searchResult.setVisibility(View.GONE);
-//                    return false;
-//                }
-//                else {
-//                    Query query = new Query(newText)
-//                            .setAttributesToRetrieve("name", "category", "imageUrl", "itemID")
-//                            .setHitsPerPage(50);
-//                    index.searchAsync(query, (jsonObject, e) -> {
-//                        try {
-//                            JSONArray hits = jsonObject.getJSONArray("hits");
-//                            List<Inventory> list = new ArrayList<>();
-//                            for (int i = 0; i < hits.length(); i++) {
-//                                JSONObject productObject = hits.getJSONObject(i);
-//                                Gson gson = new Gson();
-//                                Inventory product = gson.fromJson(productObject.toString(), Inventory.class);
-//                                list.add(product);
-//                            }
-//                            adapter = new SearchAdapter(getActivity(), list, v -> {
-//                                int position = (int) v.getTag();
-//                                Intent intent = new Intent(getActivity(), RecentItemDetailActivity.class);
-//                                intent.putExtra("ID", list.get(position).getItemID());
-//                                startActivity(intent);
-//                            });
-//                            searchResult.setAdapter(adapter);
-//                            searchResult.setVisibility(View.VISIBLE);
-//                            adapter.notifyDataSetChanged();
-//                        } catch (JSONException e1) {
-//                            e1.printStackTrace();
-//                        }
-//                    });
-//                    return true;
-//                }
-//
-//            }
-//        });
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                if (query.length() < 2)
+                    return false;
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                if (newText.length() < 2) {
+                    searchResult.setVisibility(View.GONE);
+                    return false;
+                }
+                else {
+                    Query query = new Query(newText)
+                            .setAttributesToRetrieve("name", "category", "image", "productid")
+                            .setHitsPerPage(50);
+                    index.searchAsync(query, (jsonObject, e) -> {
+                        try {
+                            JSONArray hits = jsonObject.getJSONArray("hits");
+                            List<Product> list = new ArrayList<>();
+                            for (int i = 0; i < hits.length(); i++) {
+                                JSONObject productObject = hits.getJSONObject(i);
+                                Gson gson = new Gson();
+                                Product product = gson.fromJson(productObject.toString(), Product.class);
+                                list.add(product);
+                            }
+                            adapter = new SearchAdapter(getActivity(), list, v -> {
+                                int position = (int) v.getTag();
+                                Intent intent = new Intent(getActivity(), RecentItemDetailActivity.class);
+                                intent.putExtra("ID", list.get(position).getProductId());
+                                startActivity(intent);
+                            });
+                            searchResult.setAdapter(adapter);
+                            searchResult.setVisibility(View.VISIBLE);
+                            adapter.notifyDataSetChanged();
+                        } catch (JSONException e1) {
+                            e1.printStackTrace();
+                        }
+                    });
+                    return true;
+                }
+
+            }
+        });
     }
 
 }

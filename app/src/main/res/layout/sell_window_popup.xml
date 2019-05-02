@@ -57,14 +57,16 @@
         android:layout_marginEnd="20dp"
         android:orientation="horizontal">
 
-        <EditText
+
+        <android.support.v7.widget.AppCompatSpinner
             android:id="@+id/sell_item_quantity"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:textSize="16sp"
             android:layout_weight="1"
-            android:inputType="number"
-            android:hint="Quantity" />
+            android:layout_marginEnd="20dp"
+            android:textAlignment="center"
+            android:background="@drawable/dropdown_style" />
+
 
         <EditText
             android:id="@+id/sell_item_price"
@@ -77,30 +79,6 @@
 
     </LinearLayout>
 
-    <!--<LinearLayout-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_marginStart="20dp"-->
-        <!--android:layout_marginEnd="20dp"-->
-        <!--android:orientation="horizontal">-->
 
-        <!--<Button-->
-            <!--android:id="@+id/confirm_button"-->
-            <!--style="@style/ButtonDefaultBlueStyle"-->
-            <!--android:layout_width="0dp"-->
-            <!--android:layout_height="30dp"-->
-            <!--android:layout_weight="1"-->
-            <!--android:text="Confirm"-->
-            <!--android:layout_marginEnd="20dp"/>-->
-
-        <!--<Button-->
-            <!--android:id="@+id/cancel_button"-->
-            <!--style="@style/ButtonRedTransparentStyle"-->
-            <!--android:layout_width="0dp"-->
-            <!--android:layout_height="30dp"-->
-            <!--android:layout_weight="1"-->
-            <!--android:text="Cancel"/>-->
-        <!---->
-    <!--</LinearLayout>-->
 
 </LinearLayout>
