@@ -10,18 +10,19 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.shiyunzhang.wetrade.DataClass.Inventory;
+import com.shiyunzhang.wetrade.DataClass.ConditionAndQuantity;
+import com.shiyunzhang.wetrade.DataClass.ItemForSale;
 
 import java.util.ArrayList;
 
 public class RecentItemsAdapter extends RecyclerView.Adapter<RecentItemsAdapter.ViewHolder> {
 
-    private ArrayList<Inventory> recentItemsList;
+    private ArrayList<ItemForSale> recentItemsList;
     private Context context;
     private View.OnClickListener clickListener;
 
 
-    public RecentItemsAdapter(Context context, ArrayList<Inventory> recentItemsList, View.OnClickListener clickListener){
+    public RecentItemsAdapter(Context context, ArrayList<ItemForSale> recentItemsList, View.OnClickListener clickListener){
         this.context = context;
         this.recentItemsList = recentItemsList;
         this.clickListener = clickListener;
@@ -36,15 +37,21 @@ public class RecentItemsAdapter extends RecyclerView.Adapter<RecentItemsAdapter.
 
     @Override
     public void onBindViewHolder(@NonNull RecentItemsAdapter.ViewHolder viewHolder, int position) {
-        final Inventory inventory = getItem(position);
-        Glide.with(viewHolder.itemView).load(inventory.getImageUrl()).dontAnimate().into(viewHolder.recentItemImage);
-        viewHolder.recentItemName.setText(inventory.getName());
-//        viewHolder.recentItemPrice.setText("$" + inventory.getPrice());
+        final ItemForSale itemForSale = getItem(position);
+        Glide.with(viewHolder.itemView).load(itemForSale.getImageUrl()).dontAnimate().into(viewHolder.recentItemImage);
+        viewHolder.recentItemName.setText(itemForSale.getName());
+        double minPrice = Integer.MAX_VALUE;
+        if(itemForSale.getConditionAndQuantities() != null){
+            for(ConditionAndQuantity conditionAndQuantity : itemForSale.getConditionAndQuantities()){
+                minPrice = Math.min(minPrice, conditionAndQuantity.getPrice());
+            }
+        }
+        viewHolder.recentItemPrice.setText("$" + minPrice);
         viewHolder.itemView.setOnClickListener(clickListener);
         viewHolder.itemView.setTag(position);
     }
 
-    public Inventory getItem(int position){
+    public ItemForSale getItem(int position){
         return recentItemsList.get(position);
     }
 
@@ -56,14 +63,14 @@ public class RecentItemsAdapter extends RecyclerView.Adapter<RecentItemsAdapter.
     public class ViewHolder extends RecyclerView.ViewHolder {
         public ImageView recentItemImage;
         public TextView recentItemName;
-//        public TextView recentItemPrice;
+        public TextView recentItemPrice;
 
 
         public ViewHolder(View itemView) {
             super(itemView);
             this.recentItemImage = itemView.findViewById(R.id.recent_item_img);
             this.recentItemName = itemView.findViewById(R.id.recent_item_name);
-//            this.recentItemPrice = itemView.findViewById(R.id.recent_item_price);
+            this.recentItemPrice = itemView.findViewById(R.id.recent_item_price);
         }
     }
 }

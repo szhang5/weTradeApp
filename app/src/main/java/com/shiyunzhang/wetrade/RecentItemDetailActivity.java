@@ -123,7 +123,6 @@ public class RecentItemDetailActivity extends AppCompatActivity {
                         priceList = new ArrayList<>();
                         for(int i = 0; i < conditionAndQuantityList.size(); i++){
                             ConditionAndQuantity c = conditionAndQuantityList.get(i);
-                            Log.d("dfjalkjdlajfla", c.toString());
                             conditions[i] = c.getCondition();
                             quantities.add(c.getQuantity());
                             priceList.add(c.getPrice());
