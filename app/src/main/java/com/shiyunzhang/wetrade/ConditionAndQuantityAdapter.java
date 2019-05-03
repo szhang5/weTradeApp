@@ -1,8 +1,6 @@
 package com.shiyunzhang.wetrade;
 
 import android.app.AlertDialog;
-import android.app.Dialog;
-import android.content.ClipData;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.support.annotation.NonNull;
@@ -20,15 +18,20 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.algolia.search.saas.Client;
+import com.algolia.search.saas.Index;
 import com.bumptech.glide.Glide;
 import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.SetOptions;
+import com.google.gson.Gson;
 import com.shiyunzhang.wetrade.DataClass.ConditionAndQuantity;
 import com.shiyunzhang.wetrade.DataClass.Inventory;
 import com.shiyunzhang.wetrade.DataClass.ItemForSale;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 
@@ -174,7 +177,7 @@ public class ConditionAndQuantityAdapter extends RecyclerView.Adapter {
         }
     }
 
-    private void saveItemForSaleHelper(DialogInterface dialog) {
+    private void saveItemForSaleHelper(DialogInterface dialog, boolean addToSearch) {
         if (!priceView.getText().toString().trim().isEmpty()) {
             double price = Integer.parseInt(priceView.getText().toString().trim());
         } else {
@@ -184,6 +187,17 @@ public class ConditionAndQuantityAdapter extends RecyclerView.Adapter {
         ItemForSale itemForSale = new ItemForSale(itemID, imageUrl, category, name, description, conditionAndQuantitiesInSaleItem, uid, productId, timestamp);
         itemForSaleCollect.document(itemID).set(itemForSale, SetOptions.merge())
                 .addOnSuccessListener(aVoid -> {
+                    if(addToSearch) {
+                        Client client = new Client("KBCNT58640", "7bf45a6696368d5ebc1ff04e57e4e1e0");
+                        Index index = client.getIndex(COLLECTION);
+                        Gson gson = new Gson();
+                        String json = gson.toJson(itemForSale);
+                        try {
+                            index.addObjectAsync(new JSONObject(json), null);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
                     Toast.makeText(context, "Item Information Saved", Toast.LENGTH_SHORT).show();
                     dialog.dismiss();
                 })
@@ -220,14 +234,15 @@ public class ConditionAndQuantityAdapter extends RecyclerView.Adapter {
                                 exist = true;
                                 conditionAndQuantitiesInSaleItem.get(i).setQuantity(selectedQuantity);
                                 conditionAndQuantitiesInSaleItem.get(i).setPrice(price);
+                                // todo: remove when quantity is 0
                             }
                         }
                         if (!exist)
                             conditionAndQuantitiesInSaleItem.add(new ConditionAndQuantity(condition, selectedQuantity, price));
-                        saveItemForSaleHelper(dialog);
+                        saveItemForSaleHelper(dialog, false);
                     } else {
                         conditionAndQuantitiesInSaleItem.add(new ConditionAndQuantity(condition, selectedQuantity, price));
-                        saveItemForSaleHelper(dialog);
+                        saveItemForSaleHelper(dialog, true);
                     }
                 }).addOnFailureListener(e -> Log.d(TAG, "onFailure: " + e.toString()));
     }

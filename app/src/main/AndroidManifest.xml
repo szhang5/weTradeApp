@@ -80,6 +80,11 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.shiyunzhang.wetrade.HomeActivity" />
         </activity>
+        <activity android:name=".DetailItemForSaleActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.shiyunzhang.wetrade.HomeActivity" />
+        </activity>
     </application>
 
 </manifest>

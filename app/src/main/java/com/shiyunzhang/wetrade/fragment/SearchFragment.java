@@ -18,10 +18,10 @@ import com.algolia.search.saas.Index;
 import com.algolia.search.saas.Query;
 import com.google.gson.Gson;
 import com.shiyunzhang.wetrade.CategoryItemsDisplayActivity;
-import com.shiyunzhang.wetrade.DataClass.Product;
+import com.shiyunzhang.wetrade.DataClass.ItemForSale;
 import com.shiyunzhang.wetrade.R;
 import com.shiyunzhang.wetrade.RecentItemDetailActivity;
-import com.shiyunzhang.wetrade.SearchAdapter;
+import com.shiyunzhang.wetrade.SearchItemForSaleAdapter;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -34,7 +34,7 @@ import java.util.List;
 public class SearchFragment extends Fragment {
     private SearchView searchView;
     private RecyclerView searchResult;
-    private SearchAdapter adapter;
+    private SearchItemForSaleAdapter adapter;
     private Index index;
     private GridView categoryGridView;
 
@@ -91,7 +91,7 @@ public class SearchFragment extends Fragment {
         searchResult.setHasFixedSize(true);
         searchResult.setLayoutManager(new LinearLayoutManager(getContext()));
         Client client = new Client("KBCNT58640", "7bf45a6696368d5ebc1ff04e57e4e1e0");
-        index = client.getIndex("Product");
+        index = client.getIndex("ItemForSale");
         setSearchListener();
     }
 
@@ -112,22 +112,22 @@ public class SearchFragment extends Fragment {
                 }
                 else {
                     Query query = new Query(newText)
-                            .setAttributesToRetrieve("name", "category", "image", "productid")
+                            .setAttributesToRetrieve("name", "category", "imageUrl", "itemID", "objectID")
                             .setHitsPerPage(50);
                     index.searchAsync(query, (jsonObject, e) -> {
                         try {
                             JSONArray hits = jsonObject.getJSONArray("hits");
-                            List<Product> list = new ArrayList<>();
+                            List<ItemForSale> list = new ArrayList<>();
                             for (int i = 0; i < hits.length(); i++) {
                                 JSONObject productObject = hits.getJSONObject(i);
                                 Gson gson = new Gson();
-                                Product product = gson.fromJson(productObject.toString(), Product.class);
+                                ItemForSale product = gson.fromJson(productObject.toString(), ItemForSale.class);
                                 list.add(product);
                             }
-                            adapter = new SearchAdapter(getActivity(), list, v -> {
+                            adapter = new SearchItemForSaleAdapter(getActivity(), list, v -> {
                                 int position = (int) v.getTag();
                                 Intent intent = new Intent(getActivity(), RecentItemDetailActivity.class);
-                                intent.putExtra("ID", list.get(position).getProductId());
+                                intent.putExtra("ID", list.get(position).getItemID());
                                 startActivity(intent);
                             });
                             searchResult.setAdapter(adapter);
