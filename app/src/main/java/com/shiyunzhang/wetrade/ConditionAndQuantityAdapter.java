@@ -178,11 +178,6 @@ public class ConditionAndQuantityAdapter extends RecyclerView.Adapter {
     }
 
     private void saveItemForSaleHelper(DialogInterface dialog, boolean addToSearch) {
-        if (!priceView.getText().toString().trim().isEmpty()) {
-            double price = Integer.parseInt(priceView.getText().toString().trim());
-        } else {
-            Toast.makeText(context, "Please enter price", Toast.LENGTH_SHORT).show();
-        }
         long timestamp = System.currentTimeMillis();
         ItemForSale itemForSale = new ItemForSale(itemID, imageUrl, category, name, description, conditionAndQuantitiesInSaleItem, uid, productId, timestamp);
         itemForSaleCollect.document(itemID).set(itemForSale, SetOptions.merge())
@@ -200,6 +195,7 @@ public class ConditionAndQuantityAdapter extends RecyclerView.Adapter {
                     }
                     Toast.makeText(context, "Item Information Saved", Toast.LENGTH_SHORT).show();
                     dialog.dismiss();
+                    ((DetailInventory)context).finish();
                 })
                 .addOnFailureListener(e -> {
                     Toast.makeText(context, "Error!", Toast.LENGTH_LONG).show();
@@ -209,7 +205,7 @@ public class ConditionAndQuantityAdapter extends RecyclerView.Adapter {
 
     private void saveItemForSaleInfo(DialogInterface dialog, String condition) {
         if (!priceView.getText().toString().trim().isEmpty()) {
-            price = Integer.parseInt(priceView.getText().toString().trim());
+            price = Double.parseDouble(priceView.getText().toString().trim());
         } else {
             Toast.makeText(context, "Please enter price", Toast.LENGTH_SHORT).show();
         }
