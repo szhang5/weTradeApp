@@ -89,8 +89,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
+                android:textColor="@color/red"
+                android:textStyle="bold"
                 android:fontFamily="@font/lato_regular"
-                android:textSize="16sp" />
+                android:textSize="20sp" />
 
             <TextView
                 android:id="@+id/recent_detail_category"
