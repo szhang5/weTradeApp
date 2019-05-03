@@ -2,7 +2,7 @@ package com.shiyunzhang.wetrade.DataClass;
 
 import java.util.ArrayList;
 
-public class Inventory {
+public class ItemForSale {
     private String name;
     private String imageUrl;
     private String category;
@@ -10,11 +10,20 @@ public class Inventory {
     private String itemID;
     private String userID;
     private String productID;
+    private long timestamp;
     private ArrayList<ConditionAndQuantity> conditionAndQuantities;
 
-    public Inventory(){}
+    public ItemForSale(){}
 
-    public Inventory(String itemID, String imageUrl, String category, String name, String description, ArrayList<ConditionAndQuantity> conditionAndQuantity, String userID, String productID) {
+    public long getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(long timestamp) {
+        this.timestamp = timestamp;
+    }
+
+    public ItemForSale(String itemID, String imageUrl, String category, String name, String description, ArrayList<ConditionAndQuantity> conditionAndQuantity, String userID, String productID, long timestamp) {
         this.itemID = itemID;
         this.imageUrl = imageUrl;
         this.category = category;
@@ -23,6 +32,7 @@ public class Inventory {
         this.userID = userID;
         this.productID = productID;
         this.conditionAndQuantities = conditionAndQuantity;
+        this.timestamp = timestamp;
     }
 
     public ArrayList<ConditionAndQuantity> getConditionAndQuantities() {

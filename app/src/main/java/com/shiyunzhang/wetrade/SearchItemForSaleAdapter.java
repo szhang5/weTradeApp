@@ -9,18 +9,18 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.shiyunzhang.wetrade.DataClass.Product;
+import com.shiyunzhang.wetrade.DataClass.ItemForSale;
 
 import java.util.List;
 
-public class SearchAdapter extends RecyclerView.Adapter {
+public class SearchItemForSaleAdapter extends RecyclerView.Adapter {
     Context context;
-    List<Product> productList;
+    List<ItemForSale> itemForSaleList;
     View.OnClickListener clickListener;
 
-    public SearchAdapter(Context context, List<Product> productList, View.OnClickListener clickListener){
+    public SearchItemForSaleAdapter(Context context, List<ItemForSale> itemForSaleList, View.OnClickListener clickListener){
         this.context = context;
-        this.productList = productList;
+        this.itemForSaleList = itemForSaleList;
         this.clickListener = clickListener;
     }
 
@@ -33,9 +33,9 @@ public class SearchAdapter extends RecyclerView.Adapter {
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
-        Product product = getItem(i);
+        ItemForSale product = getItem(i);
         SearchViewHolder holder = (SearchViewHolder) viewHolder;
-        Glide.with(holder.itemView).load(product.getImage()).into(holder.imageView);
+        Glide.with(holder.itemView).load(product.getImageUrl()).into(holder.imageView);
         holder.itemName.setText(product.getName());
         holder.itemCategory.setText("Category: " + product.getCategory());
         holder.itemView.setOnClickListener(clickListener);
@@ -45,11 +45,11 @@ public class SearchAdapter extends RecyclerView.Adapter {
 
     @Override
     public int getItemCount() {
-        return productList.size();
+        return itemForSaleList.size();
     }
 
-    public Product getItem(int position){
-        return productList.get(position);
+    public ItemForSale getItem(int position){
+        return itemForSaleList.get(position);
     }
 
     public class SearchViewHolder extends RecyclerView.ViewHolder{
@@ -65,3 +65,5 @@ public class SearchAdapter extends RecyclerView.Adapter {
         }
     }
 }
+
+

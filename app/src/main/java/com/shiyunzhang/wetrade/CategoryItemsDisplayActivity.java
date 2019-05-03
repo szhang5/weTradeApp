@@ -3,7 +3,6 @@ package com.shiyunzhang.wetrade;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -17,7 +16,7 @@ import android.widget.ProgressBar;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.shiyunzhang.wetrade.DataClass.Inventory;
+import com.shiyunzhang.wetrade.DataClass.ItemForSale;
 
 import java.util.ArrayList;
 
@@ -25,7 +24,7 @@ public class CategoryItemsDisplayActivity extends AppCompatActivity {
     private String TAG = "CategoryItemsDisplayActivity";
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private CollectionReference categoryItemsRef;
-    private SearchAdapter adapter;
+    private SearchItemForSaleAdapter adapter;
     private String category;
     private RecyclerView categoryRecyclerView;
     private ProgressBar progressBar;
@@ -46,7 +45,7 @@ public class CategoryItemsDisplayActivity extends AppCompatActivity {
         setContentView(R.layout.activity_category_item_display);
         Intent intent = this.getIntent();
         category = intent.getStringExtra("CATEGORY");
-        categoryItemsRef = db.collection("Inventory");
+        categoryItemsRef = db.collection("ItemForSale");
         init();
         setUpActionBar();
     }
@@ -71,15 +70,15 @@ public class CategoryItemsDisplayActivity extends AppCompatActivity {
         categoryItemsRef.whereEqualTo("category", category)
                 .get()
                 .addOnSuccessListener(queryDocumentSnapshots -> {
-                    ArrayList<Inventory> productList  = new ArrayList<>();
+                    ArrayList<ItemForSale> itemForSaleList  = new ArrayList<>();
                     for(QueryDocumentSnapshot queryDocumentSnapshot : queryDocumentSnapshots){
-                        Inventory item = queryDocumentSnapshot.toObject(Inventory.class);
-                        productList.add(item);
+                        ItemForSale item = queryDocumentSnapshot.toObject(ItemForSale.class);
+                        itemForSaleList.add(item);
                     }
-                    adapter = new SearchAdapter(CategoryItemsDisplayActivity.this, productList, v-> {
+                    adapter = new SearchItemForSaleAdapter(CategoryItemsDisplayActivity.this, itemForSaleList, v-> {
                         int position = (int) v.getTag();
                         Intent intent = new Intent(this, RecentItemDetailActivity.class);
-                        intent.putExtra("ID", productList.get(position).getItemID());
+                        intent.putExtra("ID", itemForSaleList.get(position).getItemID());
                         startActivity(intent);
                     });
                     categoryRecyclerView.setAdapter(adapter);

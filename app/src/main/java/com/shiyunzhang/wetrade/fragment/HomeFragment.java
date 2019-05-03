@@ -13,13 +13,12 @@ import android.widget.ProgressBar;
 
 
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.shiyunzhang.wetrade.Authentication.LoginActivity;
-import com.shiyunzhang.wetrade.DataClass.Inventory;
+import com.shiyunzhang.wetrade.DataClass.ItemForSale;
 import com.shiyunzhang.wetrade.R;
 import com.shiyunzhang.wetrade.RecentItemDetailActivity;
 import com.shiyunzhang.wetrade.RecentItemsAdapter;
@@ -29,9 +28,9 @@ import java.util.ArrayList;
 
 public class HomeFragment extends Fragment {
     private String TAG = "HomeFragment";
-    private ArrayList<Inventory> recentItemsList;
-    private ArrayList<Inventory> homeDecorList;
-    private ArrayList<Inventory> kitchenList;
+    private ArrayList<ItemForSale> recentItemsList;
+    private ArrayList<ItemForSale> homeDecorList;
+    private ArrayList<ItemForSale> kitchenList;
     private RecentItemsAdapter adapter;
     private RecentItemsAdapter homeDecorAdapter;
     private RecentItemsAdapter kitchenAdapter;
@@ -55,7 +54,7 @@ public class HomeFragment extends Fragment {
             startActivity(new Intent(getActivity(), LoginActivity.class));
         }
 
-        recentItemsRef = db.collection("Inventory");
+        recentItemsRef = db.collection("ItemForSale");
         init(view);
         return view;
     }
@@ -115,12 +114,13 @@ public class HomeFragment extends Fragment {
     }
 
     private void getRecentItems(){
-        recentItemsRef.orderBy("timestamp", Query.Direction.DESCENDING)
+        recentItemsRef
+                .orderBy("timestamp", Query.Direction.DESCENDING)
                 .limit(10)
                 .get()
             .addOnSuccessListener(queryDocumentSnapshots -> {
                 for(QueryDocumentSnapshot queryDocumentSnapshot : queryDocumentSnapshots){
-                    Inventory item = queryDocumentSnapshot.toObject(Inventory.class);
+                    ItemForSale item = queryDocumentSnapshot.toObject(ItemForSale.class);
                     recentItemsList.add(item);
                     adapter.notifyDataSetChanged();
                 }
@@ -130,12 +130,12 @@ public class HomeFragment extends Fragment {
     }
 
     private void getHomeDecorItems(){
-        recentItemsRef.whereEqualTo("category", "Home and Kitchen Supplies")
+        recentItemsRef.whereEqualTo("category", "Apps and Games")
                 .limit(10)
                 .get()
                 .addOnSuccessListener(queryDocumentSnapshots -> {
                     for(QueryDocumentSnapshot queryDocumentSnapshot : queryDocumentSnapshots){
-                        Inventory item = queryDocumentSnapshot.toObject(Inventory.class);
+                        ItemForSale item = queryDocumentSnapshot.toObject(ItemForSale.class);
                         homeDecorList.add(item);
                         homeDecorAdapter.notifyDataSetChanged();
                     }
@@ -149,7 +149,7 @@ public class HomeFragment extends Fragment {
                 .get()
                 .addOnSuccessListener(queryDocumentSnapshots -> {
                     for(QueryDocumentSnapshot queryDocumentSnapshot : queryDocumentSnapshots){
-                        Inventory item = queryDocumentSnapshot.toObject(Inventory.class);
+                        ItemForSale item = queryDocumentSnapshot.toObject(ItemForSale.class);
                         kitchenList.add(item);
                         kitchenAdapter.notifyDataSetChanged();
                     }

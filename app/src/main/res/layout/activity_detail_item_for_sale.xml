@@ -11,21 +11,21 @@
 
 
         <LinearLayout
-            android:id="@+id/item_display_linear_layout"
+            android:id="@+id/item_for_sale_display_linear_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:padding="10dp">
 
             <ImageView
-                android:id="@+id/item_detail_image"
+                android:id="@+id/item_for_sale_detail_image"
                 android:layout_width="match_parent"
                 android:layout_height="250dp"
-                android:contentDescription="@string/item_img"
+                android:contentDescription="item_for_sale_image"
                 android:scaleType="centerCrop" />
 
             <TextView
-                android:id="@+id/item_detail_name"
+                android:id="@+id/item_for_sale_detail_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="25dp"
@@ -35,7 +35,7 @@
                 android:textSize="20sp" />
 
             <TextView
-                android:id="@+id/item_detail_description"
+                android:id="@+id/item_for_sale_detail_description"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
@@ -44,7 +44,7 @@
                 android:textSize="18sp" />
 
             <TextView
-                android:id="@+id/item_detail_condition"
+                android:id="@+id/item_for_sale_detail_condition"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/lato_semibold"
@@ -56,17 +56,17 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/item_detail_condition">
+                android:layout_below="@+id/item_for_sale_detail_condition">
 
                 <android.support.v7.widget.RecyclerView
-                    android:id="@+id/condition_quantity_recycler_view"
+                    android:id="@+id/condition_quantity_price_recycler_view"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
 
             </RelativeLayout>
 
             <TextView
-                android:id="@+id/item_detail_quantity"
+                android:id="@+id/item_for_sale_detail_quantity"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
@@ -74,17 +74,18 @@
                 android:textSize="16sp" />
 
             <TextView
-                android:id="@+id/item_detail_category"
+                android:id="@+id/item_for_sale_detail_category"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:fontFamily="@font/lato_regular"
                 android:textSize="16sp" />
 
+
         </LinearLayout>
 
         <Button
-            android:id="@+id/delete_item"
+            android:id="@+id/delete_item_for_sale"
             style="@style/ButtonDefaultRedStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

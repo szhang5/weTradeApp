@@ -2,6 +2,7 @@ package com.shiyunzhang.wetrade;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -9,8 +10,10 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.shiyunzhang.wetrade.DataClass.ConditionAndQuantity;
 import com.shiyunzhang.wetrade.DataClass.Inventory;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class InventoryAdapter extends RecyclerView.Adapter<InventoryAdapter.ViewHolder>{
@@ -34,11 +37,17 @@ public class InventoryAdapter extends RecyclerView.Adapter<InventoryAdapter.View
         final Inventory inventory = getItem(position);
         holder.inventoryName.setText(inventory.getName());
         Glide.with(holder.itemView).load(inventory.getImageUrl()).into(holder.inventoryPic);
-//        holder.inventoryPrice.setText("$" + inventory.getPrice());
-        holder.inventoryCondition.setText("Condition: " + inventory.getCondition());
-//        holder.inventoryDesciption.setText(inventory.getDescription());
-//        holder.inventoryCategory.setText(inventory.getCategory());
-        holder.inventoryQuantity.setText("Quantities: " + inventory.getQuantity());
+        holder.inventoryDesciption.setText(inventory.getDescription());
+        int totalQuantity = 0;
+        ArrayList<String> conditions = new ArrayList<>();
+        ArrayList<ConditionAndQuantity> conditionAndQuantities = inventory.getConditionAndQuantities();
+        if (conditionAndQuantities != null) {
+            for(int i = 0; i < conditionAndQuantities.size(); i++){
+                totalQuantity += conditionAndQuantities.get(i).getQuantity();
+                conditions.add(conditionAndQuantities.get(i).getCondition());
+            }
+        }
+        holder.inventoryQuantity.setText("Quantities: " + totalQuantity);
         holder.itemView.setOnClickListener(clickListener);
         holder.itemView.setTag(position);
     }
@@ -56,10 +65,7 @@ public class InventoryAdapter extends RecyclerView.Adapter<InventoryAdapter.View
     public class ViewHolder extends RecyclerView.ViewHolder {
         public ImageView inventoryPic;
         public TextView inventoryName;
-//        public TextView inventoryDesciption;
-//        public TextView inventoryPrice;
-        public TextView inventoryCondition;
-//        public TextView inventoryCategory;
+        public TextView inventoryDesciption;
         public TextView inventoryQuantity;
         public RelativeLayout relativeLayout;
 
@@ -67,10 +73,7 @@ public class InventoryAdapter extends RecyclerView.Adapter<InventoryAdapter.View
             super(itemView);
             this.inventoryPic = itemView.findViewById(R.id.inventory_image);
             this.inventoryName = itemView.findViewById(R.id.inventory_name);
-//            this.inventoryDesciption = itemView.findViewById(R.id.inventory_description);
-//            this.inventoryPrice = itemView.findViewById(R.id.inventory_price);
-            this.inventoryCondition = itemView.findViewById(R.id.inventory_condition);
-//            this.inventoryCategory = itemView.findViewById(R.id.inventory_category);
+            this.inventoryDesciption = itemView.findViewById(R.id.inventory_description);
             this.inventoryQuantity = itemView.findViewById(R.id.inventory_quantity);
             relativeLayout = itemView.findViewById(R.id.relativeLayout);
         }

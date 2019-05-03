@@ -60,20 +60,20 @@ public class SellerInfoActivity extends AppCompatActivity {
 
     private void getSellerInfo(){
         userRef.get()
-                .addOnSuccessListener(documentSnapshot -> {
-                    UserInfo userInfo = documentSnapshot.toObject(UserInfo.class);
-                    if(userInfo.getImageUrl() != null) {
-                        Glide.with(SellerInfoActivity.this).load(userInfo.getImageUrl()).into(sellerImage);
-                    }
-                    if(userInfo.getFirstName() != null && userInfo.getLastName() != null) {
-                        String name = userInfo.getFirstName() + " " + userInfo.getLastName();
-                        setTitle(name);
-                        sellerName.setText(name);
-                    }
-                    if(userInfo.getCollege() != null){
-                        sellerCollege.setText(userInfo.getCollege());
-                    }
-                })
-                .addOnFailureListener(e -> Toast.makeText(SellerInfoActivity.this, e.toString(), Toast.LENGTH_SHORT).show());
+            .addOnSuccessListener(documentSnapshot -> {
+                UserInfo userInfo = documentSnapshot.toObject(UserInfo.class);
+                if(userInfo.getImageUrl() != null) {
+                    Glide.with(SellerInfoActivity.this).load(userInfo.getImageUrl()).into(sellerImage);
+                }
+                if(userInfo.getFirstName() != null && userInfo.getLastName() != null) {
+                    String name = userInfo.getFirstName() + " " + userInfo.getLastName();
+                    setTitle(name);
+                    sellerName.setText(name);
+                }
+                if(userInfo.getCollege() != null){
+                    sellerCollege.setText(userInfo.getCollege());
+                }
+            })
+            .addOnFailureListener(e -> Toast.makeText(SellerInfoActivity.this, e.toString(), Toast.LENGTH_SHORT).show());
     }
 }

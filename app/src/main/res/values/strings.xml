@@ -32,6 +32,10 @@
     <string name="cancel">CANCEL</string>
     <string name="delete">DELETE</string>
     <string name="item_img">item_img</string>
+    <string name="create_a_new_product">create a new product</string>
+    <string name="condition">Condition:</string>
+    <string name="submit">Submit</string>
+    <string name="product_image">product_image</string>
 
 
     <string-array name="itemCondition">
