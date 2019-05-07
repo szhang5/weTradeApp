@@ -1,54 +1,86 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/whiteGray"
-    android:layout_margin ="20dp">
+    android:orientation="vertical">
 
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/seller_image"
-        android:layout_width="96dp"
-        android:layout_height="96dp"
-        android:src="@drawable/camera"
-        android:layout_centerVertical="true"/>
-
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_toEndOf="@+id/seller_image"
-        android:layout_margin="15dp"
-        android:orientation="vertical">
+        android:layout_margin="10dp"
+        android:background="@color/whiteGray">
 
-        <TextView
-            android:id="@+id/seller_name"
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/seller_image"
+            android:layout_width="96dp"
+            android:layout_height="96dp"
+            android:src="@drawable/camera" />
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/lato_bold"
-            android:textColor="@android:color/black"
-            android:textSize="20sp" />
+            android:layout_margin="15dp"
+            android:layout_toEndOf="@+id/seller_image"
+            android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/seller_college"
-            android:layout_width="match_parent"
+            <TextView
+                android:id="@+id/seller_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/lato_bold"
+                android:textColor="@android:color/black"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/seller_college"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/lato_semibold"
+                android:textColor="@android:color/black"
+                android:textSize="16sp" />
+
+
+            <TextView
+                android:id="@+id/seller_rating"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/lato_semibold"
+                android:text="Rating: 4.9/5.0"
+                android:textColor="@color/red"
+                android:textSize="16sp" />
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/seller_item_for_sale_label"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:layout_marginStart="10dp"
+        android:text="Items for Sale:"
+        android:textColor="@color/black"
+        android:textSize="18sp" />
+
+    <FrameLayout
+        android:layout_margin="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ProgressBar
+            android:id="@+id/seller_progressbar"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/lato_semibold"
-            android:textColor="@android:color/black"
-            android:textSize="16sp" />
+            android:layout_gravity="center"
+            android:visibility="gone" />
 
-
-        <TextView
-            android:id="@+id/seller_rating"
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/seller_item_for_sale_recyclerview"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/lato_semibold"
-            android:textColor="@color/red"
-            android:text="Rating: 4.9/5.0"
-            android:textSize="16sp" />
+            android:layout_height="wrap_content" />
+
+    </FrameLayout>
 
 
-    </LinearLayout>
-
-
-
-</RelativeLayout>
+</LinearLayout>

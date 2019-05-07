@@ -102,16 +102,14 @@ public class ConditionAndQuantityAdapter extends RecyclerView.Adapter {
             AlertDialog dialog = mBuilder.create();
             dialog.show();
         });
-        holder.add.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(context, "Clicked on add button", Toast.LENGTH_SHORT).show();
-            }
+        holder.add.setOnClickListener(v -> {
+            holder.quantity.setText("" + (item.getQuantity()+1));
         });
-        holder.subtract.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(context, "Clicked on remove button", Toast.LENGTH_SHORT).show();
+        holder.subtract.setOnClickListener(v -> {
+            if(item.getQuantity() > 0){
+                holder.quantity.setText("" + (item.getQuantity()-1));
+            } else {
+                Toast.makeText(context, "cannot reduce anymore, less than 0", Toast.LENGTH_SHORT).show();
             }
         });
     }

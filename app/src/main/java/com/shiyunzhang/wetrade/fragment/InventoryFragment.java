@@ -52,9 +52,6 @@ public class InventoryFragment extends Fragment {
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private CollectionReference inventoryRef, itemForSaleRef;
     private ProgressBar recentProgressBar;
-    private TextView unsoldItemCount;
-    private int totalQuantity;
-    private TabLayout tabLayout;
     private RecyclerView recyclerView, saleItemRecyclerView;
 
     @Override
@@ -96,7 +93,7 @@ public class InventoryFragment extends Fragment {
     }
 
     private void init(View view) {
-        tabLayout = view.findViewById(R.id.tabs);
+        TabLayout tabLayout = view.findViewById(R.id.tabs);
         tabLayout.addTab(tabLayout.newTab().setText("Inventory"));
         tabLayout.addTab(tabLayout.newTab().setText("Item For Sale"));
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
@@ -121,7 +118,6 @@ public class InventoryFragment extends Fragment {
 
             }
         });
-        unsoldItemCount = view.findViewById(R.id.unsold_item);
         recentProgressBar = view.findViewById(R.id.inventory_progressbar);
         recentProgressBar.setVisibility(View.VISIBLE);
         inventoryArrayList = new ArrayList<>();
@@ -153,23 +149,16 @@ public class InventoryFragment extends Fragment {
     }
 
     private void getInventory(){
-        totalQuantity = 0;
         inventoryRef.whereEqualTo("userID", uid).get()
             .addOnSuccessListener(queryDocumentSnapshots -> {
                 for(QueryDocumentSnapshot queryDocumentSnapshot : queryDocumentSnapshots){
                     Inventory inventory = queryDocumentSnapshot.toObject(Inventory.class);
                     ArrayList<ConditionAndQuantity> conditionAndQuantities = inventory.getConditionAndQuantities();
-                    if (conditionAndQuantities != null) {
-                        for(int i = 0; i < conditionAndQuantities.size(); i++){
-                            totalQuantity += conditionAndQuantities.get(i).getQuantity();
-                        }
-                    }
                     inventory.setItemID(queryDocumentSnapshot.getId());
                     inventoryArrayList.add(inventory);
                     adapter.notifyDataSetChanged();
                 }
                 recentProgressBar.setVisibility(View.GONE);
-                unsoldItemCount.setText(""+totalQuantity);
             });
     }
 

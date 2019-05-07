@@ -11,14 +11,20 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
 
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.gson.Gson;
 import com.shiyunzhang.wetrade.Authentication.LoginActivity;
+import com.shiyunzhang.wetrade.DataClass.Transaction;
 import com.shiyunzhang.wetrade.DataClass.UserInfo;
 import com.shiyunzhang.wetrade.fragment.FavoriteFragment;
 import com.shiyunzhang.wetrade.fragment.HomeFragment;
@@ -35,6 +41,8 @@ public class HomeActivity extends AppCompatActivity {
     private String uid;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private CollectionReference userRef = db.collection("User");
+    private CollectionReference shoppingCartCollection = db.collection("ShoppingCart");
+    private TextView shoppingCartCount;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -52,6 +60,8 @@ public class HomeActivity extends AppCompatActivity {
         uid = firebaseUser.getUid();
         getUserData();
         loadFragment(new HomeFragment());
+        shoppingCartCount = findViewById(R.id.text_count);
+
     }
 
     public void setUpActionBar(){
@@ -63,6 +73,12 @@ public class HomeActivity extends AppCompatActivity {
         navigation = findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         navigation.setSelectedItemId(R.id.navigation_home);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        getShoppingCartCount();
     }
 
     public void getUserData() {
@@ -115,4 +131,23 @@ public class HomeActivity extends AppCompatActivity {
         transaction.addToBackStack(null);
         transaction.commit();
     }
+
+    public void goToShoppingCart(View view) {
+        startActivity(new Intent(HomeActivity.this, ShoppingCartActivity.class));
+    }
+
+    private void getShoppingCartCount() {
+        shoppingCartCollection.whereEqualTo("customerId", uid)
+                .get()
+                .addOnSuccessListener(queryDocumentSnapshots -> {
+                    int size = queryDocumentSnapshots.size();
+                    if (size > 0) {
+                        shoppingCartCount.setText("" + queryDocumentSnapshots.size());
+                        shoppingCartCount.setVisibility(View.VISIBLE);
+                    } else {
+                        shoppingCartCount.setVisibility(View.INVISIBLE);
+                    }
+                });
+    }
+
 }
