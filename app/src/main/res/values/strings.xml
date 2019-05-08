@@ -36,6 +36,12 @@
     <string name="condition">Condition:</string>
     <string name="submit">Submit</string>
     <string name="product_image">product_image</string>
+    <string name="place_your_order">Place Your Order</string>
+    <string name="items">Items :</string>
+    <string name="shipping_and_handling">Shipping and handling :</string>
+    <string name="_0_00">$ 0.00</string>
+    <string name="total_before_tax">Total before tax :</string>
+    <string name="estimated_tax_to_be_collected">Estimated tax to be collected :</string>
 
 
     <string-array name="itemCondition">

@@ -84,6 +84,7 @@ public class ShoppingCartActivity extends AppCompatActivity {
 
     }
 
+
     private void getShoppingCartItem(){
         shoppingCartCollection.whereEqualTo("customerId", userInfo.getId())
             .get()
