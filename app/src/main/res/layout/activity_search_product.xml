@@ -38,5 +38,6 @@
         android:text="@string/create_a_new_product"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="5dp"
+        android:background="@color/white"
         android:onClick="addNewProduct"/>
 </RelativeLayout>

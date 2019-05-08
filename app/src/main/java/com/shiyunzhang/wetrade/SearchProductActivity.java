@@ -53,12 +53,12 @@ public class SearchProductActivity extends AppCompatActivity {
         productResultView.setLayoutManager(new LinearLayoutManager(this));
         setSearchListener();
     }
-    @Override
-    protected void onPause() {
-        super.onPause();
-        InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.hideSoftInputFromWindow(Objects.requireNonNull(getCurrentFocus()).getWindowToken(), 0);
-    }
+//    @Override
+//    protected void onPause() {
+//        super.onPause();
+//        InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+//        imm.hideSoftInputFromWindow(Objects.requireNonNull(getCurrentFocus()).getWindowToken(), 0);
+//    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

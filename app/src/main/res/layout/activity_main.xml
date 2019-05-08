@@ -11,7 +11,7 @@
         android:id="@+id/frame_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/navigation"/>
+        android:layout_above="@+id/navigation" />
 
 
     <android.support.design.widget.BottomNavigationView
@@ -20,11 +20,39 @@
         android:layout_height="70dp"
         android:layout_alignParentBottom="true"
         android:background="@android:color/white"
+        app:itemIconSize="30dp"
         app:itemIconTint="@color/button_navigation_style"
         app:itemTextColor="@color/button_navigation_style"
-        app:itemIconSize="30dp"
         app:labelVisibilityMode="labeled"
         app:menu="@menu/navigation" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/shopping_cart_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/navigation"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp"
+        android:backgroundTint="@color/black"
+        android:onClick="goToShoppingCart"
+        android:src="@drawable/ic_local_grocery_store_black_24dp"
+        app:maxImageSize="30dp" />
+
+    <TextView
+        android:id="@+id/text_count"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/navigation"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="15dp"
+        android:layout_marginBottom="40dp"
+        android:background="@drawable/red_circle"
+        android:elevation="7dp"
+        android:gravity="center"
+        android:textColor="@color/white"
+        android:textSize="15sp"
+        android:visibility="invisible" />
 
 
 </RelativeLayout>

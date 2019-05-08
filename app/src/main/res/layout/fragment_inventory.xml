@@ -7,7 +7,7 @@
     <FrameLayout
         android:id="@+id/add_item_frame"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
+        android:layout_height="100dp"
         android:background="#f2f2f2">
 
         <Button
@@ -16,68 +16,69 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:textAllCaps="false"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
             android:textSize="18sp"
-            android:layout_marginStart="10dp"
-            android:layout_marginEnd="10dp"
+            android:gravity="center"
             style="@style/ButtonDefaultBlueStyle"
             android:text="Add an item"/>
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom|center_horizontal">
+        <!--<LinearLayout-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_gravity="bottom|center_horizontal">-->
 
-            <RelativeLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="30dp">
+            <!--<RelativeLayout-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:padding="30dp">-->
 
-                <TextView
-                    android:id="@+id/sold_item"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:fontFamily="@font/lato_semibold"
-                    android:text="0"
-                    android:textColor="@android:color/black"
-                    android:textSize="40dp" />
+                <!--<TextView-->
+                    <!--android:id="@+id/sold_item"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_centerInParent="true"-->
+                    <!--android:fontFamily="@font/lato_semibold"-->
+                    <!--android:text="0"-->
+                    <!--android:textColor="@android:color/black"-->
+                    <!--android:textSize="40dp" />-->
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="18sp"
-                    android:layout_marginTop="20dp"
-                    android:layout_below="@+id/sold_item"
-                    android:text="Sold" />
+                <!--<TextView-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:textSize="18sp"-->
+                    <!--android:layout_marginTop="20dp"-->
+                    <!--android:layout_below="@+id/sold_item"-->
+                    <!--android:text="Sold" />-->
 
-            </RelativeLayout>
+            <!--</RelativeLayout>-->
 
-            <RelativeLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="30dp">
+            <!--<RelativeLayout-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:padding="30dp">-->
 
-                <TextView
-                    android:id="@+id/unsold_item"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:fontFamily="@font/lato_semibold"
-                    android:textColor="@android:color/black"
-                    android:text="0"
-                    android:textSize="40dp" />
+                <!--<TextView-->
+                    <!--android:id="@+id/unsold_item"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_centerInParent="true"-->
+                    <!--android:fontFamily="@font/lato_semibold"-->
+                    <!--android:textColor="@android:color/black"-->
+                    <!--android:text="0"-->
+                    <!--android:textSize="40dp" />-->
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="18sp"
-                    android:layout_marginTop="20dp"
-                    android:layout_below="@+id/unsold_item"
-                    android:text="Unsold" />
+                <!--<TextView-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:textSize="18sp"-->
+                    <!--android:layout_marginTop="20dp"-->
+                    <!--android:layout_below="@+id/unsold_item"-->
+                    <!--android:text="Unsold" />-->
 
-            </RelativeLayout>
+            <!--</RelativeLayout>-->
 
-        </LinearLayout>
+        <!--</LinearLayout>-->
     </FrameLayout>
 
     <android.support.design.widget.TabLayout

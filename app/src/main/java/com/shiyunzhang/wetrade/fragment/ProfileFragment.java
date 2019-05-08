@@ -1,5 +1,6 @@
 package com.shiyunzhang.wetrade.fragment;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -39,6 +40,7 @@ public class ProfileFragment extends Fragment {
     private String uid;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private CollectionReference userRef = db.collection("User");
+    private UserInfo user;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -58,6 +60,7 @@ public class ProfileFragment extends Fragment {
     public void onResume() {
         super.onResume();
         getUserData();
+        getUserInfoFromPreference();
     }
 
     private void init(View view) {
@@ -77,6 +80,27 @@ public class ProfileFragment extends Fragment {
         logout = view.findViewById(R.id.log_out_button);
         profileInfo = view.findViewById(R.id.user_info_linear_layout);
         noProfileInfo = view.findViewById(R.id.no_profile_linear_layout);
+    }
+
+    private void getUserInfoFromPreference(){
+        SharedPreferences sharedpreferences = getActivity().getSharedPreferences("PREFERENCE", Context.MODE_PRIVATE);
+        String userStr = sharedpreferences.getString("USER", "");
+        Gson gson = new Gson();
+        user = gson.fromJson(userStr, UserInfo.class);
+        if(user != null){
+            profileInfo.setVisibility(View.VISIBLE);
+            noProfileInfo.setVisibility(View.GONE);
+            userName.setText(user.getFirstName() + " " + user.getLastName());
+            graduationDate.setText(user.getExpectedGraduationDate());
+            address.setText(user.getCity() + ", " + user.getState());
+            Glide.with(this).load(user.getImageUrl()).into(profileImg);
+            college.setText(user.getCollege());
+            email.setText(user.getEmail());
+        } else {
+            noProfileInfo.setVisibility(View.VISIBLE);
+            profileInfo.setVisibility(View.GONE);
+        }
+
     }
 
     public void getUserData() {
