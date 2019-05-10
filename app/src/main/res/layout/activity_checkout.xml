@@ -17,7 +17,8 @@
             android:layout_height="wrap_content"
             android:text="@string/place_your_order"
             android:layout_marginBottom="20dp"
-            android:textColor="@color/black" />
+            android:textColor="@color/black"
+            android:onClick="placeOrder" />
 
         <TextView
             android:id="@+id/shipping_address"
@@ -179,7 +180,8 @@
             android:layout_height="wrap_content"
             android:text="@string/place_your_order"
             android:textColor="@color/black"
-            android:layout_marginBottom="30dp"/>
+            android:layout_marginBottom="30dp"
+            android:onClick="placeOrder"/>
 
     </LinearLayout>
 
