@@ -41,7 +41,7 @@ public class HomeActivity extends AppCompatActivity {
     private String uid;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private CollectionReference userRef = db.collection("User");
-    private CollectionReference shoppingCartCollection = db.collection("ShoppingCart");
+    private CollectionReference shoppingCartCollection;
     private TextView shoppingCartCount;
 
     @Override
@@ -61,6 +61,7 @@ public class HomeActivity extends AppCompatActivity {
         getUserData();
         loadFragment(new HomeFragment());
         shoppingCartCount = findViewById(R.id.text_count);
+        shoppingCartCollection = db.collection("ShoppingCart").document(uid).collection("ItemByUser");
 
     }
 
@@ -137,7 +138,7 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     private void getShoppingCartCount() {
-        shoppingCartCollection.whereEqualTo("customerId", uid)
+        shoppingCartCollection
                 .get()
                 .addOnSuccessListener(queryDocumentSnapshots -> {
                     int size = queryDocumentSnapshots.size();

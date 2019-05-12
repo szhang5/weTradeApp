@@ -144,7 +144,7 @@ public class DetailInventory extends AppCompatActivity {
             dialog.dismiss();
         });
         mBuilder.setNegativeButton("Cancel", (dialog, which) -> dialog.dismiss());
-        mBuilder.setView(view);
+        mBuilder.setView(v);
         AlertDialog dialog = mBuilder.create();
         dialog.show();
     }

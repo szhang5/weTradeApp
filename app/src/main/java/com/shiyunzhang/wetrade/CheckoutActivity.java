@@ -42,7 +42,7 @@ public class CheckoutActivity extends AppCompatActivity {
     private final static String TAG = "CheckoutActivity";
     private TextView shippingAddress, itemPrice, totalBeforeTax, taxCollect, totalPrice;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
-    private CollectionReference shoppingCartCollection = db.collection("ShoppingCart");
+    private CollectionReference shoppingCartCollection;
     private CollectionReference inventoryCollection = db.collection("Inventory");
     private ArrayList<Transaction> shoppingCartList;
     private RecyclerView mRecyclerView;
@@ -84,6 +84,7 @@ public class CheckoutActivity extends AppCompatActivity {
 
     private void init(){
         getUserInfoFromPreference();
+        shoppingCartCollection = db.collection("ShoppingCart").document(userInfo.getId()).collection("ItemByUser");
         shoppingCartList = new ArrayList<>();
         shippingAddress = findViewById(R.id.shipping_address);
         shippingAddress.setText("Shipping Address: \n" + userInfo.getAddress() + ", " + userInfo.getCity()
@@ -102,7 +103,7 @@ public class CheckoutActivity extends AppCompatActivity {
 
     private void getShoppingCartList(){
         amount = 0;
-        shoppingCartCollection.whereEqualTo("customerId", userInfo.getId())
+        shoppingCartCollection
                 .get()
                 .addOnSuccessListener(queryDocumentSnapshots -> {
                     for(QueryDocumentSnapshot queryDocumentSnapshot : queryDocumentSnapshots){
