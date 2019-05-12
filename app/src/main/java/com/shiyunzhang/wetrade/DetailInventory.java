@@ -9,7 +9,9 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -128,5 +130,22 @@ public class DetailInventory extends AppCompatActivity {
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    public void createAuction(View view) {
+//        Intent intent = new Intent(this, AuctionActivity.class);
+//        startActivity(intent);
+        AlertDialog.Builder mBuilder = new AlertDialog.Builder(this);
+        LayoutInflater inflater = LayoutInflater.from(this);
+        View v = inflater.inflate(R.layout.start_auction_popup, null);
+
+        mBuilder.setTitle("Please add a base price for this auction: ");
+        mBuilder.setPositiveButton("Start Auction", (dialog, which) -> {
+            dialog.dismiss();
+        });
+        mBuilder.setNegativeButton("Cancel", (dialog, which) -> dialog.dismiss());
+        mBuilder.setView(view);
+        AlertDialog dialog = mBuilder.create();
+        dialog.show();
     }
 }

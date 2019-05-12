@@ -42,6 +42,7 @@
     <string name="_0_00">$ 0.00</string>
     <string name="total_before_tax">Total before tax :</string>
     <string name="estimated_tax_to_be_collected">Estimated tax to be collected :</string>
+    <string name="create_auction">CREATE AUCTION</string>
 
 
     <string-array name="itemCondition">
