@@ -97,7 +97,7 @@ public class RecentItemDetailActivity extends AppCompatActivity {
         Intent intent = this.getIntent();
         String documentId = intent.getStringExtra("ID");
         itemRef = db.collection("ItemForSale").document(documentId);
-        shoppingCartCollection = db.collection("ShoppingCart");
+        shoppingCartCollection = db.collection("ShoppingCart").document(userInfo.getId()).collection("ItemByUser");
         itemImage = findViewById(R.id.recent_item_detail_image);
         itemName = findViewById(R.id.recent_detail_name);
         itemCategory = findViewById(R.id.recent_detail_category);
@@ -197,10 +197,10 @@ public class RecentItemDetailActivity extends AppCompatActivity {
                     }
                     if (transaction != null) {
                         selectedQuantity = transaction.getQuantity() + selectedQuantity;
-                        DocumentReference shoppingCartRef = db.collection("ShoppingCart").document(transaction.getTransactionId());
+                        DocumentReference shoppingCartRef = shoppingCartCollection.document(transaction.getTransactionId());
                         saveAddToCartHelper(shoppingCartRef, dialog, transaction.getTransactionId());
                     } else {
-                        DocumentReference shoppingCartRef = db.collection("ShoppingCart").document();
+                        DocumentReference shoppingCartRef = shoppingCartCollection.document();
                         String transactionId = shoppingCartRef.getId();
                         saveAddToCartHelper(shoppingCartRef, dialog, transactionId);
                     }
