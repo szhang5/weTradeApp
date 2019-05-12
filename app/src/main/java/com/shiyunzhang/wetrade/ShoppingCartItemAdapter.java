@@ -3,6 +3,7 @@ package com.shiyunzhang.wetrade;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -14,7 +15,9 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.gson.Gson;
 import com.shiyunzhang.wetrade.DataClass.Transaction;
+import com.shiyunzhang.wetrade.DataClass.UserInfo;
 
 import java.util.ArrayList;
 
@@ -23,6 +26,12 @@ public class ShoppingCartItemAdapter extends RecyclerView.Adapter {
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private DocumentReference shoppingCartRef;
     private Context context;
+
+    public void setUserInfo(UserInfo userInfo) {
+        this.userInfo = userInfo;
+    }
+
+    private UserInfo userInfo;
     private ArrayList<Transaction> shoppingCartItems;
 
     public ShoppingCartItemAdapter(Context context, ArrayList<Transaction> shoppingCartItems){
@@ -93,7 +102,7 @@ public class ShoppingCartItemAdapter extends RecyclerView.Adapter {
     }
 
     public void deleteShoppingCartItem(Transaction transaction, DialogInterface dialog, int position){
-        shoppingCartRef = db.collection("ShoppingCart").document(transaction.getTransactionId());
+        shoppingCartRef = db.collection("ShoppingCart").document(userInfo.getId()).collection("ItemByUser").document(transaction.getTransactionId());
         shoppingCartRef.delete().addOnSuccessListener(aVoid -> dialog.dismiss());
         shoppingCartItems.remove(position);
         notifyDataSetChanged();

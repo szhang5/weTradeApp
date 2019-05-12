@@ -32,7 +32,7 @@ public class ShoppingCartActivity extends AppCompatActivity {
     private RecyclerView mRecyclerView;
     private ShoppingCartItemAdapter adapter;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
-    private CollectionReference shoppingCartCollection = db.collection("ShoppingCart");
+    private CollectionReference shoppingCartCollection;
     private UserInfo userInfo;
     private ArrayList<Transaction> shoppingCartList;
     private ProgressBar progressBar;
@@ -64,6 +64,7 @@ public class ShoppingCartActivity extends AppCompatActivity {
 
     private void init(){
         getUserInfoFromPreference();
+        shoppingCartCollection = db.collection("ShoppingCart").document(userInfo.getId()).collection("ItemByUser");
         nothingSelectedTextView = findViewById(R.id.nothing_in_shopping_cart);
         progressBar = findViewById(R.id.shopping_cart_progressbar);
         progressBar.setVisibility(View.VISIBLE);
@@ -75,6 +76,7 @@ public class ShoppingCartActivity extends AppCompatActivity {
         mRecyclerView.addItemDecoration(dividerItemDecoration);
         shoppingCartList = new ArrayList<>();
         adapter = new ShoppingCartItemAdapter(this, shoppingCartList);
+        adapter.setUserInfo(userInfo);
         mRecyclerView.setAdapter(adapter);
         getShoppingCartItem();
     }
@@ -89,7 +91,7 @@ public class ShoppingCartActivity extends AppCompatActivity {
 
 
     private void getShoppingCartItem(){
-        shoppingCartCollection.whereEqualTo("customerId", userInfo.getId())
+        shoppingCartCollection
             .get()
             .addOnSuccessListener(queryDocumentSnapshots -> {
                 for(QueryDocumentSnapshot queryDocumentSnapshot : queryDocumentSnapshots){
