@@ -5,6 +5,16 @@
     android:layout_margin="15dp"
     android:orientation="vertical">
 
+    <TextView
+        android:id="@+id/nothing_in_shopping_cart"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/checkout_btn"
+        android:textSize="25sp"
+        android:gravity="center"
+        android:text="Nothing in Shopping Cart Yet"
+        android:visibility="gone"/>
+
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"

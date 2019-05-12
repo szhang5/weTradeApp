@@ -13,6 +13,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnFailureListener;
@@ -30,9 +31,7 @@ import com.shiyunzhang.wetrade.DataClass.Inventory;
 import com.shiyunzhang.wetrade.DataClass.Transaction;
 import com.shiyunzhang.wetrade.DataClass.UserInfo;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -124,6 +123,8 @@ public class CheckoutActivity extends AppCompatActivity {
     }
 
     public void placeOrder(View view) {
+        FrameLayout frameLayout = findViewById(R.id.progressbar_layout);
+        frameLayout.setVisibility(View.VISIBLE);
         ArrayList<Task<QuerySnapshot>> customerTasks = new ArrayList<>();
         ArrayList<Task<QuerySnapshot>> sellerTasks = new ArrayList<>();
         Map<String, List<ConditionAndQuantity>> itemInfo = new HashMap<>();
@@ -186,7 +187,6 @@ public class CheckoutActivity extends AppCompatActivity {
                         ArrayList<ConditionAndQuantity> conditionAndQuantities = inventory.getConditionAndQuantities();
                         Inventory inventory1 =  productInfo.get(productID);
                         for(ConditionAndQuantity conditionAndQuantity1 : inventory1.getConditionAndQuantities()) {
-                            Log.d("gttest", "asdfdddddddddd");
                             boolean conditionExist = false;
                             for(ConditionAndQuantity conditionAndQuantity : conditionAndQuantities) {
                                 if (conditionAndQuantity.getCondition().equals(conditionAndQuantity1.getCondition())) {
@@ -200,13 +200,11 @@ public class CheckoutActivity extends AppCompatActivity {
 
                         }
                         inventory.setConditionAndQuantities(conditionAndQuantities);
-                        Log.d("gttest1", inventory.toString());
                         updateCustomerInventoryTasks.add(inventoryCollection.document(itemID).set(inventory, SetOptions.merge()));
                     }
                 }
                 for (Map.Entry<String, Inventory> entry : productInfo.entrySet()) {
                     if (!existProduct.contains(entry.getKey())) {
-                        Log.d("gttest2", "sdfadfsafsdfasfds");
                         Inventory inventory = entry.getValue();
                         updateCustomerInventoryTasks.add(inventoryCollection.document(inventory.getItemID()).set(inventory));
                     }
@@ -215,7 +213,8 @@ public class CheckoutActivity extends AppCompatActivity {
                 allUpdateCustomerInventoryTasks.addOnSuccessListener(new OnSuccessListener<List<QuerySnapshot>>() {
                     @Override
                     public void onSuccess(List<QuerySnapshot> querySnapshots) {
-
+                        frameLayout.setVisibility(View.GONE);
+                        finish();
                     }
                 });
             }
@@ -243,9 +242,6 @@ public class CheckoutActivity extends AppCompatActivity {
                             }
                         }
                         inventory.setConditionAndQuantities(conditionAndQuantities);
-                        Log.d("gttest", inventory.toString());
-                        Log.d("gttest", inventory.getUserID());
-                        Log.d("gttest", inventory.getItemID());
                         updateSellerInventoryTasks.add(inventoryCollection.document(itemID).set(inventory, SetOptions.merge()));
                     }
                 }

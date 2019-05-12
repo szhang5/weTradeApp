@@ -16,6 +16,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -35,6 +36,7 @@ public class ShoppingCartActivity extends AppCompatActivity {
     private UserInfo userInfo;
     private ArrayList<Transaction> shoppingCartList;
     private ProgressBar progressBar;
+    private TextView nothingSelectedTextView;
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -62,6 +64,7 @@ public class ShoppingCartActivity extends AppCompatActivity {
 
     private void init(){
         getUserInfoFromPreference();
+        nothingSelectedTextView = findViewById(R.id.nothing_in_shopping_cart);
         progressBar = findViewById(R.id.shopping_cart_progressbar);
         progressBar.setVisibility(View.VISIBLE);
         mRecyclerView = findViewById(R.id.shopping_cart_recyclerview);
@@ -95,6 +98,13 @@ public class ShoppingCartActivity extends AppCompatActivity {
                     adapter.notifyDataSetChanged();
                 }
                 progressBar.setVisibility(View.GONE);
+                if(shoppingCartList.size() == 0){
+                    nothingSelectedTextView.setVisibility(View.VISIBLE);
+                    mRecyclerView.setVisibility(View.GONE);
+                } else {
+                    mRecyclerView.setVisibility(View.VISIBLE);
+                    nothingSelectedTextView.setVisibility(View.GONE);
+                }
             })
             .addOnFailureListener(e -> Log.d(TAG, e.toString()));
     }
