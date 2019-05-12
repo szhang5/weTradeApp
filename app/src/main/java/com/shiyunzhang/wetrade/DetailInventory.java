@@ -1,20 +1,24 @@
 package com.shiyunzhang.wetrade;
 
 import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+
 import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatSpinner;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -22,19 +26,21 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.shiyunzhang.wetrade.DataClass.Auction;
 import com.shiyunzhang.wetrade.DataClass.ConditionAndQuantity;
 import com.shiyunzhang.wetrade.DataClass.Inventory;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 
 
 public class DetailInventory extends AppCompatActivity {
+    private final static String TAG = "DetailInventory";
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private DocumentReference itemRef;
+    private DocumentReference auctionRef;
     private ImageView itemImage;
     private TextView itemName, itemDesc, itemCategory, itemQuantity;
-    private String name, desc, category, imageUrl, auctionConditionSelected;
+    private String name, desc, category, imageUrl, auctionConditionSelected, auctionId;
     private int quantity;
     private Inventory item;
     private ArrayList<ConditionAndQuantity> conditionAndQuantities = new ArrayList<>();
@@ -59,6 +65,8 @@ public class DetailInventory extends AppCompatActivity {
         Intent intent = this.getIntent();
         String documentId = intent.getStringExtra("ID");
         itemRef = db.collection("Inventory").document(documentId);
+        auctionRef = db.collection("Auction").document();
+        auctionId = auctionRef.getId();
         itemImage = findViewById(R.id.item_detail_image);
         itemName = findViewById(R.id.item_detail_name);
         itemDesc = findViewById(R.id.item_detail_description);
@@ -141,14 +149,20 @@ public class DetailInventory extends AppCompatActivity {
         AlertDialog.Builder mBuilder = new AlertDialog.Builder(this);
         LayoutInflater inflater = LayoutInflater.from(this);
         View v = inflater.inflate(R.layout.start_auction_popup, null);
+        EditText priceView = v.findViewById(R.id.auction_price);
         setUpConditionSpinner(v);
         mBuilder.setTitle("Enter Auction Info Below: ");
         mBuilder.setPositiveButton("Start Auction", (dialog, which) -> {
-            Intent intent = new Intent(this, AuctionActivity.class);
-            intent.putExtra("CONDITION", auctionConditionSelected);
-            intent.putExtra("INVENTORY", (Serializable) item);
-            startActivity(intent);
-            dialog.dismiss();
+            if(priceView.getText().toString().isEmpty()){
+                Toast.makeText(this, "Please enter price before starting an auction", Toast.LENGTH_SHORT).show();
+            } else {
+                double price = Double.parseDouble(priceView.getText().toString());
+                ArrayList<ConditionAndQuantity> conditionAndQuantities = new ArrayList<>();
+                conditionAndQuantities.add(new ConditionAndQuantity(auctionConditionSelected, 1));
+                item.setConditionAndQuantities(conditionAndQuantities);
+                Auction auction = new Auction(auctionId, item, price);
+                saveAuctionToDatabase(auction, dialog);
+            }
         });
         mBuilder.setNegativeButton("Cancel", (dialog, which) -> dialog.dismiss());
         mBuilder.setView(v);
@@ -175,5 +189,17 @@ public class DetailInventory extends AppCompatActivity {
                 auctionConditionSelected = conditions[0];
             }
         });
+    }
+
+    private void saveAuctionToDatabase(Auction auction, DialogInterface dialog){
+        auctionRef.set(auction)
+            .addOnSuccessListener(aVoid -> {
+                Intent intent = new Intent(DetailInventory.this, AuctionActivity.class);
+                intent.putExtra("AUCTIONID", auctionId);
+                startActivity(intent);
+                dialog.dismiss();
+                finish();
+            })
+            .addOnFailureListener(e -> Log.d(TAG, e.toString()));
     }
 }
