@@ -7,11 +7,14 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.AppCompatSpinner;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -22,6 +25,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.shiyunzhang.wetrade.DataClass.ConditionAndQuantity;
 import com.shiyunzhang.wetrade.DataClass.Inventory;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 
@@ -30,8 +34,9 @@ public class DetailInventory extends AppCompatActivity {
     private DocumentReference itemRef;
     private ImageView itemImage;
     private TextView itemName, itemDesc, itemCategory, itemQuantity;
-    private String name, desc, category, imageUrl;
+    private String name, desc, category, imageUrl, auctionConditionSelected;
     private int quantity;
+    private Inventory item;
     private ArrayList<ConditionAndQuantity> conditionAndQuantities = new ArrayList<>();
 
     @Override
@@ -85,7 +90,7 @@ public class DetailInventory extends AppCompatActivity {
     public void getItemInfo(){
         itemRef.get()
             .addOnSuccessListener(documentSnapshot -> {
-                Inventory item = documentSnapshot.toObject(Inventory.class);
+                item = documentSnapshot.toObject(Inventory.class);
                 if(item.getImageUrl() != null){
                     imageUrl = item.getImageUrl();
                     Glide.with(DetailInventory.this).load(imageUrl).into(itemImage);
@@ -133,19 +138,42 @@ public class DetailInventory extends AppCompatActivity {
     }
 
     public void createAuction(View view) {
-//        Intent intent = new Intent(this, AuctionActivity.class);
-//        startActivity(intent);
         AlertDialog.Builder mBuilder = new AlertDialog.Builder(this);
         LayoutInflater inflater = LayoutInflater.from(this);
         View v = inflater.inflate(R.layout.start_auction_popup, null);
-
-        mBuilder.setTitle("Please add a base price for this auction: ");
+        setUpConditionSpinner(v);
+        mBuilder.setTitle("Enter Auction Info Below: ");
         mBuilder.setPositiveButton("Start Auction", (dialog, which) -> {
+            Intent intent = new Intent(this, AuctionActivity.class);
+            intent.putExtra("CONDITION", auctionConditionSelected);
+            intent.putExtra("INVENTORY", (Serializable) item);
+            startActivity(intent);
             dialog.dismiss();
         });
         mBuilder.setNegativeButton("Cancel", (dialog, which) -> dialog.dismiss());
-        mBuilder.setView(view);
+        mBuilder.setView(v);
         AlertDialog dialog = mBuilder.create();
         dialog.show();
+    }
+
+    private void setUpConditionSpinner(View view){
+        AppCompatSpinner conditionSpinner = view.findViewById(R.id.auction__condition_spinner);
+        String[] conditions = new String[conditionAndQuantities.size()];
+        for(int i = 0; i < conditionAndQuantities.size(); i++){
+            conditions[i] = conditionAndQuantities.get(i).getCondition();
+        }
+        ArrayAdapter<String> conditionAdapter = new ArrayAdapter<>(this, R.layout.layout_spinner_item, conditions);
+        conditionSpinner.setAdapter(conditionAdapter);
+        conditionSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                auctionConditionSelected = conditions[position];
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                auctionConditionSelected = conditions[0];
+            }
+        });
     }
 }
