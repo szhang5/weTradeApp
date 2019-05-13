@@ -12,21 +12,17 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.TextView;
 
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
 import com.google.gson.Gson;
 import com.shiyunzhang.wetrade.Authentication.LoginActivity;
-import com.shiyunzhang.wetrade.DataClass.Transaction;
 import com.shiyunzhang.wetrade.DataClass.UserInfo;
-import com.shiyunzhang.wetrade.fragment.FavoriteFragment;
+import com.shiyunzhang.wetrade.fragment.HistoryFragment;
 import com.shiyunzhang.wetrade.fragment.HomeFragment;
 import com.shiyunzhang.wetrade.fragment.InventoryFragment;
 import com.shiyunzhang.wetrade.fragment.ProfileFragment;
@@ -110,7 +106,7 @@ public class HomeActivity extends AppCompatActivity {
                         loadFragment(fragment);
                         return true;
                     case R.id.navigation_favorite:
-                        fragment = new FavoriteFragment();
+                        fragment = new HistoryFragment();
                         loadFragment(fragment);
                         return true;
                     case R.id.navigation_inventory:

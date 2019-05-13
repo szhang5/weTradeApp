@@ -44,7 +44,11 @@ public class ItemForSaleAdapter extends RecyclerView.Adapter {
         for(ConditionAndQuantity conditionAndQuantity : itemForSale.getConditionAndQuantities()){
             quantities += conditionAndQuantity.getQuantity();
         }
-        holder.itemQuantity.setText("Total Quantities: " + quantities);
+        if (quantities == 0) {
+            holder.itemQuantity.setText("Out of Stock");
+        } else {
+            holder.itemQuantity.setText("Total Quantities: " + quantities);
+        }
         holder.itemView.setTag(i);
         holder.itemView.setOnClickListener(clickListener);
     }

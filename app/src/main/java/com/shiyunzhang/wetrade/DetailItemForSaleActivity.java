@@ -89,7 +89,11 @@ public class DetailItemForSaleActivity extends AppCompatActivity {
                         for(ConditionAndQuantity conditionAndQuantity : conditionAndQuantities){
                             quantity += conditionAndQuantity.getQuantity();
                         }
-                        itemSaleQuantity.setText("Total quantities: " + quantity);
+                        if (quantity == 0) {
+                            itemSaleQuantity.setText("Out of Stock");
+                        } else {
+                            itemSaleQuantity.setText("Total quantities: " + quantity);
+                        }
                         RecyclerView conditionQuantityView = findViewById(R.id.condition_quantity_price_recycler_view);
                         conditionQuantityView.setHasFixedSize(true);
                         conditionQuantityView.setLayoutManager(new LinearLayoutManager(this));
