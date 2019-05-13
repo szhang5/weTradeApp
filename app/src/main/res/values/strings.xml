@@ -43,6 +43,8 @@
     <string name="total_before_tax">Total before tax :</string>
     <string name="estimated_tax_to_be_collected">Estimated tax to be collected :</string>
     <string name="create_auction">CREATE AUCTION</string>
+    <string name="auction_participants_pricelist">Auction Participants PriceList:</string>
+    <string name="end_auction">End Auction</string>
 
 
     <string-array name="itemCondition">

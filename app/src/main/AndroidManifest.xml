@@ -95,7 +95,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.shiyunzhang.wetrade.HomeActivity" />
         </activity>
-        <activity android:name="com.shiyunzhang.AuctionActivity" >
+        <activity android:name=".AuctionActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.shiyunzhang.wetrade.HomeActivity" />
