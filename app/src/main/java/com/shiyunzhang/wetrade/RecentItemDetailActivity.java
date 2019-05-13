@@ -249,7 +249,12 @@ public class RecentItemDetailActivity extends AppCompatActivity {
                                 condition = conditions[position];
                                 quantity = quantities.get(position);
                                 price = priceList.get(position);
-                                itemQuantity.setText("Quantity: " + quantity);
+                                if (quantity == 0) {
+                                    itemQuantity.setText("Out of Stock");
+                                    findViewById(R.id.add_to_cart_button).setEnabled(false);
+                                } else {
+                                    itemQuantity.setText("Quantity: " + quantity);
+                                }
                                 itemPrice.setText("$" + price);
                             }
 
@@ -260,7 +265,12 @@ public class RecentItemDetailActivity extends AppCompatActivity {
                                 price = priceList.get(0);
                                 conditionSpinner.setSelection(0);
                                 itemPrice.setText("$" + price);
-                                itemQuantity.setText("Quantity: " + quantity);
+                                if (quantity == 0) {
+                                    itemQuantity.setText("Out of Stock");
+                                    findViewById(R.id.add_to_cart_button).setEnabled(false);
+                                } else {
+                                    itemQuantity.setText("Quantity: " + quantity);
+                                }
                             }
                         });
 

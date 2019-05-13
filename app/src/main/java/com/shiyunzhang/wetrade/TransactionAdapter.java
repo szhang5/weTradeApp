@@ -12,19 +12,18 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.shiyunzhang.wetrade.DataClass.ConditionAndQuantity;
 import com.shiyunzhang.wetrade.DataClass.Inventory;
+import com.shiyunzhang.wetrade.DataClass.Transaction;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 
-public class InventoryAdapter extends RecyclerView.Adapter<InventoryAdapter.ViewHolder>{
-    private ArrayList<Inventory> inventoryList;
+public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.ViewHolder>{
+    private ArrayList<Transaction> transactionList;
     private Context context;
-    private View.OnClickListener clickListener;
 
-    public InventoryAdapter(Context context, ArrayList<Inventory> inventoryList, View.OnClickListener clickListener) {
-        this.inventoryList = inventoryList;
+    public TransactionAdapter(Context context, ArrayList<Transaction> transactionList) {
+        this.transactionList = transactionList;
         this.context = context;
-        this.clickListener = clickListener;
     }
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -34,36 +33,22 @@ public class InventoryAdapter extends RecyclerView.Adapter<InventoryAdapter.View
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        final Inventory inventory = getItem(position);
+        final Transaction inventory = getItem(position);
         holder.inventoryName.setText(inventory.getName());
         Glide.with(holder.itemView).load(inventory.getImageUrl()).into(holder.inventoryPic);
         holder.inventoryDesciption.setText(inventory.getDescription());
-        int totalQuantity = 0;
-        ArrayList<String> conditions = new ArrayList<>();
-        ArrayList<ConditionAndQuantity> conditionAndQuantities = inventory.getConditionAndQuantities();
-        if (conditionAndQuantities != null) {
-            for(int i = 0; i < conditionAndQuantities.size(); i++){
-                totalQuantity += conditionAndQuantities.get(i).getQuantity();
-                conditions.add(conditionAndQuantities.get(i).getCondition());
-            }
-        }
-        if (totalQuantity == 0) {
-            holder.inventoryQuantity.setText("Out of Stock");
-        } else {
-            holder.inventoryQuantity.setText("Quantities: " + totalQuantity);
-        }
-        holder.itemView.setOnClickListener(clickListener);
+        holder.inventoryQuantity.setText("Quantities: " + inventory.getQuantity());
         holder.itemView.setTag(position);
     }
 
-    public Inventory getItem(int position){
-        return inventoryList.get(position);
+    public Transaction getItem(int position){
+        return transactionList.get(position);
     }
 
 
     @Override
     public int getItemCount() {
-        return inventoryList.size();
+        return transactionList.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

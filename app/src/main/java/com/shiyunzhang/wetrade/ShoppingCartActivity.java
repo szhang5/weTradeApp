@@ -56,6 +56,13 @@ public class ShoppingCartActivity extends AppCompatActivity {
         init();
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        shoppingCartList.clear();
+        getShoppingCartItem();
+    }
+
     private void setUpActionBar(){
         setTitle("Shopping Cart");
         ActionBar actionBar = getSupportActionBar();
@@ -78,7 +85,6 @@ public class ShoppingCartActivity extends AppCompatActivity {
         adapter = new ShoppingCartItemAdapter(this, shoppingCartList);
         adapter.setUserInfo(userInfo);
         mRecyclerView.setAdapter(adapter);
-        getShoppingCartItem();
     }
 
     private void getUserInfoFromPreference(){

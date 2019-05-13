@@ -21,6 +21,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.Tasks;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -28,6 +29,7 @@ import com.google.firebase.firestore.SetOptions;
 import com.google.gson.Gson;
 import com.shiyunzhang.wetrade.DataClass.ConditionAndQuantity;
 import com.shiyunzhang.wetrade.DataClass.Inventory;
+import com.shiyunzhang.wetrade.DataClass.ItemForSale;
 import com.shiyunzhang.wetrade.DataClass.Transaction;
 import com.shiyunzhang.wetrade.DataClass.UserInfo;
 
@@ -44,6 +46,8 @@ public class CheckoutActivity extends AppCompatActivity {
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private CollectionReference shoppingCartCollection;
     private CollectionReference inventoryCollection = db.collection("Inventory");
+    private CollectionReference itemForSaleCollection = db.collection("ItemForSale");
+    private CollectionReference orderCollection = db.collection("Order");
     private ArrayList<Transaction> shoppingCartList;
     private RecyclerView mRecyclerView;
     private CheckoutItemAdapter adapter;
@@ -128,9 +132,9 @@ public class CheckoutActivity extends AppCompatActivity {
         frameLayout.setVisibility(View.VISIBLE);
         ArrayList<Task<QuerySnapshot>> customerTasks = new ArrayList<>();
         ArrayList<Task<QuerySnapshot>> sellerTasks = new ArrayList<>();
+        ArrayList<Task<QuerySnapshot>> updateItemForSaleTasks = new ArrayList<>();
         Map<String, List<ConditionAndQuantity>> itemInfo = new HashMap<>();
         Map<String, Inventory> productInfo = new HashMap<>();
-//        HashSet<String> productsInCart = new HashSet<>();
         for(Transaction transaction : shoppingCartList) {
             String customerId = transaction.getCustomerId();
             String productId = transaction.getProductId();
@@ -142,6 +146,7 @@ public class CheckoutActivity extends AppCompatActivity {
                 conditionAndQuantities.add(new ConditionAndQuantity(transaction.getCondition(), transaction.getQuantity()));
                 itemInfo.put(itemId, conditionAndQuantities);
                 sellerTasks.add(inventoryCollection.whereEqualTo("itemID", itemId).get());
+                updateItemForSaleTasks.add(itemForSaleCollection.whereEqualTo("itemID", itemId).get());
                 customerTasks.add(inventoryCollection.whereEqualTo("productID", productId).whereEqualTo("userID", customerId).get());
             }
 
@@ -169,8 +174,51 @@ public class CheckoutActivity extends AppCompatActivity {
             }
 
         }
-        Task<List<QuerySnapshot>> allCustomerTasks = Tasks.whenAllSuccess(customerTasks);
+        processCustomerTasks(customerTasks, frameLayout, productInfo);
+        processSellerTasks(sellerTasks, itemInfo);
+        processUpdateItemForSaleTasks(updateItemForSaleTasks, itemInfo);
+    }
+
+    private void processSellerTasks(ArrayList<Task<QuerySnapshot>> sellerTasks, Map<String, List<ConditionAndQuantity>> itemInfo) {
         Task<List<QuerySnapshot>> allSellerTasks = Tasks.whenAllSuccess(sellerTasks);
+        allSellerTasks.addOnSuccessListener(new OnSuccessListener<List<QuerySnapshot>>() {
+            @Override
+            public void onSuccess(List<QuerySnapshot> querySnapshots) {
+                ArrayList<Task<Void>> updateSellerInventoryTasks = new ArrayList<>();
+                for (QuerySnapshot queryDocumentSnapshots : querySnapshots) {
+                    for (QueryDocumentSnapshot queryDocumentSnapshot : queryDocumentSnapshots) {
+                        Inventory inventory = queryDocumentSnapshot.toObject(Inventory.class);
+                        String itemID = inventory.getItemID();
+                        ArrayList<ConditionAndQuantity> conditionAndQuantities = inventory.getConditionAndQuantities();
+                        for(ConditionAndQuantity conditionAndQuantity : conditionAndQuantities) {
+                            for(ConditionAndQuantity conditionAndQuantity1 : itemInfo.get(itemID)) {
+                                if (conditionAndQuantity.getCondition().equals(conditionAndQuantity1.getCondition())) {
+                                    conditionAndQuantity.setQuantity(conditionAndQuantity.getQuantity() - conditionAndQuantity1.getQuantity());
+                                }
+                            }
+                        }
+                        inventory.setConditionAndQuantities(conditionAndQuantities);
+                        updateSellerInventoryTasks.add(inventoryCollection.document(itemID).set(inventory, SetOptions.merge()));
+                    }
+                }
+                Task<List<QuerySnapshot>> allUpdateSellerInventoryTasks = Tasks.whenAllSuccess(updateSellerInventoryTasks);
+                allUpdateSellerInventoryTasks.addOnSuccessListener(new OnSuccessListener<List<QuerySnapshot>>() {
+                    @Override
+                    public void onSuccess(List<QuerySnapshot> querySnapshots) {
+                        addSellerHistory();
+                    }
+                });
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+
+            }
+        });
+    }
+
+    private void processCustomerTasks(ArrayList<Task<QuerySnapshot>> customerTasks, FrameLayout frameLayout, Map<String, Inventory> productInfo) {
+        Task<List<QuerySnapshot>> allCustomerTasks = Tasks.whenAllSuccess(customerTasks);
         allCustomerTasks.addOnSuccessListener(new OnSuccessListener<List<QuerySnapshot>>() {
             @Override
             public void onSuccess(List<QuerySnapshot> querySnapshots) {
@@ -214,6 +262,23 @@ public class CheckoutActivity extends AppCompatActivity {
                 allUpdateCustomerInventoryTasks.addOnSuccessListener(new OnSuccessListener<List<QuerySnapshot>>() {
                     @Override
                     public void onSuccess(List<QuerySnapshot> querySnapshots) {
+                        for(Transaction transaction : shoppingCartList) {
+                            shoppingCartCollection.document(transaction.getTransactionId())
+                                    .delete()
+                                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                        @Override
+                                        public void onSuccess(Void aVoid) {
+                                            Log.d(TAG, "DocumentSnapshot successfully deleted!");
+                                        }
+                                    })
+                                    .addOnFailureListener(new OnFailureListener() {
+                                        @Override
+                                        public void onFailure(@NonNull Exception e) {
+                                            Log.w(TAG, "Error deleting document", e);
+                                        }
+                                    });
+                        }
+                        addCustomerHistory();
                         frameLayout.setVisibility(View.GONE);
                         finish();
                     }
@@ -226,15 +291,20 @@ public class CheckoutActivity extends AppCompatActivity {
             }
         });
 
-        allSellerTasks.addOnSuccessListener(new OnSuccessListener<List<QuerySnapshot>>() {
+    }
+
+    private void processUpdateItemForSaleTasks(ArrayList<Task<QuerySnapshot>> updateItemForSaleTasks, Map<String, List<ConditionAndQuantity>> itemInfo) {
+        Task<List<QuerySnapshot>> allUpdateItemForSaleTasks = Tasks.whenAllSuccess(updateItemForSaleTasks);
+
+        allUpdateItemForSaleTasks.addOnSuccessListener(new OnSuccessListener<List<QuerySnapshot>>() {
             @Override
             public void onSuccess(List<QuerySnapshot> querySnapshots) {
                 ArrayList<Task<Void>> updateSellerInventoryTasks = new ArrayList<>();
                 for (QuerySnapshot queryDocumentSnapshots : querySnapshots) {
                     for (QueryDocumentSnapshot queryDocumentSnapshot : queryDocumentSnapshots) {
-                        Inventory inventory = queryDocumentSnapshot.toObject(Inventory.class);
-                        String itemID = inventory.getItemID();
-                        ArrayList<ConditionAndQuantity> conditionAndQuantities = inventory.getConditionAndQuantities();
+                        ItemForSale itemForSale = queryDocumentSnapshot.toObject(ItemForSale.class);
+                        String itemID = itemForSale.getItemID();
+                        ArrayList<ConditionAndQuantity> conditionAndQuantities = itemForSale.getConditionAndQuantities();
                         for(ConditionAndQuantity conditionAndQuantity : conditionAndQuantities) {
                             for(ConditionAndQuantity conditionAndQuantity1 : itemInfo.get(itemID)) {
                                 if (conditionAndQuantity.getCondition().equals(conditionAndQuantity1.getCondition())) {
@@ -242,8 +312,8 @@ public class CheckoutActivity extends AppCompatActivity {
                                 }
                             }
                         }
-                        inventory.setConditionAndQuantities(conditionAndQuantities);
-                        updateSellerInventoryTasks.add(inventoryCollection.document(itemID).set(inventory, SetOptions.merge()));
+                        itemForSale.setConditionAndQuantities(conditionAndQuantities);
+                        updateSellerInventoryTasks.add(itemForSaleCollection.document(itemID).set(itemForSale, SetOptions.merge()));
                     }
                 }
                 Task<List<QuerySnapshot>> allUpdateSellerInventoryTasks = Tasks.whenAllSuccess(updateSellerInventoryTasks);
@@ -254,11 +324,44 @@ public class CheckoutActivity extends AppCompatActivity {
                     }
                 });
             }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-
-            }
         });
+    }
+
+    private void addSellerHistory() {
+        for( Transaction transaction : shoppingCartList) {
+            orderCollection.document(transaction.getSellerId()).collection("UserOrder")
+                    .add(transaction)
+                    .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                        @Override
+                        public void onSuccess(DocumentReference documentReference) {
+                            Log.d(TAG, "DocumentSnapshot successfully written!");
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Log.w(TAG, "Error writing document", e);
+                        }
+                    });
+        }
+    }
+
+    private void addCustomerHistory() {
+        for( Transaction transaction : shoppingCartList) {
+            orderCollection.document(transaction.getCustomerId()).collection("UserOrder")
+                    .add(transaction)
+                    .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                        @Override
+                        public void onSuccess(DocumentReference documentReference) {
+                            Log.d(TAG, "DocumentSnapshot successfully written!");
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Log.w(TAG, "Error writing document", e);
+                        }
+                    });
+        }
     }
 }
