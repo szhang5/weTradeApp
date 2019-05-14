@@ -90,12 +90,17 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.shiyunzhang.wetrade.HomeActivity" />
         </activity>
-        <activity android:name=".CheckoutActivity" >
+        <activity android:name=".CheckoutActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.shiyunzhang.wetrade.HomeActivity" />
         </activity>
-        <activity android:name=".AuctionActivity" >
+        <activity android:name=".AuctionActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.shiyunzhang.wetrade.HomeActivity" />
+        </activity>
+        <activity android:name=".ViewAllInventoryActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.shiyunzhang.wetrade.HomeActivity" />
@@ -107,7 +112,6 @@
             </intent-filter>
         </service>
     </application>
-
 
 
 </manifest>

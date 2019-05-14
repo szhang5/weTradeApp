@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -22,6 +23,7 @@ import com.shiyunzhang.wetrade.DataClass.ItemForSale;
 import com.shiyunzhang.wetrade.R;
 import com.shiyunzhang.wetrade.RecentItemDetailActivity;
 import com.shiyunzhang.wetrade.RecentItemsAdapter;
+import com.shiyunzhang.wetrade.ViewAllInventoryActivity;
 
 import java.util.ArrayList;
 
@@ -37,6 +39,7 @@ public class HomeFragment extends Fragment {
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private CollectionReference recentItemsRef;
     private ProgressBar recentProgressBar;
+    private TextView viewAll;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -76,6 +79,11 @@ public class HomeFragment extends Fragment {
     private void init(View view){
         recentProgressBar = view.findViewById(R.id.recent_progressbar);
         recentProgressBar.setVisibility(View.VISIBLE);
+        viewAll = view.findViewById(R.id.view_all_button);
+        viewAll.setOnClickListener(v -> {
+            Intent intent = new Intent(getContext(), ViewAllInventoryActivity.class);
+            startActivity(intent);
+        });
         recentItemsList = new ArrayList<>();
         RecyclerView recyclerView = view.findViewById(R.id.recent_items_recycle_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
