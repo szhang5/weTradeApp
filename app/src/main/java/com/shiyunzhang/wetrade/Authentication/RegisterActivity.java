@@ -7,6 +7,7 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -16,15 +17,25 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.SetOptions;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.InstanceIdResult;
+import com.shiyunzhang.wetrade.DataClass.UserFCMToken;
 import com.shiyunzhang.wetrade.HomeActivity;
 import com.shiyunzhang.wetrade.MainActivity;
 import com.shiyunzhang.wetrade.R;
+import com.shiyunzhang.wetrade.Service.MyFirebaseMessagingService;
 
 public class RegisterActivity extends AppCompatActivity {
+    private final static String TAG = "RegisterActivity";
     private EditText emailInput;
     private EditText passwordInput;
     private ProgressDialog progressDialog;
     private FirebaseAuth firebaseAuth;
+    private FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private DocumentReference userTokenRef;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,6 +82,7 @@ public class RegisterActivity extends AppCompatActivity {
                     if (task.isSuccessful()) {
                         // Sign in success, update UI with the signed-in user'SearchFragment information
                         Toast.makeText(RegisterActivity.this, "Register User With Email: success!!!.", Toast.LENGTH_SHORT).show();
+                        registerFCMToken();
                         finish();
                         startActivity(new Intent(this, HomeActivity.class));
                     } else {
@@ -85,6 +97,26 @@ public class RegisterActivity extends AppCompatActivity {
         findViewById(R.id.sign_up_button).setOnClickListener(v -> registerUser());
 
         findViewById(R.id.sign_in).setOnClickListener(v -> startActivity(new Intent(RegisterActivity.this, MainActivity.class)));
+    }
+
+    public void registerFCMToken(){
+        FirebaseInstanceId.getInstance().getInstanceId()
+                .addOnCompleteListener(task -> {
+                    if (!task.isSuccessful()) {
+                        Log.w(TAG, "getInstanceId failed", task.getException());
+                        return;
+                    }
+
+                    // Get new Instance ID token
+                    String token = task.getResult().getToken();
+                    String uid = firebaseAuth.getCurrentUser().getUid();
+                    UserFCMToken userFCMToken = new UserFCMToken(uid, token);
+                    userTokenRef = db.collection("UserToken").document(uid);
+                    userTokenRef.set(userFCMToken, SetOptions.merge())
+                        .addOnSuccessListener(aVoid -> Toast.makeText(RegisterActivity.this, "added token successfully!", Toast.LENGTH_SHORT).show())
+                        .addOnFailureListener(e -> Toast.makeText(RegisterActivity.this, e.toString(), Toast.LENGTH_SHORT).show());
+
+                });
     }
 
 }

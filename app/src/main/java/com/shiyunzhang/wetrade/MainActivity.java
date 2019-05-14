@@ -13,9 +13,13 @@ import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.SetOptions;
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.shiyunzhang.wetrade.Authentication.RegisterActivity;
+import com.shiyunzhang.wetrade.DataClass.UserFCMToken;
 import com.shiyunzhang.wetrade.DataClass.UserInfo;
 
 public class MainActivity extends AppCompatActivity {
@@ -25,7 +29,6 @@ public class MainActivity extends AppCompatActivity {
     private ProgressDialog progressDialog;
     private FirebaseAuth firebaseAuth;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
-    private CollectionReference userRef = db.collection("User");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,6 +72,7 @@ public class MainActivity extends AppCompatActivity {
             .addOnCompleteListener(this, task -> {
                 progressDialog.dismiss();
                 if (task.isSuccessful()) {
+                    registerFCMToken();
                     finish();
                     startActivity(new Intent(this, HomeActivity.class));
                 } else {
@@ -90,4 +94,23 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.sign_in_button).setOnClickListener(v -> userLogIn());
     }
 
+    public void registerFCMToken(){
+        FirebaseInstanceId.getInstance().getInstanceId()
+                .addOnCompleteListener(task -> {
+                    if (!task.isSuccessful()) {
+                        Log.w(TAG, "getInstanceId failed", task.getException());
+                        return;
+                    }
+
+                    // Get new Instance ID token
+                    String token = task.getResult().getToken();
+                    String uid = firebaseAuth.getCurrentUser().getUid();
+                    UserFCMToken userFCMToken = new UserFCMToken(uid, token);
+                    DocumentReference userTokenRef = db.collection("UserToken").document(uid);
+                    userTokenRef.set(userFCMToken, SetOptions.merge())
+                            .addOnSuccessListener(aVoid -> Toast.makeText(MainActivity.this, "added token successfully!", Toast.LENGTH_SHORT).show())
+                            .addOnFailureListener(e -> Toast.makeText(MainActivity.this, e.toString(), Toast.LENGTH_SHORT).show());
+
+                });
+    }
 }
