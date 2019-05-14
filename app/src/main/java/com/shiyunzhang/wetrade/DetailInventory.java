@@ -1,8 +1,10 @@
 package com.shiyunzhang.wetrade;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 
@@ -26,9 +28,13 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.messaging.FirebaseMessaging;
+import com.google.firebase.messaging.RemoteMessage;
+import com.google.gson.Gson;
 import com.shiyunzhang.wetrade.DataClass.Auction;
 import com.shiyunzhang.wetrade.DataClass.ConditionAndQuantity;
 import com.shiyunzhang.wetrade.DataClass.Inventory;
+import com.shiyunzhang.wetrade.DataClass.UserInfo;
 
 import java.util.ArrayList;
 
@@ -43,6 +49,7 @@ public class DetailInventory extends AppCompatActivity {
     private String name, desc, category, imageUrl, auctionConditionSelected, auctionId;
     private int quantity;
     private Inventory item;
+    private UserInfo userInfo;
     private ArrayList<ConditionAndQuantity> conditionAndQuantities = new ArrayList<>();
 
     @Override
@@ -62,6 +69,7 @@ public class DetailInventory extends AppCompatActivity {
     }
 
     public void init(){
+        getUserInfoFromPreference();
         Intent intent = this.getIntent();
         String documentId = intent.getStringExtra("ID");
         itemRef = db.collection("Inventory").document(documentId);
@@ -72,6 +80,14 @@ public class DetailInventory extends AppCompatActivity {
         itemDesc = findViewById(R.id.item_detail_description);
         itemCategory = findViewById(R.id.item_detail_category);
         itemQuantity = findViewById(R.id.item_detail_quantity);
+    }
+
+    private void getUserInfoFromPreference(){
+        SharedPreferences sharedpreferences = getSharedPreferences("PREFERENCE", Context.MODE_PRIVATE);
+        String userStr = sharedpreferences.getString("USER", "");
+        Gson gson = new Gson();
+        userInfo = gson.fromJson(userStr, UserInfo.class);
+
     }
 
     public void setUpButtonListener(){
@@ -200,6 +216,7 @@ public class DetailInventory extends AppCompatActivity {
             .addOnSuccessListener(aVoid -> {
                 Intent intent = new Intent(DetailInventory.this, AuctionActivity.class);
                 intent.putExtra("AUCTIONID", auctionId);
+                intent.putExtra("USERTYPE", "Host");
                 startActivity(intent);
                 dialog.dismiss();
                 finish();
