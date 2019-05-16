@@ -6,6 +6,9 @@ public class UserBidPrice {
     private String name;
     private double price;
 
+    public UserBidPrice() {
+    }
+
     public UserBidPrice(String userId, String name, double price, String imageUrl) {
         this.userId = userId;
         this.name = name;
@@ -27,5 +30,21 @@ public class UserBidPrice {
 
     public void setPrice(double price) {
         this.price = price;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

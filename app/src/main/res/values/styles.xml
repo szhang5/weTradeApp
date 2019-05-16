@@ -35,7 +35,7 @@
     <!-- Default Blue Button Style. -->
     <style name="ButtonDefaultBlueStyle" parent="AppTheme">
         <item name="android:textSize">16sp</item>
-        <item name="android:background">@color/blue</item>
+        <item name="android:background">@drawable/auction_button_style</item>
         <item name="android:textColor">@color/white</item>
         <item name="android:textAllCaps">false</item>
         <item name="android:fontFamily">@font/josefinsans_bold</item>
@@ -99,8 +99,8 @@
     <!-- Transparent Blue Button Style. -->
     <style name="ButtonBlueTransparentStyle" parent="AppTheme">
         <item name="android:textSize">16sp</item>
-        <item name="android:background">@drawable/transparent_with_border_blue</item>
-        <item name="android:textColor">@color/blue</item>
+        <item name="android:background">@drawable/inventory_sell_button_frame</item>
+        <item name="android:textColor">@color/inventory_sell_btn_color</item>
         <item name="android:textAllCaps">false</item>
         <item name="android:fontFamily">@font/josefinsans_bold</item>
     </style>
@@ -110,7 +110,7 @@
     <style name="ButtonRedTransparentStyle" parent="AppTheme">
         <item name="android:textSize">16sp</item>
         <item name="android:background">@drawable/add_to_cart_button_frame</item>
-        <item name="android:textColor">@color/add_to_cart_button</item>
+        <item name="android:textColor">@color/disable_enable_style</item>
         <item name="android:textAllCaps">false</item>
         <item name="android:fontFamily">@font/josefinsans_bold</item>
     </style>
