@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:background="@color/white">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -23,7 +24,7 @@
                 android:layout_marginStart="10dp"
                 android:layout_marginEnd="20dp"
                 android:fontFamily="@font/lato_bold"
-                android:text="Auction Host: "
+                android:text="@string/auction_host"
                 android:textColor="@color/black"
                 android:textSize="20dp" />
 
@@ -45,6 +46,14 @@
                 android:textSize="20dp" />
 
         </RelativeLayout>
+
+        <TextView
+            android:id="@+id/auction_status"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textSize="20sp"
+            android:fontFamily="@font/lato_bold" />
 
         <FrameLayout
             android:layout_width="match_parent"
@@ -101,23 +110,56 @@
 
         </FrameLayout>
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="Start Price"
-            android:textColor="@color/black"
-            android:textSize="25sp" />
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
 
-        <TextView
-            android:id="@+id/auction_price"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/lato_regular"
-            android:gravity="center"
-            android:text="$ 50"
-            android:textColor="#FF0000"
-            android:textSize="25sp" />
+            <TextView
+                android:id="@+id/start_price_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/start_price"
+                android:layout_marginStart="30dp"
+                android:textColor="@color/black"
+                android:textSize="25sp" />
+
+            <TextView
+                android:id="@+id/auction_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/lato_regular"
+                android:gravity="center"
+                android:textColor="#FF0000"
+                android:layout_alignStart="@+id/start_price_label"
+                android:layout_alignEnd="@+id/start_price_label"
+                android:layout_below="@+id/start_price_label"
+                android:textSize="25sp" />
+
+
+            <TextView
+                android:id="@+id/updated_price_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/updated_price"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="30dp"
+                android:textColor="@color/black"
+                android:textSize="25sp" />
+
+            <TextView
+                android:id="@+id/auction_updated_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/lato_regular"
+                android:gravity="center"
+                android:textColor="@color/green"
+                android:layout_alignStart="@+id/updated_price_label"
+                android:layout_alignEnd="@+id/updated_price_label"
+                android:layout_below="@+id/updated_price_label"
+                android:textSize="25sp" />
+
+        </RelativeLayout>
+
 
         <LinearLayout
             android:id="@+id/auction_host_view"
@@ -141,6 +183,7 @@
                 android:layout_height="wrap_content" />
 
             <Button
+                android:id="@+id/end_auction_btn"
                 style="@style/ButtonDefaultBlueStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -171,7 +214,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:text="Your Bid Price: "
+                android:text="@string/your_bid_price"
                 android:textColor="@color/green"
                 android:textSize="18sp" />
 
@@ -180,15 +223,16 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="30dp"
-                android:hint="Enter Bid Price: $" />
+                android:hint="@string/enter_bid_price" />
 
             <Button
+                android:id="@+id/submit_price_btn"
                 style="@style/ButtonDefaultBlueStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:onClick="SubmitPrice"
-                android:text="Submit Price" />
+                android:text="@string/submit_price" />
 
 
         </LinearLayout>

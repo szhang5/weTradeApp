@@ -4,6 +4,9 @@ public class UserFCMToken {
     String userId;
     String token;
 
+    public UserFCMToken() {
+    }
+
     public UserFCMToken(String userId, String token) {
         this.userId = userId;
         this.token = token;
@@ -23,5 +26,13 @@ public class UserFCMToken {
 
     public void setToken(String token) {
         this.token = token;
+    }
+
+    @Override
+    public String toString() {
+        return "UserFCMToken{" +
+                "userId='" + userId + '\'' +
+                ", token='" + token + '\'' +
+                '}';
     }
 }

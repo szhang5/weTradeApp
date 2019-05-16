@@ -14,7 +14,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".MainActivity">
+        <activity android:name=".Activity.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -28,82 +28,83 @@
             android:name=".Authentication.RegisterActivity"
             tools:ignore="InnerclassSeparator" />
         <activity
-            android:name=".HomeActivity"
+            android:name=".Activity.HomeActivity"
             android:configChanges="orientation"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan|stateHidden" />
 
         <activity
-            android:name=".EditProfileActivity"
+            android:name=".Activity.EditProfileActivity"
             android:configChanges="orientation"
             android:label="EditProfile"
             android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.shiyunzhang.wetrade.HomeActivity" />
+                android:value="com.shiyunzhang.wetrade.Activity.HomeActivity" />
         </activity>
         <activity
-            android:name=".AddItemActivity"
+            android:name=".Activity.AddItemActivity"
             android:windowSoftInputMode="stateHidden">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.shiyunzhang.wetrade.HomeActivity" />
+                android:value="com.shiyunzhang.wetrade.Activity.HomeActivity" />
         </activity>
-        <activity android:name=".DetailInventory">
+        <activity android:name=".Activity.DetailInventory">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.shiyunzhang.wetrade.HomeActivity" />
+                android:value="com.shiyunzhang.wetrade.Activity.HomeActivity" />
         </activity>
-        <activity android:name=".RecentItemDetailActivity">
+        <activity android:name=".Activity.RecentItemDetailActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.shiyunzhang.wetrade.HomeActivity" />
+                android:value="com.shiyunzhang.wetrade.Activity.HomeActivity" />
         </activity>
-        <activity android:name=".SellerInfoActivity">
+        <activity android:name=".Activity.SellerInfoActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.shiyunzhang.wetrade.HomeActivity" />
+                android:value="com.shiyunzhang.wetrade.Activity.HomeActivity" />
         </activity>
-        <activity android:name=".CategoryItemsDisplayActivity">
+        <activity android:name=".Activity.CategoryItemsDisplayActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.shiyunzhang.wetrade.HomeActivity" />
+                android:value="com.shiyunzhang.wetrade.Activity.HomeActivity" />
         </activity>
-        <activity android:name=".SearchProductActivity">
+        <activity android:name=".Activity.SearchProductActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.shiyunzhang.wetrade.HomeActivity" />
+                android:value="com.shiyunzhang.wetrade.Activity.HomeActivity" />
         </activity>
-        <activity android:name=".AddProductActivity">
+        <activity android:name=".Activity.AddProductActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.shiyunzhang.wetrade.HomeActivity" />
+                android:value="com.shiyunzhang.wetrade.Activity.HomeActivity" />
         </activity>
-        <activity android:name=".DetailItemForSaleActivity">
+        <activity android:name=".Activity.DetailItemForSaleActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.shiyunzhang.wetrade.HomeActivity" />
+                android:value="com.shiyunzhang.wetrade.Activity.HomeActivity" />
         </activity>
-        <activity android:name=".ShoppingCartActivity">
+        <activity android:name=".Activity.ShoppingCartActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.shiyunzhang.wetrade.HomeActivity" />
+                android:value="com.shiyunzhang.wetrade.Activity.HomeActivity" />
         </activity>
-        <activity android:name=".CheckoutActivity">
+        <activity android:name=".Activity.CheckoutActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.shiyunzhang.wetrade.HomeActivity" />
+                android:value="com.shiyunzhang.wetrade.Activity.HomeActivity" />
         </activity>
-        <activity android:name=".AuctionActivity">
+        <activity android:name=".Activity.AuctionActivity"
+            android:windowSoftInputMode="adjustPan|stateHidden">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.shiyunzhang.wetrade.HomeActivity" />
+                android:value="com.shiyunzhang.wetrade.Activity.HomeActivity" />
         </activity>
-        <activity android:name=".ViewAllInventoryActivity">
+        <activity android:name=".Activity.ViewAllInventoryActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.shiyunzhang.wetrade.HomeActivity" />
+                android:value="com.shiyunzhang.wetrade.Activity.HomeActivity" />
         </activity>
 
         <service android:name=".Service.MyFirebaseMessagingService">

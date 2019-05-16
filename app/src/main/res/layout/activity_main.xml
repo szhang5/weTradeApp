@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".HomeActivity">
+    tools:context=".Activity.HomeActivity">
 
     <FrameLayout
         android:id="@+id/frame_container"
@@ -21,8 +21,8 @@
         android:layout_alignParentBottom="true"
         android:background="@android:color/white"
         app:itemIconSize="30dp"
-        app:itemIconTint="@color/button_navigation_style"
-        app:itemTextColor="@color/button_navigation_style"
+        app:itemIconTint="@color/bottom_navigation_style"
+        app:itemTextColor="@color/bottom_navigation_style"
         app:labelVisibilityMode="labeled"
         app:menu="@menu/navigation" />
 
