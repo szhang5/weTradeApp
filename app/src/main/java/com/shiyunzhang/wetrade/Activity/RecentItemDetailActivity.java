@@ -255,6 +255,7 @@ public class RecentItemDetailActivity extends AppCompatActivity {
                                     findViewById(R.id.add_to_cart_button).setEnabled(false);
                                 } else {
                                     itemQuantity.setText("Quantity: " + quantity);
+                                    findViewById(R.id.add_to_cart_button).setEnabled(true);
                                 }
                                 itemPrice.setText("$" + price);
                             }
